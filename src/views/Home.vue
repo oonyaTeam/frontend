@@ -6,9 +6,9 @@
         <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
             <h1>{{item.month}}</h1>
-            <MainBlock v-if="mainBlock" :sum="item.sum"/>
-            <Graph v-if="!mainBlock" />
-            <WordList />
+            <main-block v-if="mainBlock" :sum="item.sum" @change-view="chageView()"/>
+            <graph v-if="!mainBlock" />
+            <word-list />
           </div>
         </ion-slide>
       </ion-slides>
@@ -45,6 +45,11 @@ export default defineComponent({
         {month: '2021/03', sum: 50}
       ],
       mainBlock: true
+    }
+  },
+  methods: {
+    chageView() {
+      this.mainBlock = !this.mainBlock;
     }
   }
 });
