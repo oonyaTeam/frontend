@@ -1,5 +1,5 @@
 <template>
-
+  <p>WordItem works</p>
 </template>
 
 <script>

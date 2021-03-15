@@ -1,5 +1,5 @@
 <template>
-
+  <p>MainBlock works</p>
 </template>
 
 <script>

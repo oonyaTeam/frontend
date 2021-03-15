@@ -1,5 +1,5 @@
 <template>
-
+  <p>Logout works</p>
 </template>
 
 <script>

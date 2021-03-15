@@ -1,5 +1,5 @@
 <template>
-
+  <p>Graph works</p>
 </template>
 
 <script>

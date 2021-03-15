@@ -1,5 +1,5 @@
 <template>
-
+  <p>Signup works</p>
 </template>
 
 <script>
