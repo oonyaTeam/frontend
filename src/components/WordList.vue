@@ -4,6 +4,7 @@
       <p class="normally-text">今月はじめて話した言葉</p>
     </div>
     <word-item/>
+    <word-item/>
     <div class="ion-padding">
       <ion-button expand="full" shape="round">もっとみる</ion-button>
     </div>
