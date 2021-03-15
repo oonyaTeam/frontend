@@ -6,8 +6,10 @@
         <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
             <h1>{{item.month}}</h1>
-            <main-block v-if="mainBlock" :sum="item.sum" @change-view="chageView()"/>
-            <graph v-if="!mainBlock" @change-view="chageView()" />
+            <transition name="fade" mode="out-in">
+              <main-block v-if="mainBlock" :sum="item.sum" @change-view="chageView()"/>
+              <graph v-else @change-view="chageView()" />
+            </transition>
             <word-list />
           </div>
         </ion-slide>
@@ -56,31 +58,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+
+.fade-enter-to, .fade-leave {
+  opacity: 1;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
 </style>
