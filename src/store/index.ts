@@ -16,6 +16,12 @@ export interface State {
   words: Array<Word>;
 }
 
+// delete later
+function wordNumList2items(wordNumList: Map<string, number>): Array<Item> {
+  return Object.entries(wordNumList)
+    .map(([key, value]) => ({'month': key, 'sum': value}));
+}
+
 export const store = new Vuex.Store<State>({
   state: {
     items: [],
@@ -26,11 +32,11 @@ export const store = new Vuex.Store<State>({
     words: ({ words }) => words,
   },
   mutations: {
-    setWords(state, words) {
+    setWords(state, words: Array<Word>) {
       state.words = words;
     },
 
-    setItems(state, items) {
+    setItems(state, items: Array<Item>) {
       state.items = items;
     }
   },
@@ -43,7 +49,8 @@ export const store = new Vuex.Store<State>({
       ])
         .then(axios.spread((wordsResp, itemsResp) => {
           context.commit('setWords', wordsResp.data.words);
-          context.commit('setItems', itemsResp.data.word_num_list);
+          const items: Array<Item> = wordNumList2items(itemsResp.data.word_num_list) //delete later
+          context.commit('setItems', items);
         }))
         .catch(err => console.log(err));
     },
@@ -62,6 +69,6 @@ export const store = new Vuex.Store<State>({
         context.commit('setItems', resp.data.word_num_list);
       })
       .catch(err => console.log(err));
-    }
+    },    
   }
 });

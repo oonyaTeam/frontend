@@ -19,6 +19,7 @@
 <script lang="ts">
 import { IonContent, IonPage, IonSlides, IonSlide } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
 import Graph from '@/components/Graph.vue'
@@ -39,14 +40,13 @@ export default defineComponent({
   },
   data(){
     return {
-      items: [
-        {month: '2021/01', sum: 6},
-        {month: '2021/02', sum: 23},
-        {month: '2021/03', sum: 50}
-      ],
-      words: [],
       mainBlock: true
     }
+  },
+  computed: {
+    ...mapGetters({
+      items: 'items',
+    }),
   },
   methods: {
     chageView() {
@@ -54,9 +54,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.$store.dispatch("initState");
-    console.log(this.$store.getters.items);
-    console.log(this.$store.getters.words);
+    this.$store.dispatch("initState")
   }
 });
 </script>
