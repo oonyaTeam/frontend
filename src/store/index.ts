@@ -29,7 +29,12 @@ export const store = new Vuex.Store<State>({
   },
   getters: {
     items: ({ items }) => items,
-    words: ({ words }) => words,
+
+    allWords: ({ words }) => words,
+
+    monthlyWords: ({ words }) => (month: string) => {
+      return words.filter(word => word.date.startsWith(month));
+    }, 
   },
   mutations: {
     setWords(state, words: Array<Word>) {

@@ -46,6 +46,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       items: 'items',
+      words: 'monthlyWords',
     }),
   },
   methods: {
