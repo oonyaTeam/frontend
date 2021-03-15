@@ -50,7 +50,10 @@ export default defineComponent({
   methods: {
     chageView() {
       this.mainBlock = !this.mainBlock;
-    }
+    },
+  },
+  created() {
+    this.$store.dispatch("getWords");
   }
 });
 </script>

@@ -20,7 +20,6 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
 import { IonButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -37,12 +36,6 @@ export default defineComponent({
   methods: {
     emitChangeView() {
       this.$emit("change-view");
-    },
-    
-    apiTest() {
-      axios
-        .get('https://liverary-api.herokuapp.com/words')
-        .then(resp => console.log(resp))
     },
   },
 });
