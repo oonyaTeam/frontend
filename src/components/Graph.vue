@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
-    <canvas id="chart"></canvas>
     <div class="ion-padding">
+      <canvas id="chart"></canvas>
       <ion-button expand="full" shape="round" @click="emitChangeView">もどす</ion-button>
     </div>
   </div>
@@ -59,7 +59,8 @@ export default {
 
 <style scoped>
 .wrapper{
-  width: 80%;
+  width: 100%;
+  height: 400px;
   margin: auto;
   background-color: rgba(238, 238, 238, 0.5);
   border-radius: 24px;
