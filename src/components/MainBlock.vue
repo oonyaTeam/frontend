@@ -22,8 +22,9 @@
 <script lang="ts">
 import axios from 'axios';
 import { IonButton } from '@ionic/vue';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: "MainBlock",
   components: {
     IonButton,
@@ -44,7 +45,7 @@ export default {
         .then(resp => console.log(resp))
     },
   },
-}
+});
 </script>
 
 <style scoped>
