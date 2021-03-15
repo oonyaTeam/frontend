@@ -54,7 +54,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.$store.dispatch("initState")
+    this.$store.dispatch("initState");
   }
 });
 </script>

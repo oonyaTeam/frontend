@@ -65,10 +65,16 @@ export const store = new Vuex.Store<State>({
 
     async getItems(context) {
       await axios.get('https://liverary-api.herokuapp.com/word_num_list')
-      .then(resp => {
-        context.commit('setItems', resp.data.word_num_list);
-      })
-      .catch(err => console.log(err));
-    },    
+        .then(resp => {
+          context.commit('setItems', resp.data.word_num_list);
+        })
+        .catch(err => console.log(err));
+    },
+
+    async deleteWord (context, word: string) {
+      await axios.post('https://liverary-api.herokuapp.com/delete', { word: word })
+        .then((resp) => {console.log('delete')})
+        .catch(err => console.log(err));
+    }
   }
 });
