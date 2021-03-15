@@ -8,7 +8,7 @@
             <h1>{{item.month}}</h1>
             <div class="first-block-wrapper">
               <main-block :sum="item.sum" @change-view="chageView()" :class="[mainBlock ? 'surface' : 'surface_', 'first-block']"/>
-              <graph @change-view="chageView()" :class="[mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
+              <graph :id="item.month" @change-view="chageView()" :class="[mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
             </div>
             <word-list />
           </div>
