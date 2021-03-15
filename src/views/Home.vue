@@ -2,15 +2,22 @@
   <ion-page>
     <ion-content :fullscreen="true">
       <Header />
-      <MainBlock />
-      <Graph />
-      <WordList />
+      <ion-slides>
+        <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
+          <div style="width: 100%">
+            <h1>{{item.month}}</h1>
+            <MainBlock v-if="mainBlock" :sum="item.sum"/>
+            <Graph v-if="!mainBlock" />
+            <WordList />
+          </div>
+        </ion-slide>
+      </ion-slides>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage } from '@ionic/vue';
+import { IonContent, IonPage, IonSlides, IonSlide } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 import MainBlock  from '@/components/MainBlock.vue'
@@ -23,10 +30,22 @@ export default defineComponent({
   components: {
     IonContent,
     IonPage,
+    IonSlides,
+    IonSlide,
     Header,
     MainBlock,
     Graph,
     WordList
+  },
+  data(){
+    return {
+      items: [
+        {month: '2021/01', sum: 6},
+        {month: '2021/02', sum: 23},
+        {month: '2021/03', sum: 50}
+      ],
+      mainBlock: true
+    }
   }
 });
 </script>
