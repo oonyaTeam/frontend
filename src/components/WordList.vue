@@ -1,8 +1,13 @@
 <template>
   <div class="wrapper">
-    <p class="normally-text">今月はじめて話した言葉</p>
+    <div class="ion-padding">
+      <p class="normally-text">今月はじめて話した言葉</p>
+    </div>
     <word-item/>
-    <ion-button class="full-button" expand="full" shape="round">もっとみる</ion-button>
+    <div class="ion-padding">
+      <ion-button expand="full" shape="round">もっとみる</ion-button>
+    </div>
+
   </div>
 </template>
 
@@ -20,16 +25,14 @@ export default {
 <style scoped>
 .wrapper{
   width: 80%;
-  margin: auto;
+  margin: 16px auto;
   background-color: rgba(238, 238, 238, 0.5);
   border-radius: 24px;
 }
 
 .normally-text{
   font-size: 16px;
+  margin: 0;
 }
 
-.full-button{
-  margin: 16px;
-}
 </style>
