@@ -44,6 +44,7 @@ export default defineComponent({
         {month: '2021/02', sum: 23},
         {month: '2021/03', sum: 50}
       ],
+      words: [],
       mainBlock: true
     }
   },
@@ -53,7 +54,9 @@ export default defineComponent({
     },
   },
   created() {
-    this.$store.dispatch("getWords");
+    this.$store.dispatch("initState");
+    console.log(this.$store.getters.items);
+    console.log(this.$store.getters.words);
   }
 });
 </script>
