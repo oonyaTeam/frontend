@@ -1,12 +1,25 @@
 <template>
   <div class="wrapper">
     <p>Graph works</p>
+    <div class="ion-padding">
+      <ion-button expand="full" shape="round" @click="emitChangeView">もどす</ion-button>
+    </div>
   </div>
 </template>
 
 <script>
+import { IonButton } from '@ionic/vue';
+
 export default {
-name: "Graph"
+  name: "Graph",
+  components: {
+    IonButton,
+  },
+  methods: {
+    emitChangeView() {
+      this.$emit("change-view");
+    }
+  }
 }
 </script>
 

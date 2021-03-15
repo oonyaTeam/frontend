@@ -13,17 +13,39 @@
       <p class="normally-text">新しく話せる言葉が増えました。</p>
     </div>
     <div class="ion-padding">
-      <ion-button expand="full" shape="round">グラフにしてみる</ion-button>
+      <ion-button expand="full" shape="round" @click="emitChangeView">グラフにしてみる</ion-button>
     </div>
 
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import axios from 'axios';
+import { IonButton } from '@ionic/vue';
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: "MainBlock",
-  props: ['sum']
-}
+  components: {
+    IonButton,
+  },
+  props: ['sum'],
+  data() {
+    return {
+    }
+  },
+  methods: {
+    emitChangeView() {
+      this.$emit("change-view");
+    },
+    
+    apiTest() {
+      axios
+        .get('https://liverary-api.herokuapp.com/words')
+        .then(resp => console.log(resp))
+    },
+  },
+});
 </script>
 
 <style scoped>
