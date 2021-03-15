@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="ion-padding">
-      <canvas id="chart"></canvas>
+      <canvas :id="id"></canvas>
       <ion-button expand="full" shape="round" @click="emitChangeView">もどす</ion-button>
     </div>
   </div>
@@ -13,6 +13,7 @@ import Chart from 'chart.js';
 
 export default {
   name: "Graph",
+  props: ['id'],
   components: {
     IonButton,
   },
@@ -51,7 +52,7 @@ export default {
     }
   },
   mounted() {
-    this.ctx = document.getElementById("chart");
+    this.ctx = document.getElementById(this.id);
     this.createChart();
   }
 }
