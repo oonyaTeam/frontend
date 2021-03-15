@@ -20,8 +20,13 @@
 </template>
 
 <script lang="ts">
+import { IonButton } from '@ionic/vue';
+
 export default {
   name: "MainBlock",
+  components: {
+    IonButton,
+  },
   props: ['sum'],
   data() {
     return {

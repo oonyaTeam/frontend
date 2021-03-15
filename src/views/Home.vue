@@ -7,7 +7,7 @@
           <div style="width: 100%">
             <h1>{{item.month}}</h1>
             <main-block v-if="mainBlock" :sum="item.sum" @change-view="chageView()"/>
-            <graph v-if="!mainBlock" />
+            <graph v-if="!mainBlock" @change-view="chageView()" />
             <word-list />
           </div>
         </ion-slide>
