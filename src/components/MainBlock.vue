@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { IonButton } from '@ionic/vue';
 
 export default {
@@ -35,8 +36,14 @@ export default {
   methods: {
     emitChangeView() {
       this.$emit("change-view");
-    }
-  }
+    },
+    
+    apiTest() {
+      axios
+        .get('https://liverary-api.herokuapp.com/words')
+        .then(resp => console.log(resp))
+    },
+  },
 }
 </script>
 
