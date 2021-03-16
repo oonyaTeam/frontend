@@ -10,9 +10,13 @@
 
 <script>
 import { trashOutline } from 'ionicons/icons';
+import { IonIcon } from '@ionic/vue';
 
 export default {
   name: "WordItem",
+  components: {
+    IonIcon
+  },
   setup(){
     return {
       trashOutline
