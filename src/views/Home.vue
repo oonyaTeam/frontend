@@ -3,10 +3,17 @@
     <ion-content v-if="isLoading">loading</ion-content>
     <ion-content v-else :fullscreen="true">
       <Header/>
-      <ion-slides>
+      <div class="month-text">
+        <ion-icon :icon="chevronBackOutline" @click="prevSlide"></ion-icon>
+        <p class="normally-text" style="display: inline">hoge</p>
+        <ion-icon :icon="chevronForwardOutline" @click="nextSlide"></ion-icon>
+      </div>
+      <ion-slides ref="mySlides" :option="slideOpts">
         <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
-            <p class="normally-text">{{item.month}}</p>
+            <ion-icon :icon="chevronBackOutline" @click="prevSlide"></ion-icon>
+            <p class="normally-text" style="display: inline">{{item.month}}</p>
+            <ion-icon :icon="chevronForwardOutline" @click="nextSlide"></ion-icon>
             <div class="first-block-wrapper">
               <main-block :sum="item.sum" @change-view="chageView()" :class="[mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"/>
               <graph :id="item.month" @change-view="chageView()" :class="[mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
@@ -20,8 +27,9 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage, IonSlides, IonSlide } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { IonContent, IonPage, IonSlides, IonSlide, IonIcon } from '@ionic/vue';
+import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
+import { defineComponent, ref } from 'vue';
 import { mapGetters } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
@@ -36,6 +44,7 @@ export default defineComponent({
     IonPage,
     IonSlides,
     IonSlide,
+    IonIcon,
     Header,
     MainBlock,
     Graph,
@@ -47,6 +56,31 @@ export default defineComponent({
       isLoading: true
     }
   },
+  setup(){
+    const slideOpts = {
+      initialSlide: 0,
+      speed: 1400
+    }
+    const mySlides = ref<any>(null);
+
+    const nextSlide = async () => {
+      const s = await mySlides?.value?.$el.getSwiper();
+      await s.slideNext();
+    };
+
+    const prevSlide = async () => {
+      const s = await mySlides?.value?.$el.getSwiper();
+      await s.slidePrev();
+    };
+    return{
+      chevronForwardOutline,
+      chevronBackOutline,
+      slideOpts,
+      nextSlide,
+      prevSlide,
+      mySlides
+    }
+  },
   computed: {
     ...mapGetters({
       items: 'items',
@@ -56,7 +90,7 @@ export default defineComponent({
   methods: {
     chageView() {
       this.mainBlock = !this.mainBlock;
-    },
+    }
   },
   async created() {
     await this.$store.dispatch("initState");
@@ -70,6 +104,10 @@ export default defineComponent({
   position: relative;
   width: 80%;
   margin: auto;
+}
+
+.month-text{
+  text-align: center;
 }
 
 .normally-text{
