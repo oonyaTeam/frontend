@@ -6,7 +6,7 @@
     <word-item class="item"/>
     <word-item class="item"/>
     <div class="ion-padding">
-      <ion-button expand="full" shape="round">もっとみる</ion-button>
+      <ion-button expand="full" shape="round" @click="goAllwords">もっとみる</ion-button>
     </div>
 
   </div>
@@ -21,6 +21,11 @@ export default {
   components: {
     WordItem,
     IonButton
+  },
+  methods: {
+    goAllwords() {
+      this.$router.push('/allword');
+    }
   }
 }
 </script>

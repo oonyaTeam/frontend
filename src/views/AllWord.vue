@@ -4,28 +4,35 @@
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
       </div>
-      <div class="wrapper" v-for="num in 15" :key="num">
+      <div class="wrapper" v-for="word in words" :key="word.text">
         <img src="../../public/assets/kusa.png" alt="kusa">
         <!-- 下のバインディングしているidはとりあえずでおいてるだけなので
          データが入るようになれば消す-->
-        <word-item class="item" :id="num"/>
+        <word-item class="item" :word="word"/>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import { IonPage, IonContent } from '@ionic/vue';
 import WordItem from '@/components/WordItem';
+import { mapGetters } from 'vuex';
 
-export default {
+export default defineComponent({
   name: "AllWord",
   components: {
     WordItem,
     IonPage,
     IonContent
+  },
+  computed: {
+    ...mapGetters({
+      words: 'allWords',
+    }),
   }
-}
+});
 </script>
 
 <style scoped>

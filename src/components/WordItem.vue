@@ -1,28 +1,30 @@
 <template>
   <div class="item-wrapper" style="padding: 8px 16px">
     <div>
-      <p class="normally-text">ぶーぶー</p>
-      <p class="normally-text">2021/02/03</p>
+      <p class="normally-text">{{ word.text }}</p>
+      <p class="normally-text">{{ word.date }}</p>
     </div>
     <ion-icon class="icon" :icon="trashOutline"></ion-icon>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { trashOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/vue';
 
-export default {
+export default defineComponent({
   name: "WordItem",
   components: {
     IonIcon
   },
+  props: ['word'],
   setup(){
     return {
       trashOutline
     }
   }
-}
+});
 </script>
 
 <style scoped>
