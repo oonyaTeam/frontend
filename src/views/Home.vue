@@ -4,16 +4,13 @@
     <ion-content v-else :fullscreen="true">
       <Header/>
       <div class="month-text">
-        <ion-icon :icon="chevronBackOutline" @click="prevSlide"></ion-icon>
-        <p class="normally-text" style="display: inline">hoge</p>
-        <ion-icon :icon="chevronForwardOutline" @click="nextSlide"></ion-icon>
+        <ion-icon :icon="chevronBackOutline" @click="prevPage()"></ion-icon>
+        <p class="normally-text" style="display: inline">{{items[itemLength].month}}</p>
+        <ion-icon :icon="chevronForwardOutline" @click="nextPage()"></ion-icon>
       </div>
       <ion-slides ref="mySlides" :option="slideOpts">
         <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
-            <ion-icon :icon="chevronBackOutline" @click="prevSlide"></ion-icon>
-            <p class="normally-text" style="display: inline">{{item.month}}</p>
-            <ion-icon :icon="chevronForwardOutline" @click="nextSlide"></ion-icon>
             <div class="first-block-wrapper">
               <main-block :sum="item.sum" @change-view="chageView()" :class="[mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"/>
               <graph :id="item.month" @change-view="chageView()" :class="[mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
@@ -36,6 +33,7 @@ import MainBlock  from '@/components/MainBlock.vue'
 import Graph from '@/components/Graph.vue'
 import Header from '@/components/Header.vue';
 import WordList from '@/components/WordList.vue'
+import {store} from "@/store";
 
 export default defineComponent({
   name: 'Home',
@@ -53,14 +51,16 @@ export default defineComponent({
   data(){
     return {
       mainBlock: true,
-      isLoading: true
+      isLoading: true,
+      itemLength: store.getters.itemsCount
     }
   },
   setup(){
     const slideOpts = {
-      initialSlide: 0,
+      initialSlide: store.getters.itemsCount,
       speed: 1400
     }
+
     const mySlides = ref<any>(null);
 
     const nextSlide = async () => {
@@ -90,6 +90,14 @@ export default defineComponent({
   methods: {
     chageView() {
       this.mainBlock = !this.mainBlock;
+    },
+    nextPage(){
+      this.nextSlide();
+      this.itemLength++;
+    },
+    prevPage(){
+      this.prevSlide();
+      this.itemLength--;
     }
   },
   async created() {
