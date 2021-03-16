@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content v-if="isLoading">loading</ion-content>
+    <ion-content v-if="isLoading" :fullscreen="true"></ion-content>
     <ion-content v-else :fullscreen="true">
       <Header/>
       <ion-slides>
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage, IonSlides, IonSlide } from '@ionic/vue';
+import { IonContent, IonPage, IonSlides, IonSlide, loadingController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
@@ -59,7 +59,14 @@ export default defineComponent({
     },
   },
   async created() {
+    const loading = await loadingController.create({
+      message: 'Loading...',
+      duration: 5000,
+    });
+
+    await loading.present();
     await this.$store.dispatch("initState");
+    await loading.dismiss();
     this.isLoading = false;
   }
 });
