@@ -60,8 +60,7 @@ export default defineComponent({
   },
   async created() {
     const loading = await loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
+      message: 'Loading...',
       duration: 5000,
     });
 
