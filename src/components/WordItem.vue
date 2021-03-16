@@ -12,6 +12,7 @@
 import { defineComponent } from 'vue';
 import { trashOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/vue';
+import { Word } from '@/types';
 
 export default defineComponent({
   name: "WordItem",

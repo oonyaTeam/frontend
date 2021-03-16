@@ -11,7 +11,7 @@
               <main-block :sum="item.sum" @change-view="chageView()" :class="[mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"/>
               <graph :id="item.month" @change-view="chageView()" :class="[mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
             </div>
-            <word-list />
+            <word-list :words="words(item.month)"/>
           </div>
         </ion-slide>
       </ion-slides>

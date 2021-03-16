@@ -1,6 +1,7 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content v-if="isLoading" :fullscreen="true"></ion-content>
+    <ion-content v-else>
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
       </div>
@@ -16,7 +17,7 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { IonPage, IonContent } from '@ionic/vue';
+import { IonPage, IonContent, loadingController } from '@ionic/vue';
 import WordItem from '@/components/WordItem';
 import { mapGetters } from 'vuex';
 
@@ -27,10 +28,26 @@ export default defineComponent({
     IonPage,
     IonContent
   },
+  data() {
+    return {
+      isLoading: true,
+    }
+  },
   computed: {
     ...mapGetters({
       words: 'allWords',
     }),
+  },
+  async created() {
+    const loading = await loadingController.create({
+      message: 'Loading...',
+      duration: 5000,
+    });
+
+    await loading.present();
+    await this.$store.dispatch("getWords");
+    await loading.dismiss();
+    this.isLoading = false;
   }
 });
 </script>
