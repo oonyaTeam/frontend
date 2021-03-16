@@ -1,28 +1,41 @@
 <template>
   <div class="item-wrapper" style="padding: 8px 16px">
     <div>
-      <p class="normally-text">ぶーぶー</p>
-      <p class="normally-text">2021/02/03</p>
+      <p class="normally-text">{{ word.text }}</p>
+      <p class="normally-text">{{ word.date }}</p>
     </div>
-    <ion-icon class="icon" :icon="trashOutline"></ion-icon>
+    <ion-icon class="icon" :icon="trashOutline" @click="deleteWord"></ion-icon>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
 import { trashOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/vue';
+import { Word } from '@/types';
 
-export default {
+export default defineComponent({
   name: "WordItem",
   components: {
     IonIcon
+  },
+  props: {
+    word: {
+      type: Object as PropType<Word>,
+      required: true,
+    },
   },
   setup(){
     return {
       trashOutline
     }
+  },
+  methods: {
+    deleteWord() {
+      this.$store.dispatch('deleteWord', this.word.text);
+    }
   }
-}
+});
 </script>
 
 <style scoped>

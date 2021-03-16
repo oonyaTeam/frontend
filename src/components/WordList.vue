@@ -3,12 +3,12 @@
     <div class="ion-padding">
       <p class="normally-text">今月はじめて話した言葉</p>
     </div>
-    <word-item class="item"/>
-    <word-item class="item"/>
-    <div class="ion-padding">
-      <ion-button expand="full" shape="round">もっとみる</ion-button>
+    <div v-for="word in words" :key="word.text">
+      <word-item class="item" :word="word"/>
     </div>
-
+    <div class="ion-padding" >
+      <ion-button expand="full" shape="round" @click="goAllwords">もっとみる</ion-button>
+    </div>
   </div>
 </template>
 
@@ -21,6 +21,12 @@ export default {
   components: {
     WordItem,
     IonButton
+  },
+  props: ['words'],
+  methods: {
+    goAllwords() {
+      this.$router.push('/allword');
+    }
   }
 }
 </script>
