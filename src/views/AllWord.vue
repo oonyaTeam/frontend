@@ -15,12 +15,15 @@
 </template>
 
 <script>
+import { IonPage, IonContent } from '@ionic/vue';
 import WordItem from '@/components/WordItem';
 
 export default {
   name: "AllWord",
   components: {
-    WordItem
+    WordItem,
+    IonPage,
+    IonContent
   }
 }
 </script>

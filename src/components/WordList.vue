@@ -14,11 +14,13 @@
 
 <script>
 import WordItem from '@/components/WordItem';
+import { IonButton } from '@ionic/vue';
 
 export default {
   name: "WordList",
   components: {
-    WordItem
+    WordItem,
+    IonButton
   }
 }
 </script>

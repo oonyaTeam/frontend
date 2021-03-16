@@ -9,8 +9,13 @@
 
 <script>
 import { settingsOutline } from 'ionicons/icons';
+import { IonIcon } from '@ionic/vue';
+
 export default {
   name: "Header",
+  components:{
+    IonIcon
+  },
   setup(){
     return {
       settingsOutline
