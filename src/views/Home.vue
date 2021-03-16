@@ -7,7 +7,7 @@
           <div style="width: 100%">
             <h1>{{item.month}}</h1>
             <div class="first-block-wrapper">
-              <main-block :sum="item.sum" @change-view="chageView()" :class="[mainBlock ? 'surface' : 'surface_', 'first-block']"/>
+              <main-block :sum="item.sum" @change-view="chageView()" :class="[mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"/>
               <graph :id="item.month" @change-view="chageView()" :class="[mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
             </div>
             <word-list />
@@ -67,6 +67,12 @@ export default defineComponent({
   position: relative;
   width: 80%;
   margin: auto;
+}
+
+/* 言葉の数で、以下3つの画像クラスを分ける */
+.flower-img-one {
+  background-image: url("../../public/assets/Liver-leaf-23.png");
+  background-size: cover;
 }
 
 

@@ -61,7 +61,8 @@ export default {
 <style scoped>
 .wrapper{
   width: 100%;
-  height: 400px;
+  /* mainBlockとのサイズ調整 */
+  height: 100%;
   margin: auto;
   background-color: rgba(238, 238, 238, 0.5);
   border-radius: 24px;

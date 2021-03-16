@@ -15,7 +15,6 @@
     <div class="ion-padding">
       <ion-button expand="full" shape="round" @click="emitChangeView">グラフにしてみる</ion-button>
     </div>
-
   </div>
 </template>
 
@@ -44,7 +43,6 @@ export default defineComponent({
 <style scoped>
 .wrapper{
   width: 100%;
-  height: 400px;
   margin: 16px auto;
   background-color: rgba(238, 238, 238, 0.5);
   border-radius: 24px;
