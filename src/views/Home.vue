@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content v-if="isLoading" :fullscreen="true">loading</ion-content>
+    <ion-content v-if="isLoading">loading</ion-content>
     <ion-content v-else :fullscreen="true">
       <Header/>
       <ion-slides>
