@@ -1,22 +1,9 @@
 import Vuex from 'vuex';
 import axios from 'axios';
+import { State, Item, Word } from '../types'
 
-interface Item {
-  month: string;
-  sum: number;
-}
 
-interface Word {
-  date: string;
-  text: string;
-}
-
-export interface State {
-  items: Array<Item>;
-  words: Array<Word>;
-}
-
-// delete later
+// apiが修正されたら消す
 function wordNumList2items(wordNumList: Map<string, number>): Array<Item> {
   return Object.entries(wordNumList)
     .map(([key, value]) => ({'month': key, 'sum': value}));
@@ -37,11 +24,11 @@ export const store = new Vuex.Store<State>({
     }, 
   },
   mutations: {
-    setWords(state, words: Array<Word>) {
+    setWords(state, words: Word[]) {
       state.words = words;
     },
 
-    setItems(state, items: Array<Item>) {
+    setItems(state, items: Item[]) {
       state.items = items;
     }
   },
@@ -54,7 +41,7 @@ export const store = new Vuex.Store<State>({
       ])
         .then(axios.spread((wordsResp, itemsResp) => {
           context.commit('setWords', wordsResp.data.words);
-          const items: Array<Item> = wordNumList2items(itemsResp.data.word_num_list) //delete later
+          const items: Array<Item> = wordNumList2items(itemsResp.data.word_num_list) // apiが修正されたら消す
           context.commit('setItems', items);
         }))
         .catch(err => console.log(err));
