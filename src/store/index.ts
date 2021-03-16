@@ -58,7 +58,7 @@ export const store = new Vuex.Store<State>({
 
     async deleteWord (context, word: string) {
       await axios.post('https://liverary-api.herokuapp.com/delete', { word: word })
-        .then((resp) => {console.log('delete')})
+        .then(() => {console.log('delete')})
         .catch(err => console.log(err));
     }
   }
