@@ -3,12 +3,6 @@ import axios from 'axios';
 import { State, Item, Word } from '../types'
 
 
-// apiが修正されたら消す
-function wordNumList2items(wordNumList: Map<string, number>): Array<Item> {
-  return Object.entries(wordNumList)
-    .map(([key, value]) => ({'month': key, 'sum': value}));
-}
-
 export const store = new Vuex.Store<State>({
   state: {
     items: [],
@@ -41,8 +35,7 @@ export const store = new Vuex.Store<State>({
       ])
         .then(axios.spread((wordsResp, itemsResp) => {
           context.commit('setWords', wordsResp.data.words);
-          const items: Array<Item> = wordNumList2items(itemsResp.data.word_num_list) // apiが修正されたら消す
-          context.commit('setItems', items);
+          context.commit('setItems', itemsResp.data.word_num_list);
         }))
         .catch(err => console.log(err));
     },

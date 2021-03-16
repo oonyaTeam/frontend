@@ -1,6 +1,7 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true">
+    <ion-content v-if="isLoading" :fullscreen="true">loading</ion-content>
+    <ion-content v-else :fullscreen="true">
       <Header/>
       <ion-slides>
         <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
@@ -42,7 +43,8 @@ export default defineComponent({
   },
   data(){
     return {
-      mainBlock: true
+      mainBlock: true,
+      isLoading: true
     }
   },
   computed: {
@@ -56,8 +58,9 @@ export default defineComponent({
       this.mainBlock = !this.mainBlock;
     },
   },
-  created() {
-    this.$store.dispatch("initState");
+  async created() {
+    await this.$store.dispatch("initState");
+    this.isLoading = false;
   }
 });
 </script>
