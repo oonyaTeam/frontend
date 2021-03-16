@@ -4,11 +4,15 @@
     <ion-content v-else :fullscreen="true">
       <Header/>
       <div class="month-text">
-        <ion-icon :icon="chevronBackOutline" @click="prevPage()"></ion-icon>
-        <p class="normally-text" style="display: inline">{{items[itemLength].month}}</p>
-        <ion-icon :icon="chevronForwardOutline" @click="nextPage()"></ion-icon>
+        <ion-button :disabled="slideIndex === 0" @click="prevSlide">
+          <ion-icon :icon="chevronBackOutline"></ion-icon>
+        </ion-button>
+        <p class="normally-text" style="display: inline">{{items[slideIndex].month}}</p>
+        <ion-button @click="nextSlide" :disabled="slideIndex === itemLength - 1">
+          <ion-icon :icon="chevronForwardOutline"></ion-icon>
+        </ion-button>
       </div>
-      <ion-slides ref="mySlides" :option="slideOpts">
+      <ion-slides ref="mySlides" :option="slideOpts" @ionSlideDidChange="changeSlide()">
         <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
             <div class="first-block-wrapper">
@@ -24,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage, IonSlides, IonSlide, IonIcon } from '@ionic/vue';
+import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, IonButton } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import { defineComponent, ref } from 'vue';
 import { mapGetters } from 'vuex';
@@ -43,6 +47,7 @@ export default defineComponent({
     IonSlides,
     IonSlide,
     IonIcon,
+    IonButton,
     Header,
     MainBlock,
     Graph,
@@ -52,12 +57,13 @@ export default defineComponent({
     return {
       mainBlock: true,
       isLoading: true,
-      itemLength: store.getters.itemsCount
+      itemLength: 0,
+      slideIndex: 0
     }
   },
   setup(){
     const slideOpts = {
-      initialSlide: store.getters.itemsCount,
+      initialSlide: 0,
       speed: 1400
     }
 
@@ -72,12 +78,19 @@ export default defineComponent({
       const s = await mySlides?.value?.$el.getSwiper();
       await s.slidePrev();
     };
+
+    const getSlideIndex = async (): Promise<number> => {
+      const s = await mySlides?.value?.$el.getSwiper();
+      return s.activeIndex
+    }
+
     return{
       chevronForwardOutline,
       chevronBackOutline,
       slideOpts,
       nextSlide,
       prevSlide,
+      getSlideIndex,
       mySlides
     }
   },
@@ -93,16 +106,23 @@ export default defineComponent({
     },
     nextPage(){
       this.nextSlide();
-      this.itemLength++;
+      this.slideIndex++;
     },
     prevPage(){
       this.prevSlide();
-      this.itemLength--;
+      this.slideIndex--;
+    },
+    changeSlide(){
+      this.getSlideIndex().then(activeIndex => {
+        if(activeIndex < this.slideIndex) this.slideIndex--
+        else this.slideIndex++
+      })
     }
   },
   async created() {
     await this.$store.dispatch("initState");
     this.isLoading = false;
+    this.itemLength = store.getters.itemsCount
   }
 });
 </script>
