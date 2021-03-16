@@ -25,7 +25,6 @@ export default {
 .item-wrapper{
   background-color: white;
   border-radius: 24px;
-  margin: 8px 16px;
   display: flex;
   align-items: center;
   text-align: left;
