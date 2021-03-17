@@ -6,12 +6,12 @@
         <p class="normally-text title">今までに話した言葉</p>
       </div>
       <div v-for="(word, index) in words" :key="word.text">
-        <div v-if="index%2 === 0" class="wrapper">
+        <div v-if="index%2 === 0" class="wrapper wrapper-left">
           <div class="item-left">
             <word-item-of-leaf :word="word"/>
           </div>
         </div>
-        <div v-else class="wrapper">
+        <div v-else class="wrapper wrapper-right">
           <div class="item-right">
             <word-item-of-leaf :word="word"/>
           </div>
@@ -60,8 +60,20 @@ export default defineComponent({
 
 <style scoped>
 
-.wrapper{
+/*.wrapper{
   margin: -50px 0;
+}*/
+
+.wrapper-left{
+  background-image: url("../../public/assets/vine-left.png");
+  background-size: contain;
+  background-position: center;
+}
+
+.wrapper-right{
+  background-image: url("../../public/assets/vine-right.png");
+  background-size: contain;
+  background-position: center;
 }
 
 
