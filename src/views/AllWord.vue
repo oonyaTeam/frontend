@@ -5,11 +5,15 @@
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
       </div>
-      <div class="wrapper" v-for="word in words" :key="word.text">
-        <img src="../../public/assets/kusa.png" alt="kusa">
-        <!-- 下のバインディングしているidはとりあえずでおいてるだけなので
-         データが入るようになれば消す-->
-        <word-item class="item" :word="word"/>
+      <div v-for="(word, index) in words" :key="word.text">
+        <div v-if="index%2 === 0" class="wrapper">
+          <img src="../../public/assets/kusa.png" alt="kusa">
+          <word-item class="item" :word="word"/>
+        </div>
+        <div v-else class="wrapper">
+          <img src="../../public/assets/kusa.png" alt="kusa">
+          <word-item class="item item-right" :word="word"/>
+        </div>
       </div>
     </ion-content>
   </ion-page>
@@ -70,7 +74,15 @@ img{
 
 .item{
   background-color: #2dd36f;
-  width: 100%;
+  width: 50%;
+}
+
+.item-left{
+
+}
+
+.item-right{
+  margin-left: auto;
 }
 
 .top-text{
