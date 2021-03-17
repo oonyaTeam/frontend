@@ -5,7 +5,7 @@
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
       </div>
-      <div v-for="(word, index) in words" :key="word.text">
+      <div v-for="(word, index) in allWords" :key="word.text">
         <div v-if="index%2 === 0" class="wrapper wrapper-left">
           <div class="item-left">
             <word-item-of-leaf :word="word"/>
@@ -26,7 +26,6 @@ import { computed, defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { IonPage, IonContent, loadingController } from '@ionic/vue';
 import WordItemOfLeaf from '@/components/WordItemOfLeaf';
-import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: "AllWord",
