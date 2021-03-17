@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "frontend",
+  "appId": "com.liverary.app",
+  "appName": "liverary",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",
