@@ -27,15 +27,17 @@ export default defineComponent({
   components: {
     IonButton,
   },
-  props: ['sum'],
-  data() {
-    return {
-    }
+  props: {
+    sum: Number
   },
-  methods: {
-    emitChangeView() {
-      this.$emit("change-view");
-    },
+  setup(props, context) {
+    const emitChangeView = () => {
+      context.emit("change-view");
+    };
+
+    return {
+      emitChangeView,
+    }
   },
 });
 </script>

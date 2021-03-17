@@ -1,14 +1,14 @@
 <template>
   <ion-page>
-    <ion-content v-if="isLoading" :fullscreen="true"></ion-content>
+    <ion-content v-if="state.isLoading" :fullscreen="true"></ion-content>
     <ion-content v-else :fullscreen="true">
       <Header/>
       <div class="month-text">
-        <ion-button :disabled="slideIndex === 0" @click="prevSlide">
+        <ion-button :disabled="state.slideIndex === 0" @click="prevSlide">
           <ion-icon :icon="chevronBackOutline"></ion-icon>
         </ion-button>
-        <p class="normally-text" style="display: inline">{{items[slideIndex].month}}</p>
-        <ion-button @click="nextSlide" :disabled="slideIndex === itemLength - 1">
+        <p class="normally-text" style="display: inline">{{items[state.slideIndex].month}}</p>
+        <ion-button @click="nextSlide" :disabled="state.slideIndex === state.itemLength - 1">
           <ion-icon :icon="chevronForwardOutline"></ion-icon>
         </ion-button>
       </div>
@@ -16,10 +16,10 @@
         <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
             <div class="first-block-wrapper">
-              <main-block :sum="item.sum" @change-view="chageView()" :class="[mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"/>
-              <graph :id="item.month" @change-view="chageView()" :class="[mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
+              <main-block :sum="item.sum" @change-view="changeView()" :class="[state.mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"/>
+              <graph :id="item.month" @change-view="changeView()" :class="[state.mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
             </div>
-            <word-list :words="words(item.month)"/>
+            <word-list :words="monthlywords(item.month)"/>
           </div>
         </ion-slide>
       </ion-slides>
@@ -30,14 +30,13 @@
 <script lang="ts">
 import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, IonButton, loadingController } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import { defineComponent, ref } from 'vue';
-import { mapGetters } from 'vuex';
+import { defineComponent, reactive, ref, computed } from 'vue';
+import { useStore } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
 import Graph from '@/components/Graph.vue'
 import Header from '@/components/Header.vue';
 import WordList from '@/components/WordList.vue'
-import {store} from "@/store";
 
 export default defineComponent({
   name: 'Home',
@@ -53,15 +52,15 @@ export default defineComponent({
     Graph,
     WordList
   },
-  data(){
-    return {
+  setup(){
+    const store = useStore();
+    const state = reactive({
       mainBlock: true,
       isLoading: true,
       itemLength: 0,
       slideIndex: 0
-    }
-  },
-  setup(){
+    });
+
     const slideOpts = {
       initialSlide: 0,
       speed: 1400
@@ -82,7 +81,32 @@ export default defineComponent({
     const getSlideIndex = async (): Promise<number> => {
       const s = await mySlides?.value?.$el.getSwiper();
       return s.activeIndex
-    }
+    };
+
+    const nextPage = () => {
+      nextSlide();
+      state.slideIndex++;
+    };
+
+    const prevPage = () => {
+      prevSlide();
+      state.slideIndex--;
+    };
+
+    const changeSlide = () => {
+      getSlideIndex().then(activeIndex => {
+        if(activeIndex < state.slideIndex) state.slideIndex--
+        else state.slideIndex++
+      })
+    };
+
+    const items = computed(() => store.getters.items);
+
+    const monthlywords = computed(() => store.getters.monthlyWords);
+
+    const changeView = () => {
+      state.mainBlock = !state.mainBlock;
+    };
 
     return{
       chevronForwardOutline,
@@ -91,32 +115,14 @@ export default defineComponent({
       nextSlide,
       prevSlide,
       getSlideIndex,
-      mySlides
-    }
-  },
-  computed: {
-    ...mapGetters({
-      items: 'items',
-      words: 'monthlyWords',
-    }),
-  },
-  methods: {
-    chageView() {
-      this.mainBlock = !this.mainBlock;
-    },
-    nextPage(){
-      this.nextSlide();
-      this.slideIndex++;
-    },
-    prevPage(){
-      this.prevSlide();
-      this.slideIndex--;
-    },
-    changeSlide(){
-      this.getSlideIndex().then(activeIndex => {
-        if(activeIndex < this.slideIndex) this.slideIndex--
-        else this.slideIndex++
-      })
+      mySlides,
+      state,
+      items,
+      monthlywords,
+      changeView,
+      nextPage,
+      prevPage,
+      changeSlide,
     }
   },
   async created() {
@@ -128,8 +134,8 @@ export default defineComponent({
     await loading.present();
     await this.$store.dispatch("initState");
     await loading.dismiss();
-    this.isLoading = false;
-    this.itemLength = store.getters.itemsCount
+    this.state.isLoading = false;
+    this.state.itemLength = this.$store.getters.itemsCount
   }
 });
 </script>

@@ -1,11 +1,11 @@
 <template>
   <ion-page>
-    <ion-content v-if="isLoading" :fullscreen="true"></ion-content>
+    <ion-content v-if="state.isLoading" :fullscreen="true"></ion-content>
     <ion-content v-else>
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
       </div>
-      <div class="wrapper" v-for="word in words" :key="word.text">
+      <div class="wrapper" v-for="word in allWords" :key="word.text">
         <img src="../../public/assets/kusa.png" alt="kusa">
         <!-- 下のバインディングしているidはとりあえずでおいてるだけなので
          データが入るようになれば消す-->
@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { computed, defineComponent, reactive } from 'vue';
+import { useStore } from 'vuex';
 import { IonPage, IonContent, loadingController } from '@ionic/vue';
 import WordItem from '@/components/WordItem';
-import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: "AllWord",
@@ -28,15 +28,18 @@ export default defineComponent({
     IonPage,
     IonContent
   },
-  data() {
-    return {
+  setup() {
+    const store = useStore();
+    const state = reactive({
       isLoading: true,
+    });
+
+    const allWords = computed(() => store.getters.allWords);
+
+    return {
+      state,
+      allWords
     }
-  },
-  computed: {
-    ...mapGetters({
-      words: 'allWords',
-    }),
   },
   async created() {
     const loading = await loadingController.create({
@@ -47,7 +50,7 @@ export default defineComponent({
     await loading.present();
     await this.$store.dispatch("getWords");
     await loading.dismiss();
-    this.isLoading = false;
+    this.state.isLoading = false;
   }
 });
 </script>

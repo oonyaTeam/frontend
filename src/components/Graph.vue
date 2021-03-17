@@ -8,21 +8,29 @@
 </template>
 
 <script>
+import { defineComponent, onMounted } from 'vue';
 import { IonButton } from '@ionic/vue';
 import Chart from 'chart.js';
 
-export default {
+export default defineComponent({
   name: "Graph",
-  props: ['id'],
+  props: {
+    id: {
+      type: String,
+      required: true,
+    }
+  },
   components: {
     IonButton,
   },
-  methods: {
-    emitChangeView() {
-      this.$emit("change-view");
-    },
-    createChart(){
-      new Chart(this.ctx,{
+  setup(props, context) {
+
+    const emitChangeView = () => {
+      context.emit("change-view");
+    };
+
+    const createChart = (ctx) => {
+      new Chart(ctx,{
         type: 'line',
         data: {
           labels: ['2021/01', '2021/02', '2021/03'],
@@ -49,13 +57,19 @@ export default {
             }]
           },
       }})
-    }
+    };
+
+    onMounted(() => {
+      const ctx = document.getElementById(props.id);
+      createChart(ctx);
+    })
+
+    return {
+      emitChangeView,
+      createChart,
+    };
   },
-  mounted() {
-    this.ctx = document.getElementById(this.id);
-    this.createChart();
-  }
-}
+});
 </script>
 
 <style scoped>
