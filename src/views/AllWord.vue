@@ -7,15 +7,13 @@
       </div>
       <div v-for="(word, index) in words" :key="word.text">
         <div v-if="index%2 === 0" class="wrapper">
-          <img src="../../public/assets/kusa.png" alt="kusa">
-          <div class="item">
-            <word-item class="item-inner" :word="word"/>
+          <div class="item-left">
+            <word-item-of-leaf class="item-inner" :word="word"/>
           </div>
         </div>
         <div v-else class="wrapper">
-          <img src="../../public/assets/kusa.png" alt="kusa">
-          <div class="item item-right">
-            <word-item class="item-inner" :word="word"/>
+          <div class="item-right">
+            <word-item-of-leaf class="item-inner" :word="word"/>
           </div>
         </div>
       </div>
@@ -26,13 +24,13 @@
 <script>
 import { defineComponent } from 'vue';
 import { IonPage, IonContent, loadingController } from '@ionic/vue';
-import WordItem from '@/components/WordItem';
+import WordItemOfLeaf from '@/components/WordItemOfLeaf';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: "AllWord",
   components: {
-    WordItem,
+    WordItemOfLeaf,
     IonPage,
     IonContent
   },
@@ -61,34 +59,30 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 .wrapper{
-  display: flex;
-  align-items: center;
-  height: 200px;
   margin: -100px 0;
 }
 
-img{
-  width: 80px;
-}
 
 .normally-text{
   font-size: 16px;
   margin: 0;
 }
 
-.item{
-  background-image: url("../../public/assets/hacku-leaf.png");
-  height: 200px;
-  width: 200px;
+
+.item-left{
+  background-image: url("../../public/assets/leaf-left.png");
+  width: 60%;
+  height: 60vmin;
   background-size: cover;
 }
 
-.item-left{
-
-}
-
 .item-right{
+  background-image: url("../../public/assets/leaf-right.png");
+  width: 60%;
+  height: 60vmin;
+  background-size: cover;
   margin-left: auto;
 }
 
@@ -99,9 +93,6 @@ img{
 
 .top-text{
   height: 80px;
-  background-image: url("../../public/assets/kusa.png");
-  background-size: contain;
-  background-repeat: no-repeat;
   margin-bottom: 100px;
 }
 
