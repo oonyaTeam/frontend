@@ -17,9 +17,9 @@
 
 <script>
 import { computed, defineComponent, reactive } from 'vue';
+import { useStore } from 'vuex';
 import { IonPage, IonContent, loadingController } from '@ionic/vue';
 import WordItem from '@/components/WordItem';
-import { mapGetters, useStore } from 'vuex';
 
 export default defineComponent({
   name: "AllWord",

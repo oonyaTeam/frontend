@@ -8,10 +8,11 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import { settingsOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/vue';
 
-export default {
+export default defineComponent({
   name: "Header",
   components:{
     IonIcon
@@ -21,7 +22,7 @@ export default {
       settingsOutline
     }
   }
-}
+})
 </script>
 
 <style scoped>
