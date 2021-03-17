@@ -40,7 +40,6 @@ export default defineComponent({
 
 <style scoped>
 .item-wrapper{
-  background-color: white;
   border-radius: 24px;
   display: flex;
   align-items: center;

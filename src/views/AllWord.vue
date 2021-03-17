@@ -8,11 +8,15 @@
       <div v-for="(word, index) in words" :key="word.text">
         <div v-if="index%2 === 0" class="wrapper">
           <img src="../../public/assets/kusa.png" alt="kusa">
-          <word-item class="item" :word="word"/>
+          <div class="item">
+            <word-item class="item-inner" :word="word"/>
+          </div>
         </div>
         <div v-else class="wrapper">
           <img src="../../public/assets/kusa.png" alt="kusa">
-          <word-item class="item item-right" :word="word"/>
+          <div class="item item-right">
+            <word-item class="item-inner" :word="word"/>
+          </div>
         </div>
       </div>
     </ion-content>
@@ -60,7 +64,8 @@ export default defineComponent({
 .wrapper{
   display: flex;
   align-items: center;
-  margin-right: 16px;
+  height: 200px;
+  margin: -100px 0;
 }
 
 img{
@@ -73,8 +78,10 @@ img{
 }
 
 .item{
-  background-color: #2dd36f;
-  width: 50%;
+  background-image: url("../../public/assets/hacku-leaf.png");
+  height: 200px;
+  width: 200px;
+  background-size: cover;
 }
 
 .item-left{
@@ -85,11 +92,17 @@ img{
   margin-left: auto;
 }
 
+.item-inner{
+  width: 50%;
+  margin: 50px auto;
+}
+
 .top-text{
   height: 80px;
   background-image: url("../../public/assets/kusa.png");
   background-size: contain;
   background-repeat: no-repeat;
+  margin-bottom: 100px;
 }
 
 .title{
