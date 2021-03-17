@@ -3,14 +3,14 @@
     <ion-content v-if="state.isLoading" :fullscreen="true"></ion-content>
     <ion-content v-else :fullscreen="true">
       <Header/>
-      <div class="month-text">
-        <ion-button :disabled="state.slideIndex === 0" @click="prevSlide">
+      <div class="month-block">
+        <button :disabled="state.slideIndex === 0" class="slide-button" @click="prevSlide">
           <ion-icon :icon="chevronBackOutline"></ion-icon>
-        </ion-button>
-        <p class="normally-text" style="display: inline">{{items[state.slideIndex].month}}</p>
-        <ion-button @click="nextSlide" :disabled="state.slideIndex === state.itemLength - 1">
+        </button>
+        <p class="month-text">{{items[state.slideIndex].month}}</p>
+        <button @click="nextSlide" class="slide-button" :disabled="state.slideIndex === state.itemLength - 1">
           <ion-icon :icon="chevronForwardOutline"></ion-icon>
-        </ion-button>
+        </button>
       </div>
       <ion-slides ref="mySlides" :option="slideOpts" @ionSlideDidChange="changeSlide()">
         <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, IonButton, loadingController } from '@ionic/vue';
+import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, loadingController } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import { defineComponent, reactive, ref, computed } from 'vue';
 import { useStore } from 'vuex';
@@ -46,7 +46,6 @@ export default defineComponent({
     IonSlides,
     IonSlide,
     IonIcon,
-    IonButton,
     Header,
     MainBlock,
     Graph,
@@ -147,13 +146,29 @@ export default defineComponent({
   margin: auto;
 }
 
-.month-text{
+
+.month-block{
   text-align: center;
+  height: 32px;
+}
+
+
+.month-text{
+  font-size: 20px;
+  display: inline;
+  margin: 0 10px;
 }
 
 .normally-text{
   font-size: 16px;
   margin: 0;
+}
+
+.slide-button{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  outline: none;
 }
 
 /* 言葉の数で、以下3つの画像クラスを分ける */
