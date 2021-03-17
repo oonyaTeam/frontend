@@ -1,7 +1,6 @@
 <template>
   <ion-page>
-    <ion-content v-if="state.isLoading" :fullscreen="true"></ion-content>
-    <ion-content v-else>
+    <ion-content>
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
       </div>
@@ -34,30 +33,20 @@ export default defineComponent({
     IonPage,
     IonContent
   },
-  setup() {
+  async setup() {
     const store = useStore();
     const state = reactive({
-      isLoading: true,
     });
 
     const allWords = computed(() => store.getters.allWords);
+
+    await store.dispatch("getWords");
 
     return {
       state,
       allWords
     }
   },
-  async created() {
-    const loading = await loadingController.create({
-      message: 'Loading...',
-      duration: 5000,
-    });
-
-    await loading.present();
-    await this.$store.dispatch("getWords");
-    await loading.dismiss();
-    this.state.isLoading = false;
-  }
 });
 </script>
 
