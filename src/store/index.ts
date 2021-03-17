@@ -1,9 +1,13 @@
-import Vuex from 'vuex';
+import { InjectionKey } from 'vue';
+import { createStore, Store, useStore as baseUseStore } from 'vuex';
 import axios from 'axios';
 import { State, Item, Word } from '../types'
 
 
-export const store = new Vuex.Store<State>({
+export const StateKey: InjectionKey<Store<State>> = Symbol();
+
+
+export const store = createStore({
   state: {
     items: [],
     words: [],
@@ -13,17 +17,25 @@ export const store = new Vuex.Store<State>({
 
     allWords: ({ words }) => words,
 
-    monthlyWords: ({ words }) => (month: string) => {
+    monthlyWords: ({ words }: State) => (month: string) => {
       return words.filter(word => word.date.startsWith(month));
-    }, 
+    },
+    itemsCount: (state, getters) =>{
+      return getters.items.length;
+    }
   },
   mutations: {
-    setWords(state, words: Word[]) {
+    setWords(state: State, words: Word[]) {
       state.words = words;
     },
 
-    setItems(state, items: Item[]) {
+    setItems(state: State, items: Item[]) {
       state.items = items;
+    },
+
+    deleteWord(state: State, text: string) {
+      const index = state.words.findIndex(word => word.text == text);
+      state.words.splice(index, 1);
     }
   },
   actions: {
@@ -56,10 +68,17 @@ export const store = new Vuex.Store<State>({
         .catch(err => console.log(err));
     },
 
-    async deleteWord (context, word: string) {
-      await axios.post('https://liverary-api.herokuapp.com/delete', { word: word })
-        .then(() => {console.log('delete')})
+    async deleteWord (context, text: string) {
+      await axios.post('https://liverary-api.herokuapp.com/delete', { word: text })
+        .then(() => {
+          context.commit('deleteWord', text);
+        })
         .catch(err => console.log(err));
     }
   }
 });
+
+
+export function useStore() {
+  return baseUseStore(StateKey);
+}

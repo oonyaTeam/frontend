@@ -13,22 +13,30 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 import WordItem from '@/components/WordItem';
 import { IonButton } from '@ionic/vue';
 
-export default {
+export default defineComponent({
   name: "WordList",
   components: {
     WordItem,
     IonButton
   },
   props: ['words'],
-  methods: {
-    goAllwords() {
-      this.$router.push('/allword');
+  setup() {
+    const router = useRouter();
+
+    const goAllwords = () => {
+      router.push('/allword');
     }
-  }
-}
+
+    return {
+      goAllwords,
+    }
+  },
+});
 </script>
 
 <style scoped>
