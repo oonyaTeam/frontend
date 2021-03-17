@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content v-if="isLoading" :fullscreen="true"></ion-content>
+    <ion-content v-if="state.isLoading" :fullscreen="true"></ion-content>
     <ion-content v-else :fullscreen="true">
       <Header/>
       <div class="month-text">
@@ -37,7 +37,6 @@ import MainBlock  from '@/components/MainBlock.vue'
 import Graph from '@/components/Graph.vue'
 import Header from '@/components/Header.vue';
 import WordList from '@/components/WordList.vue'
-import {store} from "@/store";
 
 export default defineComponent({
   name: 'Home',
@@ -52,11 +51,6 @@ export default defineComponent({
     MainBlock,
     Graph,
     WordList
-  },
-  data(){
-    return {
-      isLoading: true,
-    }
   },
   setup(){
     const store = useStore();
@@ -140,8 +134,8 @@ export default defineComponent({
     await loading.present();
     await this.$store.dispatch("initState");
     await loading.dismiss();
-    this.isLoading = false;
-    this.state.itemLength = store.getters.itemsCount
+    this.state.isLoading = false;
+    this.state.itemLength = this.$store.getters.itemsCount
   }
 });
 </script>
