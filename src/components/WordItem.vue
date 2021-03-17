@@ -4,7 +4,7 @@
       <p class="normally-text">{{ word.text }}</p>
       <p class="normally-text">{{ word.date }}</p>
     </div>
-    <ion-icon class="icon" :icon="trashOutline" @click="deleteWord"></ion-icon>
+    <ion-icon class="icon" :icon="trashOutline" @click="showDeleteAlert"></ion-icon>
   </div>
 </template>
 
@@ -12,7 +12,7 @@
 import { defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
 import { trashOutline } from 'ionicons/icons';
-import { IonIcon } from '@ionic/vue';
+import { IonIcon, alertController } from '@ionic/vue';
 import { Word } from '@/types';
 
 export default defineComponent({
@@ -33,9 +33,30 @@ export default defineComponent({
       store.dispatch('deleteWord', props.word.text);
     };
 
+    const showDeleteAlert = async () => {
+      const alert = await alertController.create({
+        header: '削除',
+        message: '元に戻すことはできません。<br>それでも削除しますか？',
+        buttons: [
+          {
+            text: 'いいえ',
+            role: 'cancel'
+          },
+          {
+            text: 'はい',
+            handler: (): void => {
+              deleteWord();
+            }
+          }
+        ],
+      });
+      await alert.present();
+    }
+
     return {
       trashOutline,
       deleteWord,
+      showDeleteAlert
     }
   },
 });
