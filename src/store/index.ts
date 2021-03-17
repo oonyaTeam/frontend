@@ -15,7 +15,10 @@ export const store = new Vuex.Store<State>({
 
     monthlyWords: ({ words }) => (month: string) => {
       return words.filter(word => word.date.startsWith(month));
-    }, 
+    },
+    itemsCount: (state, getters) =>{
+      return getters.items.length;
+    }
   },
   mutations: {
     setWords(state, words: Word[]) {
