@@ -1,7 +1,6 @@
 <template>
   <ion-page>
-    <ion-content v-if="state.isLoading" :fullscreen="true"></ion-content>
-    <ion-content v-else :fullscreen="true">
+    <ion-content :fullscreen="true">
       <Header/>
       <div class="month-text">
         <ion-button :disabled="state.slideIndex === 0" @click="prevSlide">
@@ -28,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, IonButton, loadingController } from '@ionic/vue';
+import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, IonButton } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import { defineComponent, reactive, ref, computed } from 'vue';
 import { useStore } from 'vuex';
@@ -52,11 +51,10 @@ export default defineComponent({
     Graph,
     WordList
   },
-  setup(){
+  async setup(){
     const store = useStore();
     const state = reactive({
       mainBlock: true,
-      isLoading: true,
       itemLength: 0,
       slideIndex: 0
     });
@@ -67,6 +65,9 @@ export default defineComponent({
     }
 
     const mySlides = ref<any>(null);
+
+    await store.dispatch("initState");
+    state.itemLength = store.getters.itemsCount
 
     const nextSlide = async () => {
       const s = await mySlides?.value?.$el.getSwiper();
@@ -125,18 +126,6 @@ export default defineComponent({
       changeSlide,
     }
   },
-  async created() {
-    const loading = await loadingController.create({
-      message: 'Loading...',
-      duration: 5000,
-    });
-
-    await loading.present();
-    await this.$store.dispatch("initState");
-    await loading.dismiss();
-    this.state.isLoading = false;
-    this.state.itemLength = this.$store.getters.itemsCount
-  }
 });
 </script>
 

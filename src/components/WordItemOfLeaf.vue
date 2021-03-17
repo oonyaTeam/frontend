@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { useStore } from 'vuex';
 import { trashOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/vue';
 import { Word } from '@/types';
@@ -25,16 +26,17 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(){
+  setup(props){
+    const store = useStore();
+
+    const deleteWord = () => {
+      store.dispatch('deleteWord', props.word.text);
+    }
     return {
-      trashOutline
+      trashOutline,
+      deleteWord,
     }
   },
-  methods: {
-    deleteWord() {
-      this.$store.dispatch('deleteWord', this.word.text);
-    }
-  }
 });
 </script>
 
