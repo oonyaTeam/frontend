@@ -3,11 +3,11 @@
     <ion-content :fullscreen="true">
       <Header/>
       <div class="month-block">
-        <button :disabled="state.slideIndex === 0" class="slide-button" @click="prevSlide">
+        <button :disabled="state.slideIndex === 0" class="slide-button" @click="throttle(prevSlide,2000)">
           <ion-icon :icon="chevronBackOutline"></ion-icon>
         </button>
         <p class="month-text">{{items[state.slideIndex].month}}</p>
-        <button @click="nextSlide" class="slide-button" :disabled="state.slideIndex === state.itemLength - 1">
+        <button @click="throttle(nextSlide, 2000)" class="slide-button" :disabled="state.slideIndex === state.itemLength - 1">
           <ion-icon :icon="chevronForwardOutline"></ion-icon>
         </button>
       </div>
@@ -78,20 +78,21 @@ export default defineComponent({
       await s.slidePrev();
     };
 
+    let time = Date.now();
+
+    const throttle = (func: Function, waitTime: number) => {
+      console.log(time + waitTime - Date.now())
+      if((time + waitTime - Date.now()) < 0){
+        func();
+        time = Date.now();
+      }
+    }
+
     const getSlideIndex = async (): Promise<number> => {
       const s = await mySlides?.value?.$el.getSwiper();
       return s.activeIndex
     };
 
-    const nextPage = () => {
-      nextSlide();
-      state.slideIndex++;
-    };
-
-    const prevPage = () => {
-      prevSlide();
-      state.slideIndex--;
-    };
 
     const changeSlide = () => {
       getSlideIndex().then(activeIndex => {
@@ -118,11 +119,11 @@ export default defineComponent({
       mySlides,
       state,
       items,
+      time,
       monthlywords,
       changeView,
-      nextPage,
-      prevPage,
       changeSlide,
+      throttle
     }
   },
 });
