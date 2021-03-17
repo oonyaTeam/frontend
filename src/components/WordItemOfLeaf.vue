@@ -1,16 +1,15 @@
 <template>
-  <div class="item-wrapper" style="padding: 8px 16px">
+  <div class="item-wrapper">
     <div>
-      <p class="normally-text">{{ word.text }}</p>
       <p class="normally-text">{{ word.date }}</p>
+      <p class="speech-text">{{ word.text }}</p>
     </div>
-    <ion-icon class="icon" :icon="trashOutline" @click="deleteWord"></ion-icon>
+    <ion-icon class="icon" size="large" :icon="trashOutline" @click="deleteWord"></ion-icon>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { useStore } from 'vuex';
 import { trashOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/vue';
 import { Word } from '@/types';
@@ -26,31 +25,32 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props){
-    const store = useStore();
-
-    const deleteWord = () => {
-      store.dispatch('deleteWord', props.word.text);
-    };
-
+  setup(){
     return {
-      trashOutline,
-      deleteWord,
+      trashOutline
     }
   },
+  methods: {
+    deleteWord() {
+      this.$store.dispatch('deleteWord', this.word.text);
+    }
+  }
 });
 </script>
 
 <style scoped>
 .item-wrapper{
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  text-align: left;
+  padding-top: 30%;
+  text-align: center;
 }
 
 .normally-text{
   font-size: 16px;
+  margin: 0;
+}
+
+.speech-text{
+  font-size: 24px;
   margin: 0;
 }
 

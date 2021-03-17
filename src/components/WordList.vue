@@ -54,6 +54,7 @@ export default defineComponent({
 
 .item{
   margin: 8px 16px;
+  background-color: white;
 }
 
 </style>
