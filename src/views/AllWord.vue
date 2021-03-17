@@ -8,12 +8,12 @@
       <div v-for="(word, index) in words" :key="word.text">
         <div v-if="index%2 === 0" class="wrapper">
           <div class="item-left">
-            <word-item-of-leaf class="item-inner" :word="word"/>
+            <word-item-of-leaf :word="word"/>
           </div>
         </div>
         <div v-else class="wrapper">
           <div class="item-right">
-            <word-item-of-leaf class="item-inner" :word="word"/>
+            <word-item-of-leaf :word="word"/>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default defineComponent({
 <style scoped>
 
 .wrapper{
-  margin: -100px 0;
+  margin: -50px 0;
 }
 
 
@@ -86,10 +86,7 @@ export default defineComponent({
   margin-left: auto;
 }
 
-.item-inner{
-  width: 50%;
-  margin: 50px auto;
-}
+
 
 .top-text{
   height: 80px;
