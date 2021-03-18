@@ -3,13 +3,13 @@
     <div class="ion-padding">
       <p class="normally-text">今までに話した言葉が</p>
       <p class="normally-text">
-        <span class="strong-text">{{sum}}</span>語に
+        <span class="strong-text">{{ sum }}</span>語に
       </p>
       <p class="normally-text">なりました。</p>
     </div>
 
     <div class="ion-padding">
-      <p class="normally-text">先月からは6語、</p>
+      <p class="normally-text">先月からは{{ diff }}語、</p>
       <p class="normally-text">新しく話せる言葉が増えました。</p>
     </div>
     <div class="ion-padding">
@@ -34,7 +34,8 @@ export default defineComponent({
     IonButton,
   },
   props: {
-    sum: Number
+    sum: Number,
+    diff: Number,
   },
   setup(props, context) {
     const emitChangeView = () => {

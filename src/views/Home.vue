@@ -26,12 +26,13 @@
         :option="slideOpts"
         @ionSlideDidChange="changeSlide()"
       >
-        <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
+        <ion-slide v-for="(item, index) in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
             <div class="first-block-wrapper">
               <main-block
                 :class="[state.mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"
                 :sum="item.sum"
+                :diff="diff(index)"
                 @change-view="changeView()"
               />
               <graph
@@ -125,6 +126,8 @@ export default defineComponent({
 
     const monthlywords = computed(() => store.getters.monthlyWords);
 
+    const diff = computed(() => store.getters.getDiff);
+
     const changeView = () => {
       state.mainBlock = !state.mainBlock;
     };
@@ -143,7 +146,8 @@ export default defineComponent({
       monthlywords,
       changeView,
       changeSlide,
-      throttle
+      throttle,
+      diff
     }
   },
 });

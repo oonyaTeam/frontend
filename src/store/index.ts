@@ -22,7 +22,14 @@ export const store = createStore({
     },
     itemsCount: (state, getters) =>{
       return getters.items.length;
-    }
+    },
+
+    getDiff: (state: State) => (index: number) => {
+      if (!index) {
+        return state.items[index].sum;
+      }
+      return state.items[index].sum - state.items[index - 1].sum;
+    },
   },
   mutations: {
     setWords(state: State, words: Word[]) {
