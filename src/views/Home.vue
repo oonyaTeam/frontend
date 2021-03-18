@@ -3,20 +3,43 @@
     <ion-content :fullscreen="true">
       <Header/>
       <div class="month-block">
-        <button :disabled="state.slideIndex === 0" class="slide-button" @click="throttle(prevSlide,2000)">
+        <button
+          class="slide-button"
+          :disabled="state.slideIndex === 0"
+          @click="throttle(prevSlide,2000)"
+        >
           <ion-icon :icon="chevronBackOutline"></ion-icon>
         </button>
-        <p class="month-text">{{items[state.slideIndex].month}}</p>
-        <button @click="throttle(nextSlide, 2000)" class="slide-button" :disabled="state.slideIndex === state.itemLength - 1">
+        <p class="month-text">
+          {{ items[state.slideIndex].month }}
+        </p>
+        <button
+          class="slide-button"
+          :disabled="state.slideIndex === state.itemLength - 1"
+          @click="throttle(nextSlide, 2000)"
+        >
           <ion-icon :icon="chevronForwardOutline"></ion-icon>
         </button>
       </div>
-      <ion-slides ref="mySlides" :option="slideOpts" @ionSlideDidChange="changeSlide()">
-        <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
+      <ion-slides
+        ref="mySlides"
+        :option="slideOpts"
+        @ionSlideDidChange="changeSlide()"
+      >
+        <ion-slide v-for="(item, index) in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
             <div class="first-block-wrapper">
-              <main-block :sum="item.sum" @change-view="changeView()" :class="[state.mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"/>
-              <graph :id="item.month" @change-view="changeView()" :class="[state.mainBlock ? 'reverse' : 'reverse_' , 'first-block']"/>
+              <main-block
+                :class="[state.mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"
+                :sum="item.sum"
+                :diff="diff(index)"
+                @change-view="changeView()"
+              />
+              <graph
+                :class="[state.mainBlock ? 'reverse' : 'reverse_' , 'first-block']"
+                :id="item.month"
+                @change-view="changeView()"
+              />
             </div>
             <word-list :words="monthlywords(item.month)"/>
           </div>
@@ -81,7 +104,6 @@ export default defineComponent({
     let time = Date.now();
 
     const throttle = (func: Function, waitTime: number) => {
-      console.log(time + waitTime - Date.now())
       if((time + waitTime - Date.now()) < 0){
         func();
         time = Date.now();
@@ -93,7 +115,6 @@ export default defineComponent({
       return s.activeIndex
     };
 
-
     const changeSlide = () => {
       getSlideIndex().then(activeIndex => {
         if(activeIndex < state.slideIndex) state.slideIndex--
@@ -104,6 +125,8 @@ export default defineComponent({
     const items = computed(() => store.getters.items);
 
     const monthlywords = computed(() => store.getters.monthlyWords);
+
+    const diff = computed(() => store.getters.getDiff);
 
     const changeView = () => {
       state.mainBlock = !state.mainBlock;
@@ -123,7 +146,8 @@ export default defineComponent({
       monthlywords,
       changeView,
       changeSlide,
-      throttle
+      throttle,
+      diff
     }
   },
 });

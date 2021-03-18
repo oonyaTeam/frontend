@@ -4,7 +4,12 @@
       <p class="normally-text">{{ word.date }}</p>
       <p class="speech-text">{{ word.text }}</p>
     </div>
-    <ion-icon class="icon" size="large" :icon="trashOutline" @click="showDeleteAlert"></ion-icon>
+    <ion-icon
+      class="icon"
+      size="large"
+      :icon="trashOutline"
+      @click="showDeleteAlert"
+    ></ion-icon>
   </div>
 </template>
 

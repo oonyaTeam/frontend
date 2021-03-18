@@ -7,7 +7,13 @@
       <word-item class="item" :word="word"/>
     </div>
     <div class="ion-padding" >
-      <ion-button expand="full" shape="round" @click="goAllwords">もっとみる</ion-button>
+      <ion-button
+        expand="full"
+        shape="round"
+        @click="goAllwords"
+      >
+        もっとみる
+      </ion-button>
     </div>
   </div>
 </template>
