@@ -57,15 +57,17 @@ export default defineComponent({
     const router = useRouter();
 
     const signin = () => {
-      console.log(state.email + state.passWord);
       firebase.auth().signInWithEmailAndPassword(state.email, state.password)
         .then(resp => {
-          console.log(resp);
-          router.push('/');
+          resp.user.getIdToken()
+            .then(idToken => {
+              store.commit('setJwt', idToken);
+              router.push('/');
+            });
         })
         .catch(err => {
           console.log(err);
-        })
+        });
     };
 
     return {

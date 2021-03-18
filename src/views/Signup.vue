@@ -57,7 +57,6 @@ export default defineComponent({
     const signup = () => {
       firebase.auth().createUserWithEmailAndPassword(state.mail, state.passWord)
         .then(resp => {
-          console.log(resp);
           router.push('/login');
         })
         .catch(err => {
