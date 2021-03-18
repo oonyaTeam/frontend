@@ -13,7 +13,13 @@
       <p class="normally-text">新しく話せる言葉が増えました。</p>
     </div>
     <div class="ion-padding">
-      <ion-button expand="full" shape="round" @click="emitChangeView">グラフにしてみる</ion-button>
+      <ion-button
+        expand="full"
+        shape="round"
+        @click="emitChangeView"
+      >
+        グラフにしてみる
+      </ion-button>
     </div>
   </div>
 </template>

@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
-import { IonPage, IonContent, loadingController } from '@ionic/vue';
+import { IonPage, IonContent } from '@ionic/vue';
 import WordItemOfLeaf from '@/components/WordItemOfLeaf';
 
 export default defineComponent({
@@ -35,15 +35,12 @@ export default defineComponent({
   },
   async setup() {
     const store = useStore();
-    const state = reactive({
-    });
 
     const allWords = computed(() => store.getters.allWords);
 
     await store.dispatch("getWords");
 
     return {
-      state,
       allWords
     }
   },

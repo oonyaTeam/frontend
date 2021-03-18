@@ -2,7 +2,13 @@
   <div class="wrapper">
     <div class="ion-padding">
       <canvas :id="id"></canvas>
-      <ion-button expand="full" shape="round" @click="emitChangeView">もどす</ion-button>
+      <ion-button
+        expand="full"
+        shape="round"
+        @click="emitChangeView"
+      >
+        もどす
+      </ion-button>
     </div>
   </div>
 </template>
