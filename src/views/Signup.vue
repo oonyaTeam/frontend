@@ -5,7 +5,7 @@
         <ion-input
           name="mail"
           type="text"
-          placeholder="Name"
+          placeholder="Mail"
           required
           v-model="state.mail"
         ></ion-input>
@@ -23,9 +23,9 @@
         <ion-button
           type="submit"
           expand="block"
-          @click="onSubmit()"
+          @click="signup()"
         >
-          Login
+          SignUp
         </ion-button>
       </ion-item>
     </ion-content>
@@ -35,8 +35,8 @@
 <script>
 import { defineComponent, reactive } from 'vue';
 import { IonContent, IonPage, IonItem, IonInput, IonButton } from '@ionic/vue';
-import axios from 'axios';
-import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import firebase from 'firebase';
 
 export default defineComponent({
   name: "Signup",
@@ -52,15 +52,22 @@ export default defineComponent({
       mail : "",
       passWord: "",
     });
-    const store = useStore();
-
-    const onSubmit = async () => {
-      console.log(state.mail + state.passWord);
+    const router = useRouter();
+    
+    const signup = () => {
+      firebase.auth().createUserWithEmailAndPassword(state.mail, state.passWord)
+        .then(resp => {
+          console.log(resp);
+          router.push('/login');
+        })
+        .catch(err => {
+          console.log(err);
+        })
     };
 
     return {
       state,
-      onSubmit,
+      signup,
     }
   }
 });

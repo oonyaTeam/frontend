@@ -3,27 +3,27 @@
     <ion-content :fullscreen="true">
       <ion-item>
         <ion-input
-          name="mail"
+          name="email"
           type="text"
-          placeholder="Name"
+          placeholder="E-Mail"
           required
-          v-model="state.mail"
+          v-model="state.email"
         ></ion-input>
       </ion-item>
       <ion-item>
         <ion-input
           name="password"
           type="text"
-          placeholder="PassWord"
+          placeholder="Password"
           required
-          v-model="state.passWord"
+          v-model="state.password"
         ></ion-input>
       </ion-item>
       <ion-item>
         <ion-button
           type="submit"
           expand="block"
-          @click="onSubmit()"
+          @click="signin()"
         >
           Login
         </ion-button>
@@ -35,8 +35,9 @@
 <script>
 import { defineComponent, reactive } from 'vue';
 import { IonContent, IonPage, IonItem, IonInput, IonButton } from '@ionic/vue';
-import axios from 'axios';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import firebase from 'firebase';
 
 export default defineComponent({
   name: "Login",
@@ -49,18 +50,27 @@ export default defineComponent({
   },
   setup() {
     const state = reactive({
-      mail : "",
-      passWord: "",
+      email : "",
+      password: "",
     });
     const store = useStore();
+    const router = useRouter();
 
-    const onSubmit = async () => {
-      console.log(state.mail + state.passWord);
+    const signin = () => {
+      console.log(state.email + state.passWord);
+      firebase.auth().signInWithEmailAndPassword(state.email, state.password)
+        .then(resp => {
+          console.log(resp);
+          router.push('/');
+        })
+        .catch(err => {
+          console.log(err);
+        })
     };
 
     return {
       state,
-      onSubmit,
+      signin,
     }
   }
 });

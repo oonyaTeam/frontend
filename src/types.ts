@@ -11,4 +11,5 @@ export interface Word {
 export interface State {
     items: Item[];
     words: Word[];
+    jwt: string,
 }
