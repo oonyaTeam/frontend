@@ -23,9 +23,32 @@
         <ion-button
           type="submit"
           expand="block"
-          @click="signin()"
+          @click="login()"
         >
           Login
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button
+          type="submit"
+          expand="block"
+          @click="googleLogin()"
+        >
+          Login with Google
+        </ion-button>
+        <ion-button
+          type="submit"
+          expand="block"
+          @click="githubLogin()"
+        >
+          Login with Github
+        </ion-button>
+        <ion-button
+          type="submit"
+          expand="block"
+          @click="twitterLogin()"
+        >
+          Login with Twitter
         </ion-button>
       </ion-item>
     </ion-content>
@@ -57,26 +80,58 @@ export default defineComponent({
     });
     const router = useRouter();
 
-    const signin = () => {
+    const setToken = (resp) => {
+      resp.user.getIdToken()
+        .then(async (idToken) => {
+          await Storage.set({
+            key: 'jwt',
+            value: idToken,
+          });
+          router.push('/home')
+        })
+    };
+
+    const providerLogin = (provider) => {
+      firebase.auth().signInWithPopup(provider)
+        .then(resp => {
+          setToken(resp);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
+    const login = () => {
       firebase.auth().signInWithEmailAndPassword(state.email, state.password)
         .then(resp => {
-          resp.user.getIdToken()
-            .then(async (idToken) => {
-              await Storage.set({
-                key: 'jwt',
-                value: idToken,
-              });
-              router.push('/');
-            });
+          setToken(resp);
         })
         .catch(err => {
           console.log(err);
         });
     };
 
+    const googleLogin = () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      providerLogin(provider);
+    };
+
+    const githubLogin = () => {
+      const provider = new firebase.auth.GithubAuthProvider();
+      providerLogin(provider);
+    };
+
+    const twitterLogin = () => {
+      const provider = new firebase.auth.TwitterAuthProvider();
+      providerLogin(provider);
+    }
+
     return {
       state,
-      signin,
+      login,
+      googleLogin,
+      githubLogin,
+      twitterLogin,
     }
   }
 });

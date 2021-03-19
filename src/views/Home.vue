@@ -35,6 +35,7 @@
               />
             </div>
             <word-list :words="monthlywords(item.month)"/>
+            <div @click="jwtTest">jwtTest</div>
           </div>
         </ion-slide>
       </ion-slides>
