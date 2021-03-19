@@ -2,7 +2,7 @@
   <div class="item-wrapper" style="padding: 8px 16px">
     <div>
       <p class="normally-text">{{ word.text }}</p>
-      <p class="normally-text">{{ word.date }}</p>
+      <p class="normally-text">{{ formatedDate(word.date) }}</p>
     </div>
     <ion-icon class="icon" color="danger" :icon="trashOutline" @click="showDeleteAlert"></ion-icon>
   </div>
@@ -53,10 +53,16 @@ export default defineComponent({
       await alert.present();
     }
 
+    const formatedDate = (date: string) => {
+      const d = date.split('-');
+      return `${ d[0] }年${ d[1] }月${ d[2] }日`;
+    }
+
     return {
       trashOutline,
       deleteWord,
-      showDeleteAlert
+      showDeleteAlert,
+      formatedDate
     }
   },
 });

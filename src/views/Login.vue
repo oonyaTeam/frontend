@@ -31,7 +31,7 @@
         <ion-button
           expand="full"
           shape="round"
-          @click="signin()"
+          @click="login()"
           type="submit"
           class="button-color"
         >
@@ -183,12 +183,11 @@ export default defineComponent({
 }
 
 .button-color{
-  /* css変数のPRがマージされたら --background: var(--main-color)追加する */
+  --background: var(--main-color);
   margin: 16px;
 }
 
 .gray{
-  /* css変数のPRがマージされたら、css変数に書き換え */
   color: rgb(138, 138, 138);
 }
 

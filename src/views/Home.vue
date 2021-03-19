@@ -11,7 +11,7 @@
           <ion-icon :icon="chevronBackOutline"></ion-icon>
         </button>
         <p class="month-text">
-          {{ items[state.slideIndex].month }}
+          {{ formatedMonth(items[state.slideIndex].month) }}
         </p>
         <button
           :class="['slide-button', state.slideIndex === state.itemLength - 1 ? 'disabled' : '']"
@@ -116,6 +116,11 @@ export default defineComponent({
 
     const monthlywords = computed(() => store.getters.monthlyWords);
 
+    const formatedMonth = (date: string) => {
+      const d = date.split('-');
+      return `${d[0]}年${d[1]}月`;
+    };
+
     return{
       chevronForwardOutline,
       chevronBackOutline,
@@ -130,6 +135,7 @@ export default defineComponent({
       monthlywords,
       changeSlide,
       throttle,
+      formatedMonth
     }
   },
 });

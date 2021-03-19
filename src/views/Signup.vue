@@ -102,7 +102,7 @@ export default defineComponent({
 }
 
 .button-color{
-  /* css変数のPRがマージされたら --background: var(--main-color)追加する */
+  --background: var(--main-color);
   margin: 16px;
 }
 

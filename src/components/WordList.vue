@@ -81,7 +81,7 @@ export default defineComponent({
 
 .item{
   margin: 8px 16px;
-  background-color: var(--gray-25);
+  background-color: #fefefe;
 }
 
 .main-color{
