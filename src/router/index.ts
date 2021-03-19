@@ -6,6 +6,7 @@ import Setting from '../views/Setting.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
+import firebase from 'firebase'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,17 +16,20 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { requiresAuth: true },
   },
   {
     path: '/allword',
     name: 'AllWord',
-    component: AllWord
+    component: AllWord,
+    meta: { requiresAuth: true },
   },
   {
     path: '/setting',
     name: 'Setting',
-    component: Setting
+    component: Setting,
+    meta: { requiresAuth: true },
   },
   {
     path: '/signup',
@@ -40,13 +44,32 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/logout',
     name: 'Logout',
-    component: Logout
+    component: Logout,
+    meta: { requiresAuth: true },
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAuth) {
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user) {
+        next();
+      } else {
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath },
+        });
+      }
+    })
+  } else {
+    next();
+  }
 })
 
 export default router
