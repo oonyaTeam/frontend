@@ -13,7 +13,6 @@ export const store = createStore({
   state: {
     items: [],
     words: [],
-    jwt: '',
   },
   getters: {
     items: ({ items }) => items,
@@ -33,8 +32,6 @@ export const store = createStore({
       }
       return state.items[index].sum - state.items[index - 1].sum;
     },
-
-    jwt: ({ jwt }) => jwt,
   },
   mutations: {
     setWords(state: State, words: Word[]) {
@@ -49,10 +46,6 @@ export const store = createStore({
       const index = state.words.findIndex(word => word.text == text);
       state.words.splice(index, 1);
     },
-
-    setJwt(state: State, jwt: string) {
-      state.jwt = jwt;
-    }
   },
   actions: {
     async initState(context) {
