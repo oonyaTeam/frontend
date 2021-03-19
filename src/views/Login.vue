@@ -36,6 +36,20 @@
         >
           Login with Google
         </ion-button>
+        <ion-button
+          type="submit"
+          expand="block"
+          @click="githubLogin()"
+        >
+          Login with Github
+        </ion-button>
+        <ion-button
+          type="submit"
+          expand="block"
+          @click="twitterLogin()"
+        >
+          Login with Twitter
+        </ion-button>
       </ion-item>
     </ion-content>
   </ion-page>
@@ -66,17 +80,22 @@ export default defineComponent({
     });
     const router = useRouter();
 
+
+    const setToken = (resp) => {
+      resp.user.getIdToken()
+        .then(async (idToken) => {
+          await Storage.set({
+            key: 'jwt',
+            value: idToken,
+          });
+          router.push('/')
+        })
+    }
+
     const login = () => {
       firebase.auth().signInWithEmailAndPassword(state.email, state.password)
         .then(resp => {
-          resp.user.getIdToken()
-            .then(async (idToken) => {
-              await Storage.set({
-                key: 'jwt',
-                value: idToken,
-              });
-              router.push('/');
-            });
+          setToken(resp);
         })
         .catch(err => {
           console.log(err);
@@ -87,14 +106,7 @@ export default defineComponent({
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider)
         .then(resp => {
-          resp.user.getIdToken()
-            .then(async (idToken) => {
-              await Storage.set({
-                key: 'jwt',
-                value: idToken,
-              });
-              router.push('/');
-            });
+          setToken(resp)
         })
         .catch(err => {
           console.log(err)
