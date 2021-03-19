@@ -2,7 +2,9 @@ import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
 import axios from 'axios';
 import { State, Item, Word } from '../types'
+import { Plugins } from '@capacitor/core';
 
+const { Storage } = Plugins;
 
 export const StateKey: InjectionKey<Store<State>> = Symbol();
 
@@ -43,7 +45,7 @@ export const store = createStore({
     deleteWord(state: State, text: string) {
       const index = state.words.findIndex(word => word.text == text);
       state.words.splice(index, 1);
-    }
+    },
   },
   actions: {
     async initState(context) {
@@ -81,6 +83,16 @@ export const store = createStore({
           context.commit('deleteWord', text);
         })
         .catch(err => console.log(err));
+    },
+
+    async jwtTest (context) {
+      const jwt = await Storage.get({ key: 'jwt' });
+      await axios.get('https://liverary-api.herokuapp.com/debug/auth', {
+        headers: {'Authorization': `Bearer ${ jwt.value }`}
+      }).then(resp => {
+        console.log(resp);
+      })
+        
     }
   }
 });
