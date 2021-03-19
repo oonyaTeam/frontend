@@ -4,7 +4,7 @@
       <Header/>
       <div class="month-block">
         <button
-          class="slide-button"
+          :class="['slide-button', state.slideIndex === 0 ? 'disabled' : '']"
           :disabled="state.slideIndex === 0"
           @click="throttle(prevSlide,1000)"
         >
@@ -14,7 +14,7 @@
           {{ items[state.slideIndex].month }}
         </p>
         <button
-          class="slide-button"
+          :class="['slide-button', state.slideIndex === state.itemLength - 1 ? 'disabled' : '']"
           :disabled="state.slideIndex === state.itemLength - 1"
           @click="throttle(nextSlide, 1000)"
         >
@@ -171,6 +171,13 @@ export default defineComponent({
   height: 32px;
   border-radius: 50%;
   outline: none;
+  color: white;
+  background-color: var(--main-color);
+}
+
+.disabled{
+  color: white;
+  background-color: var(--gray-50);
 }
 
 /* 言葉の数で、以下3つの画像クラスを分ける */

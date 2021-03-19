@@ -48,3 +48,14 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+:root{
+  --main-color: rgba(251, 0, 255, 0.34);
+  --gray-25: rgba(238,238,238,0.25);
+  --gray-50: rgba(238,238,238,0.5);
+  --gray-75: rgba(238,238,238,0.75);
+  --gray-100: rgb(238,238,238);
+}
+
+</style>

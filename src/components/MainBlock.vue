@@ -25,7 +25,7 @@ export default defineComponent({
 .wrapper{
   width: 100%;
   margin: 16px auto;
-  background-color: rgba(238, 238, 238, 0.5);
+  background-color: var(--gray-50);
   border-radius: 24px;
 }
 
