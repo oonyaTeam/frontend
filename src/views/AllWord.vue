@@ -5,11 +5,11 @@
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
         <p class="normally-text">
-          <span class="strong-text">{{ allWords.length }}</span>語
+          <span class="strong-text">{{ leafs.length }}</span>語
         </p>
       </div>
-      <div v-for="(word, index) in allWords" :key="word.text">
-        <word-item-of-leaf :word="word" :showDetail="true" :isLeft="index%2===0"/>
+      <div v-for="(leaf, index) in leafs" :key="leaf.text">
+        <word-item-of-leaf :leaf="leaf" :isLeft="index%2===0"/>
       </div>
     </ion-content>
   </ion-page>
@@ -33,21 +33,18 @@ export default defineComponent({
   async setup() {
     const store = useStore();
 
-    const allWords = computed(() => store.getters.allWords);
+    const leafs = computed(() => store.getters.leafs);
 
     await store.dispatch("getWords");
 
     return {
-      allWords
+      leafs
     }
   },
 });
 </script>
 
 <style scoped>
-
-
-
 
 .normally-text{
   font-size: 16px;

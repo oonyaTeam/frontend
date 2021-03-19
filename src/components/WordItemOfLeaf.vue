@@ -3,8 +3,8 @@
     <div :class="isLeft ? 'item-left' : 'item-right'">
       <div class="item-wrapper">
         <div>
-          <p class="normally-text">{{ word.date }}</p>
-          <p class="speech-text">{{ word.text }}</p>
+          <p class="normally-text">{{ formatedDate(leaf.date) }}</p>
+          <p class="speech-text">{{ leaf.text }}</p>
         </div>
         <ion-icon
             class="icon"
@@ -14,9 +14,9 @@
         ></ion-icon>
       </div>
     </div>
-    <div v-if="showDetail" :class="isLeft ? 'detail-right' : 'detail-left'">
+    <div v-if="leaf.isBoundary" :class="isLeft ? 'detail-right' : 'detail-left'">
       <div class="wrapper-text" @click="toMonthlyPage()">
-        <p class="normally-text">2020年1月</p>
+        <p class="normally-text">{{ formatedMonth(leaf.date) }}</p>
         <p class="normally-text">詳細をみる</p>
       </div>
     </div>
@@ -24,12 +24,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { trashOutline } from 'ionicons/icons';
 import { IonIcon, alertController } from '@ionic/vue';
-import { Word } from '@/types';
+import { Leaf } from '@/types';
 
 export default defineComponent({
   name: "WordItem",
@@ -37,8 +37,8 @@ export default defineComponent({
     IonIcon
   },
   props: {
-    word: {
-      type: Object as PropType<Word>,
+    leaf: {
+      type: Object as PropType<Leaf>,
       required: true,
     },
     showDetail: Boolean,
@@ -49,7 +49,7 @@ export default defineComponent({
     const store = useStore();
 
     const deleteWord = () => {
-      store.dispatch('deleteWord', props.word.text);
+      store.dispatch('deleteWord', props.leaf.text);
     }
 
     const showDeleteAlert = async () => {
@@ -76,11 +76,23 @@ export default defineComponent({
       router.push('/home')
     }
 
+    const formatedDate = (date: string) => {
+      const d = date.split('-');
+      return `${ d[0] }年${ d[1] }月${ d[2] }日`;
+    }
+
+    const formatedMonth = (date: string) => {
+      const d = date.split('-');
+      return `${d[0]}年${d[1]}月`;
+    };
+
     return {
       trashOutline,
       deleteWord,
       showDeleteAlert,
-      toMonthlyPage
+      toMonthlyPage,
+      formatedDate,
+      formatedMonth,
     }
   },
 });
