@@ -6,7 +6,7 @@
         <button
           class="slide-button"
           :disabled="state.slideIndex === 0"
-          @click="throttle(prevSlide,2000)"
+          @click="throttle(prevSlide,1000)"
         >
           <ion-icon :icon="chevronBackOutline"></ion-icon>
         </button>
@@ -16,7 +16,7 @@
         <button
           class="slide-button"
           :disabled="state.slideIndex === state.itemLength - 1"
-          @click="throttle(nextSlide, 2000)"
+          @click="throttle(nextSlide, 1000)"
         >
           <ion-icon :icon="chevronForwardOutline"></ion-icon>
         </button>
