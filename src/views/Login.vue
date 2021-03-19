@@ -102,7 +102,7 @@ export default defineComponent({
             key: 'jwt',
             value: idToken,
           });
-          router.push('/home')
+          router.push('/')
         })
     };
 
