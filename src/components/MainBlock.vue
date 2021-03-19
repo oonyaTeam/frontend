@@ -1,51 +1,23 @@
 <template>
   <div class="wrapper">
     <div class="ion-padding">
-      <p class="normally-text">今までに話した言葉が</p>
+      <p class="normally-text">今月はじめて話した言葉が</p>
       <p class="normally-text">
-        <span class="strong-text">{{ sum }}</span>語に
+        <span class="strong-text">{{ count }}</span>語
       </p>
-      <p class="normally-text">なりました。</p>
-    </div>
-
-    <div class="ion-padding">
-      <p class="normally-text">先月からは{{ diff }}語、</p>
-      <p class="normally-text">新しく話せる言葉が増えました。</p>
-    </div>
-    <div class="ion-padding">
-      <ion-button
-        expand="full"
-        shape="round"
-        @click="emitChangeView"
-      >
-        グラフにしてみる
-      </ion-button>
+      <p class="normally-text">あります！</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { IonButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: "MainBlock",
-  components: {
-    IonButton,
-  },
   props: {
-    sum: Number,
-    diff: Number,
-  },
-  setup(props, context) {
-    const emitChangeView = () => {
-      context.emit("change-view");
-    };
-
-    return {
-      emitChangeView,
-    }
-  },
+    count: Number
+  }
 });
 </script>
 
