@@ -1,7 +1,7 @@
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
 import axios from 'axios';
-import { State, Item, Word } from '../types'
+import { State, Item, Word, Leaf } from '../types'
 import { Plugins } from '@capacitor/core';
 
 const { Storage } = Plugins;
@@ -13,6 +13,7 @@ export const store = createStore({
   state: {
     items: [],
     words: [],
+    leafs: [],
   },
   getters: {
     items: ({ items }) => items,
@@ -32,6 +33,8 @@ export const store = createStore({
       }
       return state.items[index].sum - state.items[index - 1].sum;
     },
+
+    leafs: ({ leafs }) => leafs,
   },
   mutations: {
     setWords(state: State, words: Word[]) {
@@ -42,9 +45,30 @@ export const store = createStore({
       state.items = items;
     },
 
+    setLeafs(state: State, words: Word[]) {
+      const leafs: Leaf[] = words.map((word, index) => {
+        if(!index) {
+          return { date: word.date, text: word.text, isBoundary: true } as Leaf;
+        }
+        // '2021-01-20' -> '01'
+        const thisMonth: string = word.date.split('-')[1];
+        const lastMonth: string = words[index - 1].date.split('-')[1];
+        if(thisMonth === lastMonth) {
+          return { date: word.date, text: word.text, isBoundary: false } as Leaf;
+        }
+        return { date: word.date, text: word.text, isBoundary: true } as Leaf;
+      })
+      state.leafs = leafs;
+    },
+
     deleteWord(state: State, text: string) {
-      const index = state.words.findIndex(word => word.text == text);
-      state.words.splice(index, 1);
+      const wordIndex = state.words.findIndex(word => word.text == text);
+      state.words.splice(wordIndex, 1);
+      const leafIndex = state.leafs.findIndex(leaf => leaf.text == text);
+      if(state.leafs[leafIndex].isBoundary && leafIndex === state.leafs.length) {
+        state.leafs[leafIndex + 1].isBoundary = true;
+      } 
+      state.leafs.slice(leafIndex, 1);
     },
   },
   actions: {
@@ -56,6 +80,7 @@ export const store = createStore({
       ])
         .then(axios.spread((wordsResp, itemsResp) => {
           context.commit('setWords', wordsResp.data.words);
+          context.commit('setLeafs', wordsResp.data.words);
           context.commit('setItems', itemsResp.data.word_num_list);
         }))
         .catch(err => console.log(err));
@@ -64,7 +89,8 @@ export const store = createStore({
     async getWords(context) {
       await axios.get('https://liverary-api.herokuapp.com/words')
         .then(resp => {
-          context.commit('setWords', resp.data.words)
+          context.commit('setWords', resp.data.words);
+          context.commit('setLeafs', resp.data.words);
         })
         .catch(err => console.log(err));
     },
