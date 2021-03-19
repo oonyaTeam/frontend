@@ -13,6 +13,7 @@
         v-if="!state.isShowAllWords"
         expand="full"
         shape="round"
+        class="main-color"
         @click="changeWordsState()"
       >
         もっとみる
@@ -21,11 +22,10 @@
         v-else
         expand="full"
         shape="round"
-        color="light"
+        class="gray-100"
         @click="changeWordsState"
       >
-        <ion-icon :icon="chevronUpOutline"></ion-icon>
-        とじる
+        <span style="color: black">とじる</span>
       </ion-button>
     </div>
   </div>
@@ -34,15 +34,13 @@
 <script>
 import { defineComponent, computed, reactive } from 'vue';
 import WordItem from '@/components/WordItem';
-import { IonButton, IonIcon } from '@ionic/vue';
-import { chevronUpOutline } from 'ionicons/icons'
+import { IonButton } from '@ionic/vue';
 
 export default defineComponent({
   name: "WordList",
   components: {
     WordItem,
-    IonButton,
-    IonIcon
+    IonButton
   },
   props: ['words'],
   setup(props) {
@@ -62,8 +60,7 @@ export default defineComponent({
     return {
       showWords,
       state,
-      changeWordsState,
-      chevronUpOutline
+      changeWordsState
     }
   },
 });
@@ -73,7 +70,7 @@ export default defineComponent({
 .wrapper{
   width: 80%;
   margin: 16px auto;
-  background-color: rgba(238, 238, 238, 0.5);
+  background-color: var(--gray-50);
   border-radius: 24px;
 }
 
@@ -84,7 +81,15 @@ export default defineComponent({
 
 .item{
   margin: 8px 16px;
-  background-color: white;
+  background-color: var(--gray-25);
+}
+
+.main-color{
+  --background: var(--main-color);
+}
+
+.gray-100{
+  --background: var(--gray-100);
 }
 
 </style>
