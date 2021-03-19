@@ -37,42 +37,53 @@
         >
           ログイン
         </ion-button>
+        <p class="normally-text gray">または</p>
+        <div class="ion-padding">
+          <ion-button
+              class="provider-login-button-color"
+              type="submit"
+              expand="full"
+              shape="round"
+              @click="googleLogin()"
+          >
+            <ion-icon slot="start" :icon="logoGoogle"></ion-icon>
+            Googleで続行
+          </ion-button>
+          <ion-button
+              class="provider-login-button-color"
+              type="submit"
+              expand="full"
+              shape="round"
+              @click="githubLogin()"
+          >
+            <ion-icon slot="start" :icon="logoGithub"></ion-icon>
+            GitHubで続行
+          </ion-button>
+          <ion-button
+              class="provider-login-button-color"
+              type="submit"
+              expand="full"
+              shape="round"
+              @click="twitterLogin()"
+          >
+            <ion-icon slot="start" :icon="logoTwitter"></ion-icon>
+            Twitterで続行
+          </ion-button>
+        </div>
         <div class="ion-padding">
           <p class="normally-text">え？まだアカウントを持っていない？</p>
           <p class="normally-text">そんなときは<a href="/signup">コチラ</a>から新規登録してね！</p>
         </div>
       </div>
-      <ion-item>
-        <ion-button
-          type="submit"
-          expand="block"
-          @click="googleLogin()"
-        >
-          Login with Google
-        </ion-button>
-        <ion-button
-          type="submit"
-          expand="block"
-          @click="githubLogin()"
-        >
-          Login with Github
-        </ion-button>
-        <ion-button
-          type="submit"
-          expand="block"
-          @click="twitterLogin()"
-        >
-          Login with Twitter
-        </ion-button>
-      </ion-item>
     </ion-content>
   </ion-page>
 </template>
 
 <script>
 import { defineComponent, reactive } from 'vue';
-import { IonContent, IonPage, IonInput, IonButton, IonItem, IonLabel } from '@ionic/vue';
+import { IonContent, IonPage, IonInput, IonButton, IonItem, IonLabel, IonIcon } from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
 import firebase from 'firebase';
 import { Plugins } from '@capacitor/core';
 
@@ -86,7 +97,8 @@ export default defineComponent({
     IonInput,
     IonButton,
     IonItem,
-    IonLabel
+    IonLabel,
+    IonIcon
   },
   setup() {
     const state = reactive({
@@ -147,6 +159,9 @@ export default defineComponent({
       googleLogin,
       githubLogin,
       twitterLogin,
+      logoGoogle,
+      logoGithub,
+      logoTwitter
     }
   }
 });
@@ -172,7 +187,16 @@ export default defineComponent({
   margin: 16px;
 }
 
+.gray{
+  /* css変数のPRがマージされたら、css変数に書き換え */
+  color: rgb(138, 138, 138);
+}
 
+.provider-login-button-color{
+  color: #42526e;
+  --background: white;
+  text-transform: none;
+}
 
 .normally-text{
   font-size: 14px;
