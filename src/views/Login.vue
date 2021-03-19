@@ -23,9 +23,18 @@
         <ion-button
           type="submit"
           expand="block"
-          @click="signin()"
+          @click="login()"
         >
           Login
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button
+          type="submit"
+          expand="block"
+          @click="googleLogin()"
+        >
+          Login with Google
         </ion-button>
       </ion-item>
     </ion-content>
@@ -57,7 +66,7 @@ export default defineComponent({
     });
     const router = useRouter();
 
-    const signin = () => {
+    const login = () => {
       firebase.auth().signInWithEmailAndPassword(state.email, state.password)
         .then(resp => {
           resp.user.getIdToken()
@@ -74,9 +83,28 @@ export default defineComponent({
         });
     };
 
+    const googleLogin = () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then(resp => {
+          resp.user.getIdToken()
+            .then(async (idToken) => {
+              await Storage.set({
+                key: 'jwt',
+                value: idToken,
+              });
+              router.push('/');
+            });
+        })
+        .catch(err => {
+          console.log(err)
+        });
+    }
+
     return {
       state,
-      signin,
+      login,
+      googleLogin
     }
   }
 });
