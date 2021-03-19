@@ -35,7 +35,6 @@
               />
             </div>
             <word-list :words="monthlywords(item.month)"/>
-            <div @click="jwtTest">jwtTest</div>
           </div>
         </ion-slide>
       </ion-slides>
@@ -117,11 +116,6 @@ export default defineComponent({
 
     const monthlywords = computed(() => store.getters.monthlyWords);
 
-
-    const jwtTest = () => {
-      store.dispatch('jwtTest');
-    }
-
     return{
       chevronForwardOutline,
       chevronBackOutline,
@@ -136,7 +130,6 @@ export default defineComponent({
       monthlywords,
       changeSlide,
       throttle,
-      jwtTest,
     }
   },
 });

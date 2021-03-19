@@ -74,9 +74,14 @@ export const store = createStore({
   actions: {
     async initState(context) {
       const api = axios.create();
+      const jwt = await Storage.get({ key: 'jwt' });
       await axios.all([
-        api.get('https://liverary-api.herokuapp.com/words'),
-        api.get('https://liverary-api.herokuapp.com/word_num_list')
+        api.get('https://liverary-api.herokuapp.com/words', {
+          headers: {'Authorization': `Bearer ${ jwt.value }`}
+        }),
+        api.get('https://liverary-api.herokuapp.com/word_num_list', {
+          headers: {'Authorization': `Bearer ${ jwt.value }`}
+        })
       ])
         .then(axios.spread((wordsResp, itemsResp) => {
           context.commit('setWords', wordsResp.data.words);
@@ -87,7 +92,10 @@ export const store = createStore({
     },
 
     async getWords(context) {
-      await axios.get('https://liverary-api.herokuapp.com/words')
+      const jwt = await Storage.get({ key: 'jwt' });
+      await axios.get('https://liverary-api.herokuapp.com/words', {
+        headers: {'Authorization': `Bearer ${ jwt.value }`}
+      })
         .then(resp => {
           context.commit('setWords', resp.data.words);
           context.commit('setLeafs', resp.data.words);
@@ -96,7 +104,10 @@ export const store = createStore({
     },
 
     async getItems(context) {
-      await axios.get('https://liverary-api.herokuapp.com/word_num_list')
+      const jwt = await Storage.get({ key: 'jwt' });
+      await axios.get('https://liverary-api.herokuapp.com/word_num_list', {
+        headers: {'Authorization': `Bearer ${ jwt.value }`}
+      })
         .then(resp => {
           context.commit('setItems', resp.data.word_num_list);
         })
@@ -104,7 +115,11 @@ export const store = createStore({
     },
 
     async deleteWord (context, text: string) {
-      await axios.post('https://liverary-api.herokuapp.com/delete', { word: text })
+      const jwt = await Storage.get({ key: 'jwt' });
+      await axios.post('https://liverary-api.herokuapp.com/delete', {
+        headers: {'Authorization': `Bearer ${ jwt.value }`},
+        word: text,
+      })
         .then(() => {
           context.commit('deleteWord', text);
         })
