@@ -36,8 +36,10 @@
 import { defineComponent, reactive } from 'vue';
 import { IonContent, IonPage, IonItem, IonInput, IonButton } from '@ionic/vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import firebase from 'firebase';
+import { Plugins } from '@capacitor/core';
+
+const { Storage } = Plugins;
 
 export default defineComponent({
   name: "Login",
@@ -53,15 +55,17 @@ export default defineComponent({
       email : "",
       password: "",
     });
-    const store = useStore();
     const router = useRouter();
 
     const signin = () => {
       firebase.auth().signInWithEmailAndPassword(state.email, state.password)
         .then(resp => {
           resp.user.getIdToken()
-            .then(idToken => {
-              store.commit('setJwt', idToken);
+            .then(async (idToken) => {
+              await Storage.set({
+                key: 'jwt',
+                value: idToken,
+              });
               router.push('/');
             });
         })

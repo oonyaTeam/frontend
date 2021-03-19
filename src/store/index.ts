@@ -2,7 +2,9 @@ import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
 import axios from 'axios';
 import { State, Item, Word } from '../types'
+import { Plugins } from '@capacitor/core';
 
+const { Storage } = Plugins;
 
 export const StateKey: InjectionKey<Store<State>> = Symbol();
 
@@ -91,8 +93,9 @@ export const store = createStore({
     },
 
     async jwtTest (context) {
+      const jwt = await Storage.get({ key: 'jwt' });
       await axios.get('https://liverary-api.herokuapp.com/debug/auth', {
-        headers: {'Authorization': `Bearer ${context.getters.jwt}`}
+        headers: {'Authorization': `Bearer ${ jwt.value }`}
       }).then(resp => {
         console.log(resp);
       })
