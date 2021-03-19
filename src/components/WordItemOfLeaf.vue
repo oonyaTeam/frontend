@@ -1,6 +1,6 @@
 <template>
-  <div :class="index%2 === 0 ? 'wrapper-left' : 'wrapper-right' ">
-    <div :class="index%2 === 0 ? 'item-left' : 'item-right'">
+  <div :class="isLeft ? 'wrapper-left' : 'wrapper-right' ">
+    <div :class="isLeft ? 'item-left' : 'item-right'">
       <div class="item-wrapper">
         <div>
           <p class="normally-text">{{ word.date }}</p>
@@ -14,7 +14,7 @@
         ></ion-icon>
       </div>
     </div>
-    <div :class="index%2 === 0 ? 'detail-right' : 'detail-left'">
+    <div v-if="showDetail" :class="isLeft ? 'detail-right' : 'detail-left'">
       <div class="wrapper-text" @click="toMonthlyPage()">
         <p class="normally-text">2020年1月</p>
         <p class="normally-text">詳細をみる</p>
@@ -41,7 +41,8 @@ export default defineComponent({
       type: Object as PropType<Word>,
       required: true,
     },
-    index: Number
+    showDetail: Boolean,
+    isLeft: Boolean
   },
   setup(props){
     const router = useRouter()

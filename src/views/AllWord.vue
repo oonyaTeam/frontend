@@ -5,7 +5,7 @@
         <p class="normally-text title">今までに話した言葉</p>
       </div>
       <div v-for="(word, index) in allWords" :key="word.text">
-        <word-item-of-leaf :word="word" :index="index"/>
+        <word-item-of-leaf :word="word" :showDetail="true" :isLeft="index%2===0"/>
       </div>
     </ion-content>
   </ion-page>
