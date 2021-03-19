@@ -11,7 +11,7 @@ import firebase from 'firebase'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/allword'
   },
   {
     path: '/home',

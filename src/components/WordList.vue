@@ -1,45 +1,69 @@
 <template>
   <div class="wrapper">
-    <div class="ion-padding">
+    <div class="ion-padding-top">
       <p class="normally-text">今月はじめて話した言葉</p>
     </div>
-    <div v-for="word in words" :key="word.text">
-      <word-item class="item" :word="word"/>
+    <div class="ion-padding-top ion-padding-bottom">
+      <div v-for="word in showWords" :key="word.text">
+        <word-item class="item" :word="word"/>
+      </div>
     </div>
-    <div class="ion-padding" >
+    <div class="ion-padding-bottom ion-padding-start ion-padding-end" v-if="words.length > 3">
       <ion-button
+        v-if="!state.isShowAllWords"
         expand="full"
         shape="round"
-        @click="goAllwords"
+        @click="changeWordsState()"
       >
         もっとみる
+      </ion-button>
+      <ion-button
+        v-else
+        expand="full"
+        shape="round"
+        color="light"
+        @click="changeWordsState"
+      >
+        <ion-icon :icon="chevronUpOutline"></ion-icon>
+        とじる
       </ion-button>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, computed, reactive } from 'vue';
 import WordItem from '@/components/WordItem';
-import { IonButton } from '@ionic/vue';
+import { IonButton, IonIcon } from '@ionic/vue';
+import { chevronUpOutline } from 'ionicons/icons'
 
 export default defineComponent({
   name: "WordList",
   components: {
     WordItem,
-    IonButton
+    IonButton,
+    IonIcon
   },
   props: ['words'],
-  setup() {
-    const router = useRouter();
+  setup(props) {
+    const state = reactive({
+      isShowAllWords: false
+    });
+    const showWords = computed(() => {
+      if(state.isShowAllWords) return props.words
+      else return props.words.slice(0,3)
+    })
 
-    const goAllwords = () => {
-      router.push('/allword');
+
+    const changeWordsState = () => {
+      state.isShowAllWords = !state.isShowAllWords
     }
 
     return {
-      goAllwords,
+      showWords,
+      state,
+      changeWordsState,
+      chevronUpOutline
     }
   },
 });
