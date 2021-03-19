@@ -4,7 +4,7 @@
       <p class="normally-text">{{ word.text }}</p>
       <p class="normally-text">{{ word.date }}</p>
     </div>
-    <ion-icon class="icon" :icon="trashOutline" @click="showDeleteAlert"></ion-icon>
+    <ion-icon class="icon" color="danger" :icon="trashOutline" @click="showDeleteAlert"></ion-icon>
   </div>
 </template>
 
@@ -39,11 +39,11 @@ export default defineComponent({
         message: '元に戻すことはできません。<br>それでも削除しますか？',
         buttons: [
           {
-            text: 'いいえ',
+            text: 'キャンセル',
             role: 'cancel'
           },
           {
-            text: 'はい',
+            text: '削除する',
             handler: (): void => {
               deleteWord();
             }
@@ -78,4 +78,6 @@ export default defineComponent({
 .icon{
   margin-left: auto;
 }
+
+
 </style>

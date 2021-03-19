@@ -1,33 +1,47 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <ion-item>
-        <ion-input
-          name="email"
-          type="text"
-          placeholder="E-Mail"
-          required
-          v-model="state.email"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input
-          name="password"
-          type="text"
-          placeholder="Password"
-          required
-          v-model="state.password"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
+      <div class="wrapper">
+        <h1 class="center">Liveraryにログイン</h1>
+        <div class="ion-padding">
+          <ion-item>
+            <ion-label position="floating">
+              email
+            </ion-label>
+            <ion-input
+                name="email"
+                type="email"
+                v-model="state.email"
+                required="true"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">
+              password
+            </ion-label>
+            <ion-input
+                class="main-color"
+                name="password"
+                type="password"
+                v-model="state.password"
+                required="true"
+            ></ion-input>
+          </ion-item>
+        </div>
         <ion-button
+          expand="full"
+          shape="round"
+          @click="signin()"
           type="submit"
-          expand="block"
-          @click="login()"
+          class="button-color"
         >
-          Login
+          ログイン
         </ion-button>
-      </ion-item>
+        <div class="ion-padding">
+          <p class="normally-text">え？まだアカウントを持っていない？</p>
+          <p class="normally-text">そんなときは<a href="/signup">コチラ</a>から新規登録してね！</p>
+        </div>
+      </div>
       <ion-item>
         <ion-button
           type="submit"
@@ -57,7 +71,7 @@
 
 <script>
 import { defineComponent, reactive } from 'vue';
-import { IonContent, IonPage, IonItem, IonInput, IonButton } from '@ionic/vue';
+import { IonContent, IonPage, IonInput, IonButton, IonItem, IonLabel } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import firebase from 'firebase';
 import { Plugins } from '@capacitor/core';
@@ -69,9 +83,10 @@ export default defineComponent({
   components: {
     IonContent,
     IonPage,
-    IonItem,
     IonInput,
     IonButton,
+    IonItem,
+    IonLabel
   },
   setup() {
     const state = reactive({
@@ -138,5 +153,30 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.wrapper{
+  width: 80%;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+}
 
+.center{
+  text-align: center;
+}
+
+.button-color{
+  /* css変数のPRがマージされたら --background: var(--main-color)追加する */
+  margin: 16px;
+}
+
+
+
+.normally-text{
+  font-size: 14px;
+  margin: 0;
+  text-align: center;
+}
 </style>
