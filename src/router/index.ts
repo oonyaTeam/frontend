@@ -6,7 +6,8 @@ import Setting from '../views/Setting.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 const routes: Array<RouteRecordRaw> = [
   {

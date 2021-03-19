@@ -18,7 +18,8 @@
 import { defineComponent, reactive } from 'vue';
 import { IonContent, IonPage, IonItem, IonButton } from '@ionic/vue';
 import { useRouter } from 'vue-router';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import { Plugins } from '@capacitor/core';
 
 const { Storage } = Plugins;
