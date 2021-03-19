@@ -132,6 +132,10 @@ export default defineComponent({
       state.mainBlock = !state.mainBlock;
     };
 
+    const jwtTest = () => {
+      store.dispatch('jwtTest');
+    }
+
     return{
       chevronForwardOutline,
       chevronBackOutline,
@@ -147,7 +151,8 @@ export default defineComponent({
       changeView,
       changeSlide,
       throttle,
-      diff
+      diff,
+      jwtTest,
     }
   },
 });

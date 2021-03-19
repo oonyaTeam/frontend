@@ -88,6 +88,15 @@ export const store = createStore({
           context.commit('deleteWord', text);
         })
         .catch(err => console.log(err));
+    },
+
+    async jwtTest (context) {
+      await axios.get('https://liverary-api.herokuapp.com/debug/auth', {
+        headers: {'Authorization': `Bearer ${context.getters.jwt}`}
+      }).then(resp => {
+        console.log(resp);
+      })
+        
     }
   }
 });
