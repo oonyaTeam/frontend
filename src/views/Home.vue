@@ -30,15 +30,9 @@
           <div style="width: 100%">
             <div class="first-block-wrapper">
               <main-block
-                :class="[state.mainBlock ? 'surface' : 'surface_', 'first-block', 'flower-img-one']"
+                class="first-block flower-img-one"
                 :sum="item.sum"
                 :diff="diff(index)"
-                @change-view="changeView()"
-              />
-              <graph
-                :class="[state.mainBlock ? 'reverse' : 'reverse_' , 'first-block']"
-                :id="item.month"
-                @change-view="changeView()"
               />
             </div>
             <word-list :words="monthlywords(item.month)"/>
@@ -56,7 +50,6 @@ import { defineComponent, reactive, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
-import Graph from '@/components/Graph.vue'
 import Header from '@/components/Header.vue';
 import WordList from '@/components/WordList.vue'
 
@@ -70,13 +63,11 @@ export default defineComponent({
     IonIcon,
     Header,
     MainBlock,
-    Graph,
     WordList
   },
   async setup(){
     const store = useStore();
     const state = reactive({
-      mainBlock: true,
       itemLength: 0,
       slideIndex: 0
     });
@@ -128,10 +119,6 @@ export default defineComponent({
 
     const diff = computed(() => store.getters.getDiff);
 
-    const changeView = () => {
-      state.mainBlock = !state.mainBlock;
-    };
-
     const jwtTest = () => {
       store.dispatch('jwtTest');
     }
@@ -148,7 +135,6 @@ export default defineComponent({
       items,
       time,
       monthlywords,
-      changeView,
       changeSlide,
       throttle,
       diff,
@@ -198,44 +184,5 @@ export default defineComponent({
 
 
 
-
-/* 表面の表示 */
-.surface {
-  opacity: 1;
-  transform: rotateY(0deg);
-  transition:
-      opacity 100ms 150ms,
-      transform 300ms 150ms;
-}
-.reverse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transform: rotateY(90deg);
-  transition:
-      opacity 50ms 200ms,
-      transform 300ms;
-}
-
-/* 裏面の表示 */
-.surface_ {
-  opacity: 0;
-  transform:rotateY(90deg);
-  transition:
-      opacity 50ms 200ms,
-      transform 300ms;
-}
-.reverse_ {
-  position: absolute;
-  margin: auto;
-  top: 0;
-  left: 0;
-  opacity: 1;
-  transform:rotateY(0deg);
-  transition:
-      opacity 100ms 150ms,
-      transform 300ms 150ms;
-}
 
 </style>

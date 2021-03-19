@@ -12,40 +12,18 @@
       <p class="normally-text">先月からは{{ diff }}語、</p>
       <p class="normally-text">新しく話せる言葉が増えました。</p>
     </div>
-    <div class="ion-padding">
-      <ion-button
-        expand="full"
-        shape="round"
-        @click="emitChangeView"
-      >
-        グラフにしてみる
-      </ion-button>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { IonButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: "MainBlock",
-  components: {
-    IonButton,
-  },
   props: {
     sum: Number,
     diff: Number,
-  },
-  setup(props, context) {
-    const emitChangeView = () => {
-      context.emit("change-view");
-    };
-
-    return {
-      emitChangeView,
-    }
-  },
+  }
 });
 </script>
 
