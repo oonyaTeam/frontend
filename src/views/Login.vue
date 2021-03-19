@@ -80,7 +80,6 @@ export default defineComponent({
     });
     const router = useRouter();
 
-
     const setToken = (resp) => {
       resp.user.getIdToken()
         .then(async (idToken) => {
@@ -88,8 +87,18 @@ export default defineComponent({
             key: 'jwt',
             value: idToken,
           });
-          router.push('/')
+          router.push('/home')
         })
+    };
+
+    const providerLogin = (provider) => {
+      firebase.auth().signInWithPopup(provider)
+        .then(resp => {
+          setToken(resp);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
 
     const login = () => {
@@ -104,19 +113,25 @@ export default defineComponent({
 
     const googleLogin = () => {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then(resp => {
-          setToken(resp)
-        })
-        .catch(err => {
-          console.log(err)
-        });
+      providerLogin(provider);
+    };
+
+    const githubLogin = () => {
+      const provider = new firebase.auth.GithubAuthProvider();
+      providerLogin(provider);
+    };
+
+    const twitterLogin = () => {
+      const provider = new firebase.auth.TwitterAuthProvider();
+      providerLogin(provider);
     }
 
     return {
       state,
       login,
-      googleLogin
+      googleLogin,
+      githubLogin,
+      twitterLogin,
     }
   }
 });
