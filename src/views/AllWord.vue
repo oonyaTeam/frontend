@@ -5,7 +5,7 @@
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
         <p class="normally-text">
-          <span class="strong-text">{{ allWords.length }}</span>語
+          <span class="strong-text">{{ leafs.length }}</span>語
         </p>
       </div>
       <div v-for="(leaf, index) in leafs" :key="leaf.text">

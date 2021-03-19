@@ -3,7 +3,7 @@
     <div :class="isLeft ? 'item-left' : 'item-right'">
       <div class="item-wrapper">
         <div>
-          <p class="normally-text">{{ leaf.date }}</p>
+          <p class="normally-text">{{ formatedDate(leaf.date) }}</p>
           <p class="speech-text">{{ leaf.text }}</p>
         </div>
         <ion-icon
@@ -16,7 +16,7 @@
     </div>
     <div v-if="leaf.isBoundary" :class="isLeft ? 'detail-right' : 'detail-left'">
       <div class="wrapper-text" @click="toMonthlyPage()">
-        <p class="normally-text">2020年1月</p>
+        <p class="normally-text">{{ formatedMonth(leaf.date) }}</p>
         <p class="normally-text">詳細をみる</p>
       </div>
     </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { trashOutline } from 'ionicons/icons';
@@ -76,11 +76,23 @@ export default defineComponent({
       router.push('/home')
     }
 
+    const formatedDate = (date: string) => {
+      const d = date.split('-');
+      return `${ d[0] }年${ d[1] }月${ d[2] }日`;
+    }
+
+    const formatedMonth = (date: string) => {
+      const d = date.split('-');
+      return `${d[0]}年${d[1]}月`;
+    };
+
     return {
       trashOutline,
       deleteWord,
       showDeleteAlert,
-      toMonthlyPage
+      toMonthlyPage,
+      formatedDate,
+      formatedMonth,
     }
   },
 });
