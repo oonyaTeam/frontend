@@ -1,15 +1,35 @@
 <template>
-  <div class="item-wrapper">
-    <div>
-      <p class="normally-text">{{ word.date }}</p>
-      <p class="speech-text">{{ word.text }}</p>
+  <div v-if="index%2 === 0" class="wrapper wrapper-left">
+    <div class="item-left">
+      <div class="item-wrapper">
+        <div>
+          <p class="normally-text">{{ word.date }}</p>
+          <p class="speech-text">{{ word.text }}</p>
+        </div>
+        <ion-icon
+            class="icon"
+            size="large"
+            :icon="trashOutline"
+            @click="showDeleteAlert"
+        ></ion-icon>
+      </div>
     </div>
-    <ion-icon
-      class="icon"
-      size="large"
-      :icon="trashOutline"
-      @click="showDeleteAlert"
-    ></ion-icon>
+  </div>
+  <div v-else class="wrapper wrapper-right">
+    <div class="item-right">
+      <div class="item-wrapper">
+        <div>
+          <p class="normally-text">{{ word.date }}</p>
+          <p class="speech-text">{{ word.text }}</p>
+        </div>
+        <ion-icon
+            class="icon"
+            size="large"
+            :icon="trashOutline"
+            @click="showDeleteAlert"
+        ></ion-icon>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,6 +50,7 @@ export default defineComponent({
       type: Object as PropType<Word>,
       required: true,
     },
+    index: Number
   },
   setup(props){
     const store = useStore();
@@ -68,6 +89,41 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+/*.wrapper{
+  margin: -50px 0;
+}*/
+
+.wrapper-left{
+  background-image: url("../../public/assets/vine-left.png");
+  background-size: contain;
+  background-position: center;
+}
+
+.wrapper-right{
+  background-image: url("../../public/assets/vine-right.png");
+  background-size: contain;
+  background-position: center;
+}
+
+
+
+.item-left{
+  background-image: url("../../public/assets/leaf-left.png");
+  width: 60%;
+  height: 60vmin;
+  background-size: cover;
+}
+
+.item-right{
+  background-image: url("../../public/assets/leaf-right.png");
+  width: 60%;
+  height: 60vmin;
+  background-size: cover;
+  margin-left: auto;
+}
+
+
 .item-wrapper{
   padding-top: 30%;
   text-align: center;

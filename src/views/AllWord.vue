@@ -5,16 +5,7 @@
         <p class="normally-text title">今までに話した言葉</p>
       </div>
       <div v-for="(word, index) in allWords" :key="word.text">
-        <div v-if="index%2 === 0" class="wrapper wrapper-left">
-          <div class="item-left">
-            <word-item-of-leaf :word="word"/>
-          </div>
-        </div>
-        <div v-else class="wrapper wrapper-right">
-          <div class="item-right">
-            <word-item-of-leaf :word="word"/>
-          </div>
-        </div>
+        <word-item-of-leaf :word="word" :index="index"/>
       </div>
     </ion-content>
   </ion-page>
@@ -49,42 +40,12 @@ export default defineComponent({
 
 <style scoped>
 
-/*.wrapper{
-  margin: -50px 0;
-}*/
 
-.wrapper-left{
-  background-image: url("../../public/assets/vine-left.png");
-  background-size: contain;
-  background-position: center;
-}
-
-.wrapper-right{
-  background-image: url("../../public/assets/vine-right.png");
-  background-size: contain;
-  background-position: center;
-}
 
 
 .normally-text{
   font-size: 16px;
   margin: 0;
-}
-
-
-.item-left{
-  background-image: url("../../public/assets/leaf-left.png");
-  width: 60%;
-  height: 60vmin;
-  background-size: cover;
-}
-
-.item-right{
-  background-image: url("../../public/assets/leaf-right.png");
-  width: 60%;
-  height: 60vmin;
-  background-size: cover;
-  margin-left: auto;
 }
 
 
