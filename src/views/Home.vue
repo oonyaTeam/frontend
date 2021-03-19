@@ -26,13 +26,12 @@
         :option="slideOpts"
         @ionSlideDidChange="changeSlide()"
       >
-        <ion-slide v-for="(item, index) in items" :key="item.month" style="width: 100%">
+        <ion-slide v-for="item in items" :key="item.month" style="width: 100%">
           <div style="width: 100%">
             <div class="first-block-wrapper">
               <main-block
                 class="first-block flower-img-one"
-                :sum="item.sum"
-                :diff="diff(index)"
+                :count="item.sum"
               />
             </div>
             <word-list :words="monthlywords(item.month)"/>
@@ -117,7 +116,6 @@ export default defineComponent({
 
     const monthlywords = computed(() => store.getters.monthlyWords);
 
-    const diff = computed(() => store.getters.getDiff);
 
     const jwtTest = () => {
       store.dispatch('jwtTest');
@@ -137,7 +135,6 @@ export default defineComponent({
       monthlywords,
       changeSlide,
       throttle,
-      diff,
       jwtTest,
     }
   },
