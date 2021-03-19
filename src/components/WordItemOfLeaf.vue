@@ -1,6 +1,6 @@
 <template>
-  <div v-if="index%2 === 0" class="wrapper wrapper-left">
-    <div class="item-left">
+  <div :class="index%2 === 0 ? 'wrapper-left' : 'wrapper-right' ">
+    <div :class="index%2 === 0 ? 'item-left' : 'item-right'">
       <div class="item-wrapper">
         <div>
           <p class="normally-text">{{ word.date }}</p>
@@ -14,20 +14,10 @@
         ></ion-icon>
       </div>
     </div>
-  </div>
-  <div v-else class="wrapper wrapper-right">
-    <div class="item-right">
-      <div class="item-wrapper">
-        <div>
-          <p class="normally-text">{{ word.date }}</p>
-          <p class="speech-text">{{ word.text }}</p>
-        </div>
-        <ion-icon
-            class="icon"
-            size="large"
-            :icon="trashOutline"
-            @click="showDeleteAlert"
-        ></ion-icon>
+    <div :class="index%2 === 0 ? 'detail-right' : 'detail-left'">
+      <div class="wrapper-text" @click="toMonthlyPage()">
+        <p class="normally-text">2020年1月</p>
+        <p class="normally-text">詳細をみる</p>
       </div>
     </div>
   </div>
@@ -35,6 +25,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { trashOutline } from 'ionicons/icons';
 import { IonIcon, alertController } from '@ionic/vue';
@@ -53,6 +44,7 @@ export default defineComponent({
     index: Number
   },
   setup(props){
+    const router = useRouter()
     const store = useStore();
 
     const deleteWord = () => {
@@ -79,31 +71,33 @@ export default defineComponent({
       await alert.present();
     }
 
+    const toMonthlyPage = () => {
+      router.push('/home')
+    }
+
     return {
       trashOutline,
       deleteWord,
-      showDeleteAlert
+      showDeleteAlert,
+      toMonthlyPage
     }
   },
 });
 </script>
 
 <style scoped>
-
-/*.wrapper{
-  margin: -50px 0;
-}*/
-
 .wrapper-left{
   background-image: url("../../public/assets/vine-left.png");
   background-size: contain;
   background-position: center;
+  position: relative;
 }
 
 .wrapper-right{
   background-image: url("../../public/assets/vine-right.png");
   background-size: contain;
   background-position: center;
+  position: relative;
 }
 
 
@@ -141,5 +135,29 @@ export default defineComponent({
 
 .icon{
   margin-left: auto;
+}
+
+.detail-left{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 40vmin;
+  background-image: url("../../public/assets/leaf-left.png");
+  background-size: cover;
+}
+
+.detail-right{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 40vmin;
+  background-image: url("../../public/assets/leaf-right.png");
+  background-size: cover;
+}
+
+.wrapper-text{
+  padding: 40px;
 }
 </style>
