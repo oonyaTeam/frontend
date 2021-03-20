@@ -43,18 +43,22 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, onIonViewDidEnter } from '@ionic/vue';
+import { IonContent, IonPage, IonSlides, IonSlide, IonIcon } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import { defineComponent, reactive, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
 import WordList from '@/components/WordList.vue'
+import {Item} from "@/types";
 
 export default defineComponent({
   name: 'Home',
   props:{
-    date: String
+    date:{
+      type: String,
+      required: true
+    }
   },
   components: {
     IonContent,
@@ -79,6 +83,20 @@ export default defineComponent({
     }
 
     const mySlides = ref<any>(null);
+
+    const formatedMonth = (date: string) => {
+      const d = date.split('-');
+      return `${d[0]}年${d[1]}月`;
+    };
+
+    const slideTo = async (index: number): Promise<void> => {
+      const s = await mySlides?.value?.$el.getSwiper();
+      return s.slideTo(index);
+    }
+
+    onMounted(() => {
+      slideTo(store.getters.items.findIndex((item: Item) => formatedMonth(item.month) === formatedMonth(props.date)));
+    })
 
     await store.dispatch("initState");
     state.itemLength = store.getters.itemsCount
@@ -113,23 +131,12 @@ export default defineComponent({
       })
     };
 
-    const slideTo = async (index: number): Promise<void> => {
-      const s = await mySlides?.value?.$el.getSwiper();
-      return s.slideTo(index);
-    }
 
     const items = computed(() => store.getters.items);
 
     const monthlywords = computed(() => store.getters.monthlyWords);
 
-    const formatedMonth = (date: string) => {
-      const d = date.split('-');
-      return `${d[0]}年${d[1]}月`;
-    };
 
-    onIonViewDidEnter(() => {
-      slideTo(2)
-    });
 
 
     return{
