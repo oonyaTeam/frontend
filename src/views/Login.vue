@@ -113,12 +113,17 @@ export default defineComponent({
 
     const setToken = (resp) => {
       resp.user.getIdToken()
-        .then(async (idToken) => {
-          await Storage.set({
+        .then((idToken) => {
+          Storage.set({
             key: 'jwt',
-            value: idToken,
+            value: idToken.toString(),
+          });
+          Storage.set({
+            key: 'refresh_token',
+            value: resp.user.refreshToken.toString(),
           });
         })
+        .catch((err) => console.log(err));
     };
 
     const providerLogin = (provider) => {

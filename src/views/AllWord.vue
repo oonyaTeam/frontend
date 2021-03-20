@@ -2,6 +2,7 @@
   <ion-page>
     <ion-content>
       <div class="top-text">
+        <div @click="deleteJwt()">delete</div>
         <p class="normally-text title">今までに話した言葉</p>
         <p class="normally-text">
           <span class="strong-text">{{ leafs.length }}</span>語
@@ -34,8 +35,11 @@ export default defineComponent({
 
     await store.dispatch("getWords");
 
+    const deleteJwt = () => {store.dispatch('deleteJwt'); console.log('delete')};
+
     return {
-      leafs
+      leafs,
+      deleteJwt
     }
   },
 });
