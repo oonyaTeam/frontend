@@ -118,7 +118,6 @@ export default defineComponent({
             key: 'jwt',
             value: idToken,
           });
-          router.push('/')
         })
     };
 
@@ -127,10 +126,14 @@ export default defineComponent({
         .then(async resp => {
           setToken(resp);
           const uid = firebase.auth().currentUser.uid;
-          console.log(uid)
-          database.ref(`users/${uid}`).set({
-            uid: uid,
+          database.ref(`users/${uid}`).once('value', snapshot => {
+            if (snapshot.exists()) {
+              router.push('/allword');
+            } else {
+              router.push('/device');
+            }
           });
+          
         })
         .catch(err => {
           console.log(err);
@@ -142,6 +145,7 @@ export default defineComponent({
       firebase.auth().signInWithEmailAndPassword(state.email, state.password)
         .then(resp => {
           setToken(resp);
+          router.push('/allword');
         })
         .catch(err => {
           console.log(err);
@@ -151,6 +155,7 @@ export default defineComponent({
     const googleLogin = () => {
       const provider = new firebase.auth.GoogleAuthProvider();
       providerLogin(provider);
+      
     };
 
     const githubLogin = () => {
