@@ -124,8 +124,8 @@ export default defineComponent({
     const providerLogin = (provider) => {
       firebase.auth().signInWithPopup(provider)
         .then(async resp => {
-          const uid = firebase.auth().currentUser.uid;
           setToken(resp);
+          const uid = firebase.auth().currentUser.uid;
           database.ref(`users/${uid}`).once('value', snapshot => {
             if (snapshot.exists()) {
               router.push('/allword');
@@ -145,6 +145,7 @@ export default defineComponent({
       firebase.auth().signInWithEmailAndPassword(state.email, state.password)
         .then(resp => {
           setToken(resp);
+          router.push('/allword');
         })
         .catch(err => {
           console.log(err);

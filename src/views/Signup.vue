@@ -51,7 +51,6 @@ import { IonContent, IonPage, IonItem, IonInput, IonButton, IonLabel } from '@io
 import { useRouter } from 'vue-router';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/database';
 
 export default defineComponent({
   name: "Signup",
@@ -69,15 +68,10 @@ export default defineComponent({
       password: "",
     });
     const router = useRouter();
-    const database = firebase.database();
     
     const signup = () => {
       firebase.auth().createUserWithEmailAndPassword(state.email, state.password)
         .then(() => {
-          const uid = firebase.auth().currentUser.uid;
-          database.ref(`users/${uid}`).set({
-            uid: uid,
-          });
           router.push('/device');
         })
         .catch(err => {
