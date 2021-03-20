@@ -2,40 +2,22 @@ import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
 import axios from 'axios';
 import { State, Item, Word, Leaf } from '../types'
-import { Plugins } from '@capacitor/core';
+import getters from './getters';
 
+import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 
 export const StateKey: InjectionKey<Store<State>> = Symbol();
 
+const state: State = {
+  items: [],
+  words: [],
+  leafs: [],
+}
 
 export const store = createStore({
-  state: {
-    items: [],
-    words: [],
-    leafs: [],
-  },
-  getters: {
-    items: ({ items }) => items,
-
-    allWords: ({ words }) => words,
-
-    monthlyWords: ({ words }: State) => (month: string) => {
-      return words.filter(word => word.date.startsWith(month));
-    },
-    itemsCount: (state, getters) =>{
-      return getters.items.length;
-    },
-
-    getDiff: (state: State) => (index: number) => {
-      if (!index) {
-        return state.items[index].sum;
-      }
-      return state.items[index].sum - state.items[index - 1].sum;
-    },
-
-    leafs: ({ leafs }) => leafs,
-  },
+  state,
+  getters,
   mutations: {
     setWords(state: State, words: Word[]) {
       state.words = words;
