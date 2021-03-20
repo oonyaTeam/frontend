@@ -1,7 +1,6 @@
 <template>
   <ion-page>
     <ion-content>
-      <Header/>
       <div class="top-text">
         <p class="normally-text title">今までに話した言葉</p>
         <p class="normally-text">
@@ -20,13 +19,11 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import { IonPage, IonContent } from '@ionic/vue';
 import WordItemOfLeaf from '@/components/WordItemOfLeaf';
-import Header from "@/components/Header";
 
 export default defineComponent({
   name: "AllWord",
   components: {
     WordItemOfLeaf,
-    Header,
     IonPage,
     IonContent
   },

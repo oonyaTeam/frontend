@@ -15,6 +15,11 @@ export interface Leaf {
     isBoundary: boolean;
 }
 
+export interface RankingWord {
+    text: string;
+    count: number;
+}
+
 export interface State {
     items: Item[];
     words: Word[];
