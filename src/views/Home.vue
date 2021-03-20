@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <div class="month-block">
+      <div class="month-block margin-32">
         <button
           :class="['slide-button', state.slideIndex === 0 ? 'disabled' : '']"
           :disabled="state.slideIndex === 0"
@@ -184,6 +184,8 @@ export default defineComponent({
 }
 
 
-
+.margin-32{
+  margin-top: 32px;
+}
 
 </style>
