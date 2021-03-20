@@ -19,6 +19,7 @@ export default defineComponent({
     IonPage
   },
   setup(){
+    const fill = 'start';
     const createChart = (ctx) => {
       new Chart(ctx,{
         type: 'line',
@@ -26,10 +27,12 @@ export default defineComponent({
           labels: ['2021/01', '2021/02', '2021/03'],
           datasets: [
             {
+              fill: fill,
               label: '話した言葉の総数',
-              data: [6, 15, 37],
-              borderColor: "rgba(255,0,0,1)",
-              backgroundColor: "rgba(0,0,0,0)"
+              data: [6, 15, 9],
+              type: 'line',
+              borderColor: "rgba(251,0,255,0.34)",
+              backgroundColor: "rgba(0,0,0,0)",
             }
           ],
         },
@@ -54,7 +57,8 @@ export default defineComponent({
     })
 
     return {
-      createChart
+      createChart,
+      fill
     }
   }
 })
