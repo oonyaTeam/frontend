@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 import { State } from '@/types';
 import axios from 'axios';
+import refreshJwt from '@/modules/refleshJwt';
 
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
@@ -34,29 +35,9 @@ const actions: ActionTree<State, State> = {
 				context.commit('setWords', resp.data.words);
 				context.commit('setLeafs', resp.data.words);
 			})
-			.catch(async err => {
+			.catch(err => {
 				if (err.response.status === 401) {
-					const apikey = 'AIzaSyCHhAssGCGUBhG0OaTGRTW_jkZmB25eZvg';
-					const refreshToken = (await Storage.get({ key: 'refresh_token' })).value || '';
-					if(!refreshToken) return;
-					const params = new URLSearchParams();
-					params.append('grant_type', 'refresh_token');
-					params.append('refresh_token', refreshToken);
-					await axios.post(`https://securetoken.googleapis.com/v1/token?key=${apikey}`, params, {
-							headers: {
-								'Content-Type': 'application/x-www-form-urlencoded',
-							}
-					}).then(resp => {
-						Storage.set({
-							key: 'jwt',
-							value: resp.data.access_token,
-						});
-						Storage.set({
-							key: 'refresh_token',
-							value: resp.data.refresh_token,
-						});
-					})
-					.catch(err => console.log(err));
+					refreshJwt();
 				}
 			});
 	},
@@ -69,7 +50,11 @@ const actions: ActionTree<State, State> = {
 			.then(resp => {
 				context.commit('setItems', resp.data.word_num_list);
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				if (err.response.status === 401) {
+					refreshJwt();
+				}
+			});
 	},
 
 	async deleteWord (context, text: string) {
@@ -81,16 +66,11 @@ const actions: ActionTree<State, State> = {
 			.then(() => {
 				context.commit('deleteWord', text);
 			})
-			.catch(err => console.log(err));
-	},
-
-	async jwtTest (context) {
-		const jwt = await Storage.get({ key: 'jwt' });
-		await axios.get('https://liverary-api.herokuapp.com/debug/auth', {
-			headers: {'Authorization': `Bearer ${ jwt.value }`}
-		}).then(resp => {
-			console.log(resp);
-		})
+			.catch(err => {
+				if (err.response.status === 401) {
+					refreshJwt();
+				}
+			});
 	},
 
 	async deleteJwt(context) {
