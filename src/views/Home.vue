@@ -95,6 +95,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      /* TODO: props.date をstoreからの値に変更する */
       slideTo(store.getters.items.findIndex((item: Item) => formatedMonth(item.month) === formatedMonth(props.date)));
     })
 
