@@ -118,19 +118,16 @@ export default defineComponent({
             key: 'jwt',
             value: idToken,
           });
-          router.push('/')
+          router.push('/');
         })
     };
 
     const providerLogin = (provider) => {
       firebase.auth().signInWithPopup(provider)
-        .then(async resp => {
-          setToken(resp);
+        .then(resp => {
           const uid = firebase.auth().currentUser.uid;
           console.log(uid)
-          database.ref(`users/${uid}`).set({
-            uid: uid,
-          });
+          setToken(resp);
         })
         .catch(err => {
           console.log(err);

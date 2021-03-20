@@ -57,7 +57,6 @@ export default defineComponent({
     const setDeviceId = () => {
       const uid = firebase.auth().currentUser.uid;
       database.ref(`users/${uid}`).set({
-        uid: uid,
         deviceId: state.deviceId,
       });
       console.log('set deviceid!')
