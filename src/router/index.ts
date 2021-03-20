@@ -6,30 +6,42 @@ import Setting from '../views/Setting.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
+import Analytics from '../views/Analytics.vue'
+import tabs from '../views/tabs.vue'
 import firebase from 'firebase'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/allword'
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home,
+    name: 'Tabs',
+    component: tabs,
     meta: { requiresAuth: true },
-  },
-  {
-    path: '/allword',
-    name: 'AllWord',
-    component: AllWord,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/setting',
-    name: 'Setting',
-    component: Setting,
-    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        redirect: 'allword',
+      },
+      {
+        path: 'allword',
+        name: 'AllWord',
+        component: AllWord
+      },
+      {
+        path: 'setting',
+        name: 'Setting',
+        component: Setting
+      },
+      {
+        path: 'analytics',
+        name: 'Analytics',
+        component: Analytics
+      },
+      {
+        path: 'home',
+        name: 'Home',
+        component: Home
+      }
+    ]
   },
   {
     path: '/signup',
