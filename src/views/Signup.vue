@@ -36,6 +36,39 @@
         >
           新規作成
         </ion-button>
+        <p class="normally-text gray">または</p>
+        <div class="ion-padding">
+          <ion-button
+              class="provider-login-button-color"
+              type="submit"
+              expand="full"
+              shape="round"
+              @click="googleLogin()"
+          >
+            <ion-icon slot="start" :icon="logoGoogle"></ion-icon>
+            Googleで続行
+          </ion-button>
+          <ion-button
+              class="provider-login-button-color"
+              type="submit"
+              expand="full"
+              shape="round"
+              @click="githubLogin()"
+          >
+            <ion-icon slot="start" :icon="logoGithub"></ion-icon>
+            GitHubで続行
+          </ion-button>
+          <ion-button
+              class="provider-login-button-color"
+              type="submit"
+              expand="full"
+              shape="round"
+              @click="twitterLogin()"
+          >
+            <ion-icon slot="start" :icon="logoTwitter"></ion-icon>
+            Twitterで続行
+          </ion-button>
+        </div>
         <div class="ion-padding">
           <p class="normally-text">え？もうアカウントを持ってる？</p>
           <p class="normally-text">そんなときは<a href="/login">コチラ</a>からログインしてね！</p>
@@ -47,10 +80,15 @@
 
 <script>
 import { defineComponent, reactive } from 'vue';
-import { IonContent, IonPage, IonItem, IonInput, IonButton, IonLabel } from '@ionic/vue';
+import { IonContent, IonPage, IonItem, IonInput, IonButton, IonLabel, IonIcon } from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
 import firebase from 'firebase/app';
+import 'firebase/database';
 import 'firebase/auth';
+import { Plugins } from '@capacitor/core';
+
+const { Storage } = Plugins;
 
 export default defineComponent({
   name: "Signup",
@@ -60,7 +98,8 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonButton,
-    IonLabel
+    IonLabel,
+    IonIcon
   },
   setup() {
     const state = reactive({
@@ -79,9 +118,63 @@ export default defineComponent({
         })
     };
 
+    const database = firebase.database();
+
+    const setToken = (resp) => {
+      resp.user.getIdToken()
+          .then(async (idToken) => {
+            await Storage.set({
+              key: 'jwt',
+              value: idToken,
+            });
+          })
+    };
+
+    const providerLogin = (provider) => {
+      firebase.auth().signInWithPopup(provider)
+          .then(async resp => {
+            setToken(resp);
+            const uid = firebase.auth().currentUser.uid;
+            database.ref(`users/${uid}`).once('value', snapshot => {
+              if (snapshot.exists()) {
+                router.push('/allword');
+              } else {
+                router.push('/device');
+              }
+            });
+
+          })
+          .catch(err => {
+            console.log(err);
+          });
+    }
+
+
+    const googleLogin = () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      providerLogin(provider);
+
+    };
+
+    const githubLogin = () => {
+      const provider = new firebase.auth.GithubAuthProvider();
+      providerLogin(provider);
+    };
+
+    const twitterLogin = () => {
+      const provider = new firebase.auth.TwitterAuthProvider();
+      providerLogin(provider);
+    }
+
     return {
       state,
       signup,
+      googleLogin,
+      githubLogin,
+      twitterLogin,
+      logoGoogle,
+      logoGithub,
+      logoTwitter
     }
   }
 });
@@ -107,6 +200,16 @@ export default defineComponent({
   margin: 16px;
 }
 
+
+.gray{
+  color: rgb(138, 138, 138);
+}
+
+.provider-login-button-color{
+  color: #42526e;
+  --background: white;
+  text-transform: none;
+}
 
 
 .normally-text{
