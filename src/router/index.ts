@@ -8,7 +8,8 @@ import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Analytics from '../views/Analytics.vue'
 import tabs from '../views/tabs.vue'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 const routes: Array<RouteRecordRaw> = [
   {

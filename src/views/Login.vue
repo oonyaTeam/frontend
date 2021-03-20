@@ -84,7 +84,9 @@ import { defineComponent, reactive } from 'vue';
 import { IonContent, IonPage, IonInput, IonButton, IonItem, IonLabel, IonIcon } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import { Plugins } from '@capacitor/core';
 
 const { Storage } = Plugins;
@@ -107,6 +109,8 @@ export default defineComponent({
     });
     const router = useRouter();
 
+    const database = firebase.database();
+
     const setToken = (resp) => {
       resp.user.getIdToken()
         .then(async (idToken) => {
@@ -120,13 +124,19 @@ export default defineComponent({
 
     const providerLogin = (provider) => {
       firebase.auth().signInWithPopup(provider)
-        .then(resp => {
+        .then(async resp => {
           setToken(resp);
+          const uid = firebase.auth().currentUser.uid;
+          console.log(uid)
+          database.ref(`users/${uid}`).set({
+            uid: uid,
+          });
         })
         .catch(err => {
           console.log(err);
         });
     }
+
 
     const login = () => {
       firebase.auth().signInWithEmailAndPassword(state.email, state.password)
