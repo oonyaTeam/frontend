@@ -78,7 +78,7 @@ export default defineComponent({
           database.ref(`users/${uid}`).set({
             uid: uid,
           });
-          router.push('/login');
+          router.push('/device');
         })
         .catch(err => {
           console.log(err);

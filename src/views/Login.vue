@@ -86,6 +86,7 @@ import { useRouter } from 'vue-router';
 import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 import { Plugins } from '@capacitor/core';
 
 const { Storage } = Plugins;
@@ -108,6 +109,7 @@ export default defineComponent({
     });
     const router = useRouter();
 
+    const database = firebase.database();
 
     const setToken = (resp) => {
       resp.user.getIdToken()
@@ -116,16 +118,22 @@ export default defineComponent({
             key: 'jwt',
             value: idToken,
           });
-          router.push('/device');
         })
     };
 
     const providerLogin = (provider) => {
       firebase.auth().signInWithPopup(provider)
-        .then(resp => {
+        .then(async resp => {
           const uid = firebase.auth().currentUser.uid;
-          console.log(uid)
           setToken(resp);
+          database.ref(`users/${uid}`).once('value', snapshot => {
+            if (snapshot.exists()) {
+              router.push('/allword');
+            } else {
+              router.push('/device');
+            }
+          });
+          
         })
         .catch(err => {
           console.log(err);
@@ -146,6 +154,7 @@ export default defineComponent({
     const googleLogin = () => {
       const provider = new firebase.auth.GoogleAuthProvider();
       providerLogin(provider);
+      
     };
 
     const githubLogin = () => {
