@@ -6,6 +6,7 @@ import Setting from '../views/Setting.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
+import Device from '../views/Device.vue'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -41,6 +42,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/device',
+    name: 'Device',
+    component: Device,
+    meta: { requiresAuth: true },
   },
   {
     path: '/logout',

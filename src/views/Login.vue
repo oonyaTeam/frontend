@@ -86,7 +86,6 @@ import { useRouter } from 'vue-router';
 import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/database';
 import { Plugins } from '@capacitor/core';
 
 const { Storage } = Plugins;
@@ -109,7 +108,6 @@ export default defineComponent({
     });
     const router = useRouter();
 
-    const database = firebase.database();
 
     const setToken = (resp) => {
       resp.user.getIdToken()
@@ -118,7 +116,7 @@ export default defineComponent({
             key: 'jwt',
             value: idToken,
           });
-          router.push('/');
+          router.push('/device');
         })
     };
 
