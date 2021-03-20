@@ -15,7 +15,7 @@
       </div>
     </div>
     <div v-if="leaf.isBoundary" :class="isLeft ? 'detail-right' : 'detail-left'">
-      <div class="wrapper-text" @click="toMonthlyPage()">
+      <div class="wrapper-text" @click="toMonthlyPage(leaf.date)">
         <p class="normally-text">{{ formatedMonth(leaf.date) }}</p>
         <p class="normally-text">詳細をみる</p>
       </div>
@@ -72,8 +72,8 @@ export default defineComponent({
       await alert.present();
     }
 
-    const toMonthlyPage = () => {
-      router.push({name: 'Home', params: {date: props.leaf.date}})
+    const toMonthlyPage = (date: string) => {
+      router.push({name: 'Home', params: {date: date}})
     }
 
     const formatedDate = (date: string) => {

@@ -37,12 +37,13 @@
           </div>
         </ion-slide>
       </ion-slides>
+      <button @click="slideTo(2)">test</button>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage, IonSlides, IonSlide, IonIcon } from '@ionic/vue';
+import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, onIonViewDidEnter } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import { defineComponent, reactive, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
@@ -71,10 +72,9 @@ export default defineComponent({
       slideIndex: 0
     });
 
-    console.log(props.date)
 
     const slideOpts = {
-      initialSlide: 1,
+      initialSlide: 0,
       speed: 1400
     }
 
@@ -109,10 +109,14 @@ export default defineComponent({
 
     const changeSlide = () => {
       getSlideIndex().then(activeIndex => {
-        if(activeIndex < state.slideIndex) state.slideIndex--
-        else state.slideIndex++
+        state.slideIndex = activeIndex
       })
     };
+
+    const slideTo = async (index: number): Promise<void> => {
+      const s = await mySlides?.value?.$el.getSwiper();
+      return s.slideTo(index);
+    }
 
     const items = computed(() => store.getters.items);
 
@@ -122,6 +126,10 @@ export default defineComponent({
       const d = date.split('-');
       return `${d[0]}年${d[1]}月`;
     };
+
+    onIonViewDidEnter(() => {
+      slideTo(2)
+    });
 
 
     return{
@@ -138,7 +146,8 @@ export default defineComponent({
       monthlywords,
       changeSlide,
       throttle,
-      formatedMonth
+      formatedMonth,
+      slideTo
     }
   },
 });
