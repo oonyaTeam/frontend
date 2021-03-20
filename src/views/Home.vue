@@ -37,6 +37,7 @@
           </div>
         </ion-slide>
       </ion-slides>
+      <button @click="slideTo(2)">test</button>
     </ion-content>
   </ion-page>
 </template>
@@ -44,14 +45,21 @@
 <script lang="ts">
 import { IonContent, IonPage, IonSlides, IonSlide, IonIcon } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import { defineComponent, reactive, ref, computed } from 'vue';
+import { defineComponent, reactive, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
 import WordList from '@/components/WordList.vue'
+import {Item} from "@/types";
 
 export default defineComponent({
   name: 'Home',
+  props:{
+    date:{
+      type: String,
+      required: true
+    }
+  },
   components: {
     IonContent,
     IonPage,
@@ -61,12 +69,13 @@ export default defineComponent({
     MainBlock,
     WordList
   },
-  async setup(){
+  async setup(props){
     const store = useStore();
     const state = reactive({
       itemLength: 0,
       slideIndex: 0
     });
+
 
     const slideOpts = {
       initialSlide: 0,
@@ -74,6 +83,21 @@ export default defineComponent({
     }
 
     const mySlides = ref<any>(null);
+
+    const formatedMonth = (date: string) => {
+      const d = date.split('-');
+      return `${d[0]}年${d[1]}月`;
+    };
+
+    const slideTo = async (index: number): Promise<void> => {
+      const s = await mySlides?.value?.$el.getSwiper();
+      return s.slideTo(index);
+    }
+
+    onMounted(() => {
+      /* TODO: props.date をstoreからの値に変更する */
+      slideTo(store.getters.items.findIndex((item: Item) => formatedMonth(item.month) === formatedMonth(props.date)));
+    })
 
     await store.dispatch("initState");
     state.itemLength = store.getters.itemsCount
@@ -104,19 +128,17 @@ export default defineComponent({
 
     const changeSlide = () => {
       getSlideIndex().then(activeIndex => {
-        if(activeIndex < state.slideIndex) state.slideIndex--
-        else state.slideIndex++
+        state.slideIndex = activeIndex
       })
     };
+
 
     const items = computed(() => store.getters.items);
 
     const monthlywords = computed(() => store.getters.monthlyWords);
 
-    const formatedMonth = (date: string) => {
-      const d = date.split('-');
-      return `${d[0]}年${d[1]}月`;
-    };
+
+
 
     return{
       chevronForwardOutline,
@@ -132,7 +154,8 @@ export default defineComponent({
       monthlywords,
       changeSlide,
       throttle,
-      formatedMonth
+      formatedMonth,
+      slideTo
     }
   },
 });
