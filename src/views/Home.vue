@@ -1,7 +1,6 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <Header/>
       <div class="month-block">
         <button
           :class="['slide-button', state.slideIndex === 0 ? 'disabled' : '']"
@@ -49,7 +48,6 @@ import { defineComponent, reactive, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
-import Header from '@/components/Header.vue';
 import WordList from '@/components/WordList.vue'
 
 export default defineComponent({
@@ -60,7 +58,6 @@ export default defineComponent({
     IonSlides,
     IonSlide,
     IonIcon,
-    Header,
     MainBlock,
     WordList
   },
