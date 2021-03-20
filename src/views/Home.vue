@@ -44,7 +44,7 @@
 <script lang="ts">
 import { IonContent, IonPage, IonSlides, IonSlide, IonIcon } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import { defineComponent, reactive, ref, computed } from 'vue';
+import { defineComponent, reactive, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
@@ -52,6 +52,9 @@ import WordList from '@/components/WordList.vue'
 
 export default defineComponent({
   name: 'Home',
+  props:{
+    date: String
+  },
   components: {
     IonContent,
     IonPage,
@@ -61,15 +64,17 @@ export default defineComponent({
     MainBlock,
     WordList
   },
-  async setup(){
+  async setup(props){
     const store = useStore();
     const state = reactive({
       itemLength: 0,
       slideIndex: 0
     });
 
+    console.log(props.date)
+
     const slideOpts = {
-      initialSlide: 0,
+      initialSlide: 1,
       speed: 1400
     }
 
@@ -117,6 +122,7 @@ export default defineComponent({
       const d = date.split('-');
       return `${d[0]}年${d[1]}月`;
     };
+
 
     return{
       chevronForwardOutline,

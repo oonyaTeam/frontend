@@ -73,7 +73,7 @@ export default defineComponent({
     }
 
     const toMonthlyPage = () => {
-      router.push('/home')
+      router.push({name: 'Home', params: {date: props.leaf.date}})
     }
 
     const formatedDate = (date: string) => {
