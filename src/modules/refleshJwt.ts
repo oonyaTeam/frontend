@@ -1,4 +1,5 @@
 import axios from 'axios';
+import setJwtAndRefreshToken from './setJwtAndRefreshToken';
 
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
@@ -15,16 +16,9 @@ const refleshJwt = async () => {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			}
 	}).then(resp => {
-		Storage.set({
-			key: 'jwt',
-			value: resp.data.access_token,
-		});
-		Storage.set({
-			key: 'refresh_token',
-			value: resp.data.refresh_token,
-		});
+		setJwtAndRefreshToken(resp.data.access_token, resp.data.refresh_token);
 	})
 	.catch(err => console.log(err));
 };
 
-export default refleshJwt
+export default refleshJwt;
