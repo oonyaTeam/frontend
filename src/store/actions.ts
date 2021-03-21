@@ -1,7 +1,6 @@
 import { ActionTree } from 'vuex';
 import { State } from '@/types';
 import axios from 'axios';
-import refreshJwt from '@/modules/refleshJwt';
 
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
