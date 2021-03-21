@@ -35,6 +35,10 @@ const mutations: MutationTree<State> = {
 		} 
 		state.leafs.slice(leafIndex, 1);
 	},
+
+	setDate(state: State, date: string) {
+		state.date = date;
+	},
 };
 
 export default mutations;

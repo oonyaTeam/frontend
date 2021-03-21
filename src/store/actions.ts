@@ -73,6 +73,10 @@ const actions: ActionTree<State, State> = {
 			});
 	},
 
+	setDate (context, date: string) {
+		context.commit('setDate', date);
+	},
+
 	async deleteJwt(context) {
 		await Storage.set({
 			key: 'jwt',

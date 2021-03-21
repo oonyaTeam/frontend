@@ -21,6 +21,8 @@ const getters: GetterTree<State, State> = {
 	},
 
 	leafs: ({ leafs }: State) => leafs,
+
+	date: ({ date }: State) => date,
 };
   
 export default getters;
