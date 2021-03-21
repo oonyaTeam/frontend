@@ -42,9 +42,9 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonPage, IonSlides, IonSlide, IonIcon } from '@ionic/vue';
+import { IonContent, IonPage, IonSlides, IonSlide, IonIcon, onIonViewDidEnter } from '@ionic/vue';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import { defineComponent, reactive, ref, computed, onMounted } from 'vue';
+import { defineComponent, reactive, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
 import MainBlock  from '@/components/MainBlock.vue'
@@ -87,7 +87,7 @@ export default defineComponent({
       return s.slideTo(index);
     }
 
-    onMounted(() => {
+    onIonViewDidEnter(() => {
       slideTo(store.getters.items.findIndex((item: Item) => formatedMonth(item.month) === formatedMonth(store.getters.date)));
     })
 
