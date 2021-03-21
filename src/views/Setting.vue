@@ -23,17 +23,13 @@
   </ion-page>
 </template>
 
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonContent, IonPage, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, alertController, IonList } from '@ionic/vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-
-import { Plugins } from '@capacitor/core';
-
-const { Storage } = Plugins;
+import { clearStorage } from '@/modules/storage';
 
 export default defineComponent({
   name: "Signup",
@@ -55,8 +51,7 @@ export default defineComponent({
     const logout = () => {
       firebase.auth().signOut()
         .then(() => {
-          Storage.clear();
-          console.log('Logout');
+          clearStorage();
           router.push('/login');
         })
         .catch(err => console.log(err));

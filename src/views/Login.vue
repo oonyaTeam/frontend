@@ -89,8 +89,7 @@ import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import setJwtAndRefreshToken from '@/modules/setJwtAndRefreshToken';
-
+import { setJwtAndRefreshToken } from '@/modules/storage';
 
 export default defineComponent({
   name: "Login",
