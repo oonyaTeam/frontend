@@ -8,8 +8,8 @@
           <p class="normally-text">話した回数が多い言葉ベスト3</p>
         </div>
         <div class="ion-padding-top ion-padding-bottom">
-          <div v-for="n in 3" :key="n">
-            <RankingItem :top="true" class="item"/>
+          <div v-for="(data, index) in testData" :key="data.text">
+            <ranking-item :index="index" :word="data" class="item"/>
           </div>
         </div>
       </div>
@@ -21,14 +21,14 @@
 import { defineComponent, onMounted } from 'vue';
 import { IonContent, IonPage } from '@ionic/vue';
 import Chart from 'chart.js';
-import RankingItem from '@/components/RankingItem'
+import RankingItem from "@/components/RankingItem";
 
 export default defineComponent({
   name: "Analytics",
   components:{
+    RankingItem,
     IonContent,
-    IonPage,
-    RankingItem
+    IonPage
   },
   setup(){
     const fill = 'start';
@@ -68,9 +68,16 @@ export default defineComponent({
       createChart(ctx);
     })
 
+    const testData = [
+      {text: 'ぱぱ', count: 30},
+      {text: 'まま', count: 22},
+      {text: 'ぶーぶ', count: 10},
+    ]
+
     return {
       createChart,
-      fill
+      fill,
+      testData
     }
   }
 })
