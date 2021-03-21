@@ -5,10 +5,11 @@
         <h1 class="center">アカウントを作成</h1>
         <div class="ion-padding">
           <ion-item>
-            <ion-label position="floating">
+            <ion-label position="floating" color="sakura">
               email
             </ion-label>
             <ion-input
+                color="sakura"
                 name="email"
                 type="email"
                 required="true"
@@ -16,10 +17,11 @@
             ></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">
+            <ion-label position="floating" color="sakura">
               password
             </ion-label>
             <ion-input
+                color="sakura"
                 name="password"
                 type="password"
                 required="true"
@@ -28,11 +30,12 @@
           </ion-item>
         </div>
         <ion-button
+            color="sakura"
+            class="ion-margin"
             expand="full"
             shape="round"
             type="submit"
             @click="signup()"
-            class="button-color"
         >
           新規作成
         </ion-button>
@@ -45,7 +48,7 @@
               shape="round"
               @click="googleLogin()"
           >
-            <ion-icon slot="start" :icon="logoGoogle"></ion-icon>
+            <ion-icon slot="start" color="google" :icon="logoGoogle"></ion-icon>
             Googleで続行
           </ion-button>
           <ion-button
@@ -55,7 +58,7 @@
               shape="round"
               @click="githubLogin()"
           >
-            <ion-icon slot="start" :icon="logoGithub"></ion-icon>
+            <ion-icon slot="start" color="github" :icon="logoGithub"></ion-icon>
             GitHubで続行
           </ion-button>
           <ion-button
@@ -65,13 +68,13 @@
               shape="round"
               @click="twitterLogin()"
           >
-            <ion-icon slot="start" :icon="logoTwitter"></ion-icon>
+            <ion-icon slot="start" color="twitter" :icon="logoTwitter"></ion-icon>
             Twitterで続行
           </ion-button>
         </div>
         <div class="ion-padding">
           <p class="normally-text">え？もうアカウントを持ってる？</p>
-          <p class="normally-text">そんなときは<a href="/login">コチラ</a>からログインしてね！</p>
+          <p class="normally-text">そんなときは<router-link to="/login">コチラ</router-link>からログインしてね！</p>
         </div>
       </div>
     </ion-content>
@@ -195,10 +198,6 @@ export default defineComponent({
   text-align: center;
 }
 
-.button-color{
-  --background: var(--main-color);
-  margin: 16px;
-}
 
 
 .gray{

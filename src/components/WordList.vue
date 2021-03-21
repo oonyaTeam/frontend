@@ -11,9 +11,9 @@
     <div class="ion-padding-bottom ion-padding-start ion-padding-end" v-if="words.length > 3">
       <ion-button
         v-if="!state.isShowAllWords"
+        color="sakura"
         expand="full"
         shape="round"
-        class="main-color"
         @click="changeWordsState()"
       >
         もっとみる
@@ -82,10 +82,6 @@ export default defineComponent({
 .item{
   margin: 8px 16px;
   background-color: #fefefe;
-}
-
-.main-color{
-  --background: var(--main-color);
 }
 
 .gray-100{
