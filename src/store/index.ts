@@ -12,6 +12,7 @@ const state: State = {
   words: [],
   leafs: [],
   date: '',
+  rankingWords: []
 }
 
 export const store = createStore({

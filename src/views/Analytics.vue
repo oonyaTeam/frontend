@@ -8,8 +8,8 @@
           <p class="normally-text">話した回数が多い言葉ベスト3</p>
         </div>
         <div class="ion-padding-top ion-padding-bottom">
-          <div v-for="(data, index) in testData" :key="data.text">
-            <ranking-item :index="index" :word="data" class="item"/>
+          <div v-for="(word, index) in rankingWords" :key="word.text">
+            <ranking-item :index="index" :word="word" class="item"/>
           </div>
         </div>
       </div>
@@ -18,8 +18,9 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, computed } from 'vue';
 import { IonContent, IonPage } from '@ionic/vue';
+import { useStore } from 'vuex'
 import Chart from 'chart.js';
 import RankingItem from "@/components/RankingItem";
 
@@ -30,7 +31,7 @@ export default defineComponent({
     IonContent,
     IonPage
   },
-  setup(){
+  async setup(){
     const fill = 'start';
     const createChart = (ctx) => {
       new Chart(ctx,{
@@ -68,16 +69,15 @@ export default defineComponent({
       createChart(ctx);
     })
 
-    const testData = [
-      {text: 'ぱぱ', count: 30},
-      {text: 'まま', count: 22},
-      {text: 'ぶーぶ', count: 10},
-    ]
+    const store = useStore();
+    await store.dispatch('getRanking');
+
+    const rankingWords = computed(() => store.getters.rankingWords)
 
     return {
       createChart,
       fill,
-      testData
+      rankingWords
     }
   }
 })

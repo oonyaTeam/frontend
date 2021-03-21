@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex';
-import { State, Word, Item, Leaf } from '@/types';
+import {State, Word, Item, Leaf, RankingWord} from '@/types';
 
 const mutations: MutationTree<State> = {
 	setWords(state: State, words: Word[]) {
@@ -24,6 +24,10 @@ const mutations: MutationTree<State> = {
 			return { date: word.date, text: word.text, isBoundary: true } as Leaf;
 		})
 		state.leafs = leafs;
+	},
+
+	setRanking(state: State, rankingWords: RankingWord[]){
+		state.rankingWords = rankingWords;
 	},
 
 	deleteWord(state: State, text: string) {

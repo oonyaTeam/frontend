@@ -4,10 +4,10 @@
     <ion-icon v-else-if="index === 1" size="large" :icon="medalOutline" color="silver-medal"></ion-icon>
     <ion-icon v-else size="large" :icon="medalOutline" color="copper-medal"></ion-icon>
     <div>
-      <p class="normally-text">{{word.text}}</p>
+      <p class="normally-text">{{word.word}}</p>
     </div>
     <div class="count">
-      <p>{{word.count}}語</p>
+      <p>{{word.num}}語</p>
     </div>
   </div>
 </template>
