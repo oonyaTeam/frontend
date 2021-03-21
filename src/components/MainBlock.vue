@@ -37,7 +37,4 @@ export default defineComponent({
 .strong-text{
   font-size: 72px;
 }
-
-
-
 </style>

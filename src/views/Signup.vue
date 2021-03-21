@@ -105,11 +105,13 @@ export default defineComponent({
     IonIcon
   },
   setup() {
+    const router = useRouter();
+    const database = firebase.database();
+
     const state = reactive({
       email : "",
       password: "",
     });
-    const router = useRouter();
     
     const signup = () => {
       firebase.auth().createUserWithEmailAndPassword(state.email, state.password)
@@ -121,42 +123,35 @@ export default defineComponent({
         })
     };
 
-    const database = firebase.database();
-
     const setToken = (resp) => {
       resp.user.getIdToken()
-          .then(async (idToken) => {
-            await Storage.set({
-              key: 'jwt',
-              value: idToken,
-            });
-          })
+        .then(async (idToken) => {
+          await Storage.set({
+            key: 'jwt',
+            value: idToken,
+          });
+        })
     };
 
     const providerLogin = (provider) => {
       firebase.auth().signInWithPopup(provider)
-          .then(async resp => {
-            setToken(resp);
-            const uid = firebase.auth().currentUser.uid;
-            database.ref(`users/${uid}`).once('value', snapshot => {
-              if (snapshot.exists()) {
-                router.push('/allword');
-              } else {
-                router.push('/device');
-              }
-            });
-
-          })
-          .catch(err => {
-            console.log(err);
+        .then(async resp => {
+          setToken(resp);
+          const uid = firebase.auth().currentUser.uid;
+          database.ref(`users/${uid}`).once('value', snapshot => {
+            if (snapshot.exists()) {
+              router.push('/allword');
+            } else {
+              router.push('/device');
+            }
           });
+        })
+        .catch(err => console.log(err));
     }
-
 
     const googleLogin = () => {
       const provider = new firebase.auth.GoogleAuthProvider();
       providerLogin(provider);
-
     };
 
     const githubLogin = () => {

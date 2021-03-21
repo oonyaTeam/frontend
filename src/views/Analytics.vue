@@ -38,8 +38,6 @@ export default defineComponent({
       graphData: [],
       labels: [],
     })
-
-    const rankingWords = computed(() => store.getters.rankingWords);
     
     const createChart = (ctx) => {
       new Chart(ctx,{
@@ -72,6 +70,8 @@ export default defineComponent({
           },
         }})
     };
+
+    const rankingWords = computed(() => store.getters.rankingWords);
 
     onMounted(() => {
       const ctx = document.getElementById('graph');
