@@ -23,17 +23,13 @@
   </ion-page>
 </template>
 
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonContent, IonPage, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, alertController, IonList } from '@ionic/vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-
-import { Plugins } from '@capacitor/core';
-
-const { Storage } = Plugins;
+import { clearStorage } from '@/modules/storage';
 
 export default defineComponent({
   name: "Signup",
@@ -48,18 +44,17 @@ export default defineComponent({
     IonList
   },
   setup() {
-
     const router = useRouter()
 
-
+    const toSettingDevicePage = () => router.push('/device');
+    
     const logout = () => {
-      firebase.auth().signOut().then(() => {
-        Storage.clear();
-        console.log('Logout');
-        router.push('/login');
-      }).catch(err => {
-        console.log(err);
-      })
+      firebase.auth().signOut()
+        .then(() => {
+          clearStorage();
+          router.push('/login');
+        })
+        .catch(err => console.log(err));
     };
 
     const showLogoutAlert = async () => {
@@ -80,10 +75,6 @@ export default defineComponent({
         ]
       });
       await alert.present();
-    }
-
-    const toSettingDevicePage = () => {
-      router.push('/device')
     }
 
     return {

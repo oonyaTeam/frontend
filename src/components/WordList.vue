@@ -8,7 +8,10 @@
         <word-item class="item" :word="word"/>
       </div>
     </div>
-    <div class="ion-padding-bottom ion-padding-start ion-padding-end" v-if="words.length > 3">
+    <div
+      v-if="words.length > 3"
+      class="ion-padding-bottom ion-padding-start ion-padding-end"
+    >
       <ion-button
         v-if="!state.isShowAllWords"
         color="sakura"
@@ -47,15 +50,13 @@ export default defineComponent({
     const state = reactive({
       isShowAllWords: false
     });
+    
+    const changeWordsState = () => state.isShowAllWords = !state.isShowAllWords;
+
     const showWords = computed(() => {
-      if(state.isShowAllWords) return props.words
-      else return props.words.slice(0,3)
+      if(state.isShowAllWords) return props.words;
+      else return props.words.slice(0,3);
     })
-
-
-    const changeWordsState = () => {
-      state.isShowAllWords = !state.isShowAllWords
-    }
 
     return {
       showWords,

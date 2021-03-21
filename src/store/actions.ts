@@ -1,9 +1,7 @@
 import { ActionTree } from 'vuex';
 import { State } from '@/types';
 import axios from 'axios';
-
-import { Plugins } from '@capacitor/core';
-const { Storage } = Plugins;
+import { getJwt } from '@/modules/storage';
 
 const actions: ActionTree<State, State> = {
 	async initState(context) {
@@ -12,9 +10,9 @@ const actions: ActionTree<State, State> = {
 	},
 
 	async getWords(context) {
-		const jwt = await Storage.get({ key: 'jwt' });
+		const jwt = await getJwt();
 		await axios.get('https://liverary-api.herokuapp.com/words', {
-			headers: {'Authorization': `Bearer ${ jwt.value }`}
+			headers: {'Authorization': `Bearer ${ jwt }`}
 		})
 			.then(resp => {
 				context.commit('setWords', resp.data.words);
@@ -24,9 +22,9 @@ const actions: ActionTree<State, State> = {
 	},
 
 	async getItems(context) {
-		const jwt = await Storage.get({ key: 'jwt' });
+		const jwt = await getJwt();
 		await axios.get('https://liverary-api.herokuapp.com/word_num_list', {
-			headers: {'Authorization': `Bearer ${ jwt.value }`}
+			headers: {'Authorization': `Bearer ${ jwt }`}
 		})
 			.then(resp => {
 				context.commit('setItems', resp.data.word_num_list);
@@ -35,9 +33,9 @@ const actions: ActionTree<State, State> = {
 	},
 
 	async getRanking(context) {
-		const jwt = await Storage.get({key: 'jwt'});
+		const jwt = await getJwt();
 		await axios.get('https://liverary-api.herokuapp.com/ranking', {
-			headers: {'Authorization': `Bearer ${ jwt.value }`}
+			headers: {'Authorization': `Bearer ${ jwt }`}
 		})
 			.then(resp => {
 				context.commit('setRanking',resp.data.ranking);
@@ -46,9 +44,9 @@ const actions: ActionTree<State, State> = {
 	},
 
 	async deleteWord (context, text: string) {
-		const jwt = await Storage.get({ key: 'jwt' });
+		const jwt = await getJwt();
 		await axios.post('https://liverary-api.herokuapp.com/delete', {
-			headers: {'Authorization': `Bearer ${ jwt.value }`},
+			headers: {'Authorization': `Bearer ${ jwt }`},
 			word: text,
 		})
 			.then(() => {
@@ -60,13 +58,6 @@ const actions: ActionTree<State, State> = {
 	setDate (context, date: string) {
 		context.commit('setDate', date);
 	},
-
-	async deleteJwt(context) {
-		await Storage.set({
-			key: 'jwt',
-			value: 'hoge',
-		});
-	}
 };
   
 export default actions;

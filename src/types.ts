@@ -6,7 +6,6 @@ export interface Item {
 export interface Word {
     date: string;
     text: string;
-    isBoundary: boolean;
 }
 
 export interface Leaf {

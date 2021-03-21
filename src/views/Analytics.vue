@@ -70,6 +70,9 @@ export default defineComponent({
           },
         }})
     };
+
+    const rankingWords = computed(() => store.getters.rankingWords);
+
     onMounted(() => {
       const ctx = document.getElementById('graph');
       state.graphData = store.getters.items.map(item => item.sum);
@@ -80,8 +83,6 @@ export default defineComponent({
     await store.dispatch('getRanking');
     await store.dispatch('getItems');
 
-    const rankingWords = computed(() => store.getters.rankingWords);
-    
     return {
       createChart,
       rankingWords,

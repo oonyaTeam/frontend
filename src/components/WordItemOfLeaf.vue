@@ -48,9 +48,7 @@ export default defineComponent({
     const router = useRouter()
     const store = useStore();
 
-    const deleteWord = () => {
-      store.dispatch('deleteWord', props.leaf.text);
-    }
+    const deleteWord = () => store.dispatch('deleteWord', props.leaf.text);
 
     const showDeleteAlert = async () => {
       const alert = await alertController.create({

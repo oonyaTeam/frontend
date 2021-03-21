@@ -89,8 +89,7 @@ import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import setJwtAndRefreshToken from '@/modules/setJwtAndRefreshToken';
-
+import { setJwtAndRefreshToken } from '@/modules/storage';
 
 export default defineComponent({
   name: "Login",
@@ -104,13 +103,13 @@ export default defineComponent({
     IonIcon
   },
   setup() {
+    const router = useRouter();
+    const database = firebase.database();
+
     const state = reactive({
       email : "",
       password: "",
     });
-    const router = useRouter();
-
-    const database = firebase.database();
 
     const setToken = (resp) => {
       resp.user.getIdToken()
@@ -130,29 +129,13 @@ export default defineComponent({
               router.push('/device');
             }
           });
-          
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => console.log(err));
     }
-
-
-    const login = () => {
-      firebase.auth().signInWithEmailAndPassword(state.email, state.password)
-        .then(resp => {
-          setToken(resp);
-          router.push('/allword');
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    };
 
     const googleLogin = () => {
       const provider = new firebase.auth.GoogleAuthProvider();
       providerLogin(provider);
-      
     };
 
     const githubLogin = () => {
@@ -164,6 +147,15 @@ export default defineComponent({
       const provider = new firebase.auth.TwitterAuthProvider();
       providerLogin(provider);
     }
+
+    const login = () => {
+      firebase.auth().signInWithEmailAndPassword(state.email, state.password)
+        .then(resp => {
+          setToken(resp);
+          router.push('/allword');
+        })
+        .catch(err => console.log(err));
+    };
 
     return {
       state,

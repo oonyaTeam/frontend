@@ -62,12 +62,6 @@ const routes: Array<RouteRecordRaw> = [
     component: Device,
     meta: { requiresAuth: true },
   },
-  {
-    path: '/logout',
-    name: 'Logout',
-    component: Logout,
-    meta: { requiresAuth: true },
-  }
 ]
 
 const router = createRouter({
