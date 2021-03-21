@@ -77,20 +77,16 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth) {
-    firebase.auth().onAuthStateChanged((user) => {
-      if(user) {
-        next();
-      } else {
-        next({
-          path: '/login',
-          query: { redirect: to.fullPath },
-        });
-      }
-    })
-  } else {
-    next();
-  }
+
+  firebase.auth().onAuthStateChanged(user => {
+    if(requiresAuth) {
+      if(user) next();
+      else next({ path: '/login', query: { redirect: to.fullPath } });
+    } else {
+      if (user) next({ path: '/', query: { redirect: to.fullPath } });
+      else next();
+    }
+  })
 })
 
 export default router
