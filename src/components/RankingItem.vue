@@ -1,29 +1,31 @@
 <template>
   <div class="item-wrapper" style="padding: 8px 16px">
-    <ion-icon v-if="top" size="large" :icon="ribbonOutline"></ion-icon>
-    <ion-icon v-else size="large" :icon="medalOutline"></ion-icon>
+    <ion-icon v-if="index === 0" size="large" :icon="ribbonOutline" color="gold-medal"></ion-icon>
+    <ion-icon v-else-if="index === 1" size="large" :icon="medalOutline" color="silver-medal"></ion-icon>
+    <ion-icon v-else size="large" :icon="medalOutline" color="copper-medal"></ion-icon>
     <div>
-      <p class="normally-text">ぱぱ</p>
+      <p class="normally-text">{{word.text}}</p>
     </div>
     <div class="count">
-      <p>30回</p>
+      <p>{{word.count}}語</p>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script>
+import { defineComponent } from 'vue';
 import { IonIcon } from '@ionic/vue';
 import { RankingWord } from '@/types';
 import { ribbonOutline, medalOutline } from 'ionicons/icons';
 
 export default defineComponent({
   name: "RankingItem",
-  component:{
+  components:{
     IonIcon
   },
   props:{
-    top: Boolean
+    index: Number,
+    word: RankingWord
   },
   setup(){
     return{
