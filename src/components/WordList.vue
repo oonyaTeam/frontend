@@ -8,7 +8,10 @@
         <word-item class="item" :word="word"/>
       </div>
     </div>
-    <div class="ion-padding-bottom ion-padding-start ion-padding-end" v-if="words.length > 3">
+    <div
+      v-if="words.length > 3"
+      class="ion-padding-bottom ion-padding-start ion-padding-end"
+    >
       <ion-button
         v-if="!state.isShowAllWords"
         color="sakura"
