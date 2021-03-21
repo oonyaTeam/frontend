@@ -32,14 +32,11 @@ const actions: ActionTree<State, State> = {
 			headers: {'Authorization': `Bearer ${ jwt.value }`}
 		})
 			.then(resp => {
+				console.log(resp);
 				context.commit('setWords', resp.data.words);
 				context.commit('setLeafs', resp.data.words);
 			})
-			.catch(err => {
-				if (err.response.status === 401) {
-					refreshJwt();
-				}
-			});
+			.catch(err => console.log(err));
 	},
 
 	async getItems(context) {
