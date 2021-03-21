@@ -51,11 +51,12 @@ export default defineComponent({
     IonLabel
   },
   setup() {
+    const router = useRouter();
+    const database = firebase.database();
+
     const state = reactive({
       deviceId : "",
     });
-    const database = firebase.database();
-    const router = useRouter();
     
     const setDeviceId = () => {
       const uid = firebase.auth().currentUser.uid;
@@ -87,7 +88,6 @@ export default defineComponent({
 .center{
   text-align: center;
 }
-
 
 .normally-text{
   font-size: 14px;

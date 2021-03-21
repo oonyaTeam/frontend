@@ -48,18 +48,18 @@ export default defineComponent({
     IonList
   },
   setup() {
-
     const router = useRouter()
 
-
+    const toSettingDevicePage = () => router.push('/device');
+    
     const logout = () => {
-      firebase.auth().signOut().then(() => {
-        Storage.clear();
-        console.log('Logout');
-        router.push('/login');
-      }).catch(err => {
-        console.log(err);
-      })
+      firebase.auth().signOut()
+        .then(() => {
+          Storage.clear();
+          console.log('Logout');
+          router.push('/login');
+        })
+        .catch(err => console.log(err));
     };
 
     const showLogoutAlert = async () => {
@@ -80,10 +80,6 @@ export default defineComponent({
         ]
       });
       await alert.present();
-    }
-
-    const toSettingDevicePage = () => {
-      router.push('/device')
     }
 
     return {

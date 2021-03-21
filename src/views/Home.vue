@@ -64,11 +64,12 @@ export default defineComponent({
   },
   async setup(){
     const store = useStore();
+
     const state = reactive({
       itemLength: 0,
-      slideIndex: 0
+      slideIndex: 0,
+      time: Date.now(),
     });
-
 
     const slideOpts = {
       initialSlide: 0,
@@ -86,14 +87,7 @@ export default defineComponent({
       const s = await mySlides?.value?.$el.getSwiper();
       return s.slideTo(index);
     }
-
-    onIonViewDidEnter(() => {
-      slideTo(store.getters.items.findIndex((item: Item) => formatedMonth(item.month) === formatedMonth(store.getters.date)));
-    })
-
-    await store.dispatch("initState");
-    state.itemLength = store.getters.itemsCount
-
+  
     const nextSlide = async () => {
       const s = await mySlides?.value?.$el.getSwiper();
       await s.slideNext();
@@ -104,12 +98,11 @@ export default defineComponent({
       await s.slidePrev();
     };
 
-    let time = Date.now();
 
     const throttle = (func: Function, waitTime: number) => {
-      if((time + waitTime - Date.now()) < 0){
+      if((state.time + waitTime - Date.now()) < 0){
         func();
-        time = Date.now();
+        state.time = Date.now();
       }
     }
 
@@ -124,13 +117,16 @@ export default defineComponent({
       })
     };
 
-
     const items = computed(() => store.getters.items);
 
     const monthlywords = computed(() => store.getters.monthlyWords);
 
+    onIonViewDidEnter(() => {
+      slideTo(store.getters.items.findIndex((item: Item) => formatedMonth(item.month) === formatedMonth(store.getters.date)));
+    })
 
-
+    await store.dispatch("initState");
+    state.itemLength = store.getters.itemsCount
 
     return{
       chevronForwardOutline,
@@ -142,7 +138,6 @@ export default defineComponent({
       mySlides,
       state,
       items,
-      time,
       monthlywords,
       changeSlide,
       throttle,

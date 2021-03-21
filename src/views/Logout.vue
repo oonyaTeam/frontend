@@ -20,8 +20,8 @@ import { IonContent, IonPage, IonItem, IonButton } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Plugins } from '@capacitor/core';
 
+import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 
 export default defineComponent({
@@ -33,21 +33,20 @@ export default defineComponent({
     IonButton,
   },
   setup() {
+    const router = useRouter();
+
     const state = reactive({
       email : "",
       password: "",
     });
-    const router = useRouter();
 
     const logout = () => {
-      firebase.auth().signOut().then(() => {
-        Storage.clear();
-        console.log('Logout');
-        router.push('/login');
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      firebase.auth().signOut()
+        .then(() => {
+          Storage.clear();
+          router.push('/login');
+        })
+        .catch(err => console.log(err));
     };
 
     return {
