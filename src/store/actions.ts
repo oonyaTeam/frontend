@@ -34,6 +34,17 @@ const actions: ActionTree<State, State> = {
 			.catch(err => console.log(err));
 	},
 
+	async getRanking(context) {
+		const jwt = await Storage.get({key: 'jwt'});
+		await axios.get('https://liverary-api.herokuapp.com/ranking', {
+			headers: {'Authorization': `Bearer ${ jwt.value }`}
+		})
+			.then(resp => {
+				context.commit('setRanking',resp.data.ranking);
+			})
+			.catch(err => console.log(err));
+	},
+
 	async deleteWord (context, text: string) {
 		const jwt = await Storage.get({ key: 'jwt' });
 		await axios.post('https://liverary-api.herokuapp.com/delete', {

@@ -16,8 +16,8 @@ export interface Leaf {
 }
 
 export interface RankingWord {
-    text: string;
-    count: number;
+    word: string;
+    num: number;
 }
 
 export interface State {
@@ -25,4 +25,5 @@ export interface State {
     words: Word[];
     leafs: Leaf[];
     date: string;
+    rankingWords: RankingWord[];
 }
