@@ -37,7 +37,6 @@
           </div>
         </ion-slide>
       </ion-slides>
-      <button @click="slideTo(2)">test</button>
     </ion-content>
   </ion-page>
 </template>

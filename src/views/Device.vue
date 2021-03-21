@@ -5,10 +5,11 @@
         <h1 class="center">デバイスIDを設定してください</h1>
         <div class="ion-padding">
           <ion-item>
-            <ion-label position="floating">
+            <ion-label position="floating" color="sakura">
               deviceID
             </ion-label>
             <ion-input
+                color="sakura"
                 name="deviceId"
                 type="text"
                 required="true"
@@ -17,11 +18,11 @@
           </ion-item>
         </div>
         <ion-button
+            color="sakura"
             expand="full"
             shape="round"
             type="submit"
             @click="setDeviceId()"
-            class="button-color"
         >
           設定
         </ion-button>
@@ -86,12 +87,6 @@ export default defineComponent({
 .center{
   text-align: center;
 }
-
-.button-color{
-  --background: var(--main-color);
-  margin: 16px;
-}
-
 
 
 .normally-text{

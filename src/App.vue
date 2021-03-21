@@ -69,6 +69,37 @@ export default defineComponent({
   --ion-color-tint: #1ab4ef;
 }
 
+.ion-color-github {
+  --ion-color-base: #171515;
+  --ion-color-base-rgb: 23,21,21;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255,255,255;
+  --ion-color-shade: #141212;
+  --ion-color-tint: #2e2c2c;
+}
+
+.ion-color-google {
+  --ion-color-base: #dd5144;
+  --ion-color-base-rgb: 221,81,68;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255,255,255;
+  --ion-color-shade: #c2473c;
+  --ion-color-tint: #e06257;
+}
+
+
+.ion-color-sakura {
+  --ion-color-base: rgba(251,0,255,0.34);
+  --ion-color-base-rgb: 251,0,255;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255,255,255;
+  --ion-color-shade: #dd00e0;
+  --ion-color-tint: #fb1aff;
+}
+
+
+/* 分析画面のアイコンで使用 */
+
 .ion-color-gold-medal {
   --ion-color-base: #FFD700;
   --ion-color-base-rgb: 255,215,0;
