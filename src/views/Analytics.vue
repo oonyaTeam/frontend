@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, computed } from 'vue';
+import { defineComponent, onMounted, computed, reactive } from 'vue';
 import { IonContent, IonPage } from '@ionic/vue';
 import { useStore } from 'vuex'
 import Chart from 'chart.js';
@@ -32,20 +32,26 @@ export default defineComponent({
     IonPage
   },
   async setup(){
-    const fill = 'start';
+    const store = useStore();
+
+    const state = reactive({
+      graphData: [],
+      labels: [],
+    })
+    
     const createChart = (ctx) => {
       new Chart(ctx,{
         type: 'line',
         data: {
-          labels: ['2021/01', '2021/02', '2021/03'],
+          labels: state.labels,
           datasets: [
             {
-              fill: fill,
+              fill: 'start',
               label: '話した言葉の総数',
-              data: [6, 15, 9],
+              data: state.graphData,
               type: 'line',
               borderColor: "rgba(251,0,255,0.34)",
-              backgroundColor: "rgba(0,0,0,0)",
+              backgroundColor: "rgba(251,0,255,0.34)",
             }
           ],
         },
@@ -66,18 +72,19 @@ export default defineComponent({
     };
     onMounted(() => {
       const ctx = document.getElementById('graph');
+      state.graphData = store.getters.items.map(item => item.sum);
+      state.labels = store.getters.items.map(item => item.month);
       createChart(ctx);
     })
 
-    const store = useStore();
     await store.dispatch('getRanking');
+    await store.dispatch('getItems');
 
-    const rankingWords = computed(() => store.getters.rankingWords)
-
+    const rankingWords = computed(() => store.getters.rankingWords);
+    
     return {
       createChart,
-      fill,
-      rankingWords
+      rankingWords,
     }
   }
 })
