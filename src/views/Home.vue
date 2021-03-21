@@ -54,12 +54,6 @@ import {Item} from "@/types";
 
 export default defineComponent({
   name: 'Home',
-  props:{
-    date:{
-      type: String,
-      required: true
-    }
-  },
   components: {
     IonContent,
     IonPage,
@@ -69,7 +63,7 @@ export default defineComponent({
     MainBlock,
     WordList
   },
-  async setup(props){
+  async setup(){
     const store = useStore();
     const state = reactive({
       itemLength: 0,
@@ -95,8 +89,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      /* TODO: props.date をstoreからの値に変更する */
-      slideTo(store.getters.items.findIndex((item: Item) => formatedMonth(item.month) === formatedMonth(props.date)));
+      slideTo(store.getters.items.findIndex((item: Item) => formatedMonth(item.month) === formatedMonth(store.getters.date)));
     })
 
     await store.dispatch("initState");

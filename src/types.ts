@@ -24,4 +24,5 @@ export interface State {
     items: Item[];
     words: Word[];
     leafs: Leaf[];
+    date: string;
 }

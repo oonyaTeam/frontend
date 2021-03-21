@@ -87,9 +87,8 @@ import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import { Plugins } from '@capacitor/core';
+import setJwtAndRefreshToken from '@/modules/setJwtAndRefreshToken';
 
-const { Storage } = Plugins;
 
 export default defineComponent({
   name: "Login",
@@ -113,12 +112,8 @@ export default defineComponent({
 
     const setToken = (resp) => {
       resp.user.getIdToken()
-        .then(async (idToken) => {
-          await Storage.set({
-            key: 'jwt',
-            value: idToken,
-          });
-        })
+        .then((idToken) => setJwtAndRefreshToken(idToken.toString(), resp.user.refreshToken.toString()))
+        .catch((err) => console.log(err));
     };
 
     const providerLogin = (provider) => {

@@ -73,8 +73,8 @@ export default defineComponent({
     }
 
     const toMonthlyPage = (date: string) => {
-      /* TODO: ここでstoreにdateをいれる */
-      router.push({name: 'Home', params: {date: date}})
+      store.dispatch('setDate', date);
+      router.push({name: 'Home'})
     }
 
     const formatedDate = (date: string) => {
