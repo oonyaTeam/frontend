@@ -7,6 +7,8 @@ import { IonicVue } from '@ionic/vue';
 
 import firebase from 'firebase/app';
 
+import '@/plugins/axios';
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
 
