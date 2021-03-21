@@ -1,42 +1,39 @@
 <template>
   <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>設定</ion-title>
+      </ion-toolbar>
+    </ion-header>
     <ion-content :fullscreen="true">
-      <div class="wrapper">
-        <h1 class="center">設定</h1>
-        <div class="ion-padding">
-          <ion-item>
-            <ion-label position="floating">
-              deviceID
-            </ion-label>
-            <ion-input
-                name="deviceId"
-                type="text"
-                required="true"
-                v-model="state.deviceId"
-            ></ion-input>
-          </ion-item>
-        </div>
-        <ion-button
-            expand="full"
-            shape="round"
-            type="submit"
-            @click="setDeviceId()"
-            class="button-color"
-        >
-          設定
-        </ion-button>
-      </div>
+      <ion-header collapse="condense">
+        <ion-toolbar>
+          <ion-title size="large">設定</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-list>
+        <ion-item @click="showLogoutAlert">
+          <ion-label color="danger">ログアウト</ion-label>
+        </ion-item>
+        <ion-item @click="toSettingDevicePage">
+          <ion-label>デバイスIDを登録する</ion-label>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
 
-<script>
-import { defineComponent, reactive } from 'vue';
-import { IonContent, IonPage, IonItem, IonInput, IonButton, IonLabel } from '@ionic/vue';
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
+import { IonContent, IonPage, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, alertController, IonList } from '@ionic/vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/database';
+
+import { Plugins } from '@capacitor/core';
+
+const { Storage } = Plugins;
 
 export default defineComponent({
   name: "Signup",
@@ -44,57 +41,59 @@ export default defineComponent({
     IonContent,
     IonPage,
     IonItem,
-    IonInput,
-    IonButton,
-    IonLabel
+    IonLabel,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonList
   },
   setup() {
-    const state = reactive({
-      deviceId : "",
-    });
-    const database = firebase.database();
-    
-    const setDeviceId = () => {
-      const uid = firebase.auth().currentUser.uid;
-      database.ref(`users/${uid}`).set({
-        deviceId: state.deviceId,
-      });
-      console.log('set deviceid!')
+
+    const router = useRouter()
+
+
+    const logout = () => {
+      firebase.auth().signOut().then(() => {
+        Storage.clear();
+        console.log('Logout');
+        router.push('/login');
+      }).catch(err => {
+        console.log(err);
+      })
     };
 
+    const showLogoutAlert = async () => {
+      const alert = await alertController.create({
+        header: 'ログアウト',
+        message: 'ログアウトしますか？',
+        buttons: [
+          {
+            text: 'キャンセル',
+            role: 'cancel'
+          },
+          {
+            text: 'ログアウトする',
+            handler: (): void => {
+              logout();
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+
+    const toSettingDevicePage = () => {
+      router.push('/device')
+    }
+
     return {
-      state,
-      setDeviceId,
+      showLogoutAlert,
+      toSettingDevicePage
     }
   }
 });
 </script>
 
 <style scoped>
-.wrapper{
-  width: 80%;
-  margin: auto;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  transform: translateY(-50%);
-}
 
-.center{
-  text-align: center;
-}
-
-.button-color{
-  --background: var(--main-color);
-  margin: 16px;
-}
-
-
-
-.normally-text{
-  font-size: 14px;
-  margin: 0;
-  text-align: center;
-}
 </style>
