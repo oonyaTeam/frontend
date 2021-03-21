@@ -59,10 +59,10 @@ export default defineComponent({
           scales: {
             yAxes: [{
               ticks: {
-                suggestedMax: 40,
+                suggestedMax: Math.max(...state.graphData),
                 suggestedMin: 0,
-                stepSize: 10,
-                callback: function(value, index, values){
+                stepSize: Math.max(...state.graphData) / 4,
+                callback: function(value){
                   return  value +  '語'
                 }
               }
