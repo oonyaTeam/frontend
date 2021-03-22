@@ -1,8 +1,10 @@
 <template>
   <ion-page>
     <ion-content>
-      <h1>analytics</h1>
-      <canvas id="graph"></canvas>
+      <div class="ranking">
+        <p class="normally-text ion-padding-top">話した言葉の総数</p>
+        <canvas id="graph" class="ion-padding-bottom"></canvas>
+      </div>
       <div class="ranking">
         <div class="ion-padding-top">
           <p class="normally-text">話した回数が多い言葉ベスト3</p>
@@ -47,7 +49,7 @@ export default defineComponent({
           datasets: [
             {
               fill: 'start',
-              label: '話した言葉の総数',
+              label: '',
               data: state.graphData,
               type: 'line',
               borderColor: "rgba(251,0,255,0.34)",
@@ -56,6 +58,9 @@ export default defineComponent({
           ],
         },
         options: {
+          legend: {
+            display: false
+          },
           scales: {
             yAxes: [{
               ticks: {

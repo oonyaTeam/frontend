@@ -3,19 +3,19 @@
     <ion-icon
       v-if="index === 0"
       size="large"
-      :icon="ribbonOutline"
+      :icon="ribbon"
       color="gold-medal"
     ></ion-icon>
     <ion-icon
       v-else-if="index === 1"
       size="large"
-      :icon="medalOutline"
+      :icon="medal"
       color="silver-medal"
     ></ion-icon>
     <ion-icon
       v-else
       size="large"
-      :icon="medalOutline"
+      :icon="medal"
       color="copper-medal"
     ></ion-icon>
     <div>
@@ -31,7 +31,7 @@
 import { defineComponent } from 'vue';
 import { IonIcon } from '@ionic/vue';
 import { RankingWord } from '@/types';
-import { ribbonOutline, medalOutline } from 'ionicons/icons';
+import { medal, ribbon } from 'ionicons/icons';
 
 export default defineComponent({
   name: "RankingItem",
@@ -44,8 +44,8 @@ export default defineComponent({
   },
   setup(){
     return{
-      ribbonOutline,
-      medalOutline
+      medal,
+      ribbon
     }
   }
 })
