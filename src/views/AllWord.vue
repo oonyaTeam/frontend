@@ -7,8 +7,10 @@
           <span class="strong-text">{{ leafs.length }}</span>語
         </p>
       </div>
-      <div v-for="(leaf, index) in leafs" :key="leaf.text">
-        <word-item-of-leaf :leaf="leaf" :isLeft="index%2===0"/>
+      <div class="leaf-block">
+        <div v-for="(leaf, index) in leafs" :key="leaf.text">
+          <word-item-of-leaf :leaf="leaf" :isLeft="index%2===0"/>
+        </div>
       </div>
     </ion-content>
   </ion-page>
@@ -50,11 +52,19 @@ export default defineComponent({
 }
 
 .top-text{
-  height: 60vmin;
-  width: 60%;
+  position: relative;
+  height: 80vmin;
+  width: 80%;
   background-image: url("../../public/assets/asagao.png");
   background-size: cover;
   margin: 0 auto;
+  z-index: 2;
+}
+
+.leaf-block{
+  position: relative;
+  margin-top: -20px;
+  z-index: 1;
 }
 
 .title{
