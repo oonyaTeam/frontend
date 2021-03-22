@@ -29,7 +29,7 @@
           <div style="width: 100%">
             <div class="first-block-wrapper">
               <main-block
-                class="first-block flower-img-one"
+                class="first-block flower-img"
                 :count="item.sum"
               />
             </div>
@@ -188,8 +188,8 @@ export default defineComponent({
 }
 
 /* 言葉の数で、以下3つの画像クラスを分ける */
-.flower-img-one {
-  background-image: url("../../public/assets/Liver-leaf-23.png");
+.flower-img {
+  background-image: url("../../public/assets/flower-3.png");
   background-size: cover;
 }
 
