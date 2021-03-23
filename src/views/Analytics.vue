@@ -80,7 +80,13 @@ export default defineComponent({
 
     onMounted(() => {
       const ctx = document.getElementById('graph');
-      state.graphData = store.getters.items.map(item => item.sum);
+      state.graphData = store.getters.items.map((item, index, items) => {
+        let sum = 0;
+        for(let i = 0; i < index; i++) {
+          sum += items[i].sum;
+        }
+        return sum;
+      });
       state.labels = store.getters.items.map(item => item.month);
       createChart(ctx);
     })
