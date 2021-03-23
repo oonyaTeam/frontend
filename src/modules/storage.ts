@@ -16,6 +16,10 @@ const setJwt = async (idToken: string) => {
   });
 }
 
+const getRefreshToken = async () => {
+  return (await Storage.get({ key: 'refresh_token' })).value;
+}
+
 const setRefreshToken = async (refreshToken: string) => {
 	Storage.set({
     key: 'refresh_token',
@@ -29,7 +33,7 @@ const setJwtAndRefreshToken = (jwt: string, refreshToken: string) => {
 };
 
 const refreshJwt = async () => {
-	const refreshToken = (await Storage.get({ key: 'refresh_token' })).value || '';
+	const refreshToken = await getRefreshToken();
 	if(!refreshToken) return;
 	const params = new URLSearchParams();
 	params.append('grant_type', 'refresh_token');
@@ -47,3 +51,4 @@ const refreshJwt = async () => {
 const clearStorage = () => Storage.clear();
 
 export { getJwt, setJwt, setJwtAndRefreshToken, refreshJwt, clearStorage };
+
