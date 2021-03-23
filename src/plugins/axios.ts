@@ -5,12 +5,11 @@ axios.interceptors.response.use(
   resp => resp,
   async err => {
     if (err.response.status === 401) {
-      return refreshJwt().then(() => {
-        const config = err.config;
-        const jwt = getJwt;
-        config.headers.Authorization = `Bearer ${ jwt }`
-        return axios.request(config);
-      })
+      await refreshJwt();
+      const config = err.config;
+      const jwt = await getJwt();
+      config.headers.Authorization = `Bearer ${ jwt }`
+      return axios.request(config);
     } else {
       return Promise.reject(err);
     }
