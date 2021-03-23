@@ -1,14 +1,16 @@
 <template>
   <ion-page>
     <ion-content>
-      <div class="top-text">
-        <p class="normally-text title">今までに話した言葉</p>
-        <p class="normally-text">
+      <div class="top">
+        <p class="normally-text title font-size-20">今までに話した言葉</p>
+        <p class="normally-text top-text">
           <span class="strong-text">{{ leafs.length }}</span>語
         </p>
       </div>
-      <div v-for="(leaf, index) in leafs" :key="leaf.text">
-        <word-item-of-leaf :leaf="leaf" :isLeft="index%2===0"/>
+      <div class="leaf-block">
+        <div v-for="(leaf, index) in leafs" :key="leaf.text">
+          <word-item-of-leaf :leaf="leaf" :isLeft="index%2===0"/>
+        </div>
       </div>
     </ion-content>
   </ion-page>
@@ -50,20 +52,39 @@ export default defineComponent({
 }
 
 .top-text{
-  height: 60vmin;
-  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.top{
+  position: relative;
+  height: 80vmin;
+  width: 80%;
   background-image: url("../../public/assets/asagao.png");
   background-size: cover;
   margin: 0 auto;
+  z-index: 2;
+}
+
+.leaf-block{
+  position: relative;
+  margin-top: -20px;
+  z-index: 1;
 }
 
 .title{
-  padding: 16px;
+  padding-top: 32px;
   text-align: center;
 }
 
 .strong-text{
   font-size: 72px;
+}
+
+.font-size-20{
+  font-size: 20px;
 }
 
 </style>

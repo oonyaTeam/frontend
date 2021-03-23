@@ -1,23 +1,23 @@
 <template>
   <div :class="isLeft ? 'wrapper-left' : 'wrapper-right' ">
     <div :class="isLeft ? 'item-left' : 'item-right'">
-      <div class="item-wrapper">
+      <div class="absolute-center back">
         <div>
           <p class="normally-text">{{ formatedDate(leaf.date) }}</p>
           <p class="speech-text">{{ leaf.text }}</p>
         </div>
-        <ion-icon
+        <!--<ion-icon
             class="icon"
             size="large"
             :icon="trashOutline"
             @click="showDeleteAlert"
-        ></ion-icon>
+        ></ion-icon>-->
       </div>
     </div>
     <div v-if="leaf.isBoundary" :class="isLeft ? 'detail-right' : 'detail-left'">
-      <div class="wrapper-text" @click="toMonthlyPage(leaf.date)">
-        <p class="normally-text">{{ formatedMonth(leaf.date) }}</p>
-        <p class="normally-text">詳細をみる</p>
+      <div class="absolute-center" @click="toMonthlyPage(leaf.date)">
+        <p class="normally-text font-14">{{ formatedMonth(leaf.date) }}</p>
+        <p class="normally-text font-14">詳細をみる</p>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ import { Leaf } from '@/types';
 export default defineComponent({
   name: "WordItem",
   components: {
-    IonIcon
+    // IonIcon
   },
   props: {
     leaf: {
@@ -119,6 +119,7 @@ export default defineComponent({
   width: 60%;
   height: 60vmin;
   background-size: cover;
+  position: relative;
 }
 
 .item-right{
@@ -127,13 +128,9 @@ export default defineComponent({
   height: 60vmin;
   background-size: cover;
   margin-left: auto;
+  position: relative;
 }
 
-
-.item-wrapper{
-  padding-top: 30%;
-  text-align: center;
-}
 
 .normally-text{
   font-size: 16px;
@@ -169,7 +166,23 @@ export default defineComponent({
   background-size: cover;
 }
 
-.wrapper-text{
-  padding: 40px;
+.absolute-center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.font-14{
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.back{
+  text-align: center;
+  width: 60%;
+  background-color: var(--gray-25);
+  border-radius: 10px;
+  padding: 8px;
 }
 </style>
