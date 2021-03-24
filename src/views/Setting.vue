@@ -15,9 +15,6 @@
         <ion-item @click="showLogoutAlert">
           <ion-label color="danger">ログアウト</ion-label>
         </ion-item>
-        <ion-item @click="toSettingDevicePage">
-          <ion-label>デバイスIDを登録する</ion-label>
-        </ion-item>
       </ion-list>
     </ion-content>
   </ion-page>
@@ -46,8 +43,6 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
-    const toSettingDevicePage = () => router.push('/device');
-    
     const logout = () => {
       firebase.auth().signOut()
         .then(() => {
@@ -79,7 +74,6 @@ export default defineComponent({
 
     return {
       showLogoutAlert,
-      toSettingDevicePage
     }
   }
 });
