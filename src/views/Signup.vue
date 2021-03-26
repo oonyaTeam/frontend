@@ -87,7 +87,6 @@ import { IonContent, IonPage, IonItem, IonInput, IonButton, IonLabel, IonIcon } 
 import { useRouter } from 'vue-router';
 import { logoGoogle, logoGithub, logoTwitter } from 'ionicons/icons';
 import firebase from 'firebase/app';
-import 'firebase/database';
 import 'firebase/auth';
 import { setJwt } from '@/modules/storage';
 
@@ -104,7 +103,6 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const database = firebase.database();
 
     const state = reactive({
       email : "",
@@ -114,7 +112,7 @@ export default defineComponent({
     const signup = () => {
       firebase.auth().createUserWithEmailAndPassword(state.email, state.password)
         .then(() => {
-          router.push('/device');
+          router.push('/allword');
         })
         .catch(err => {
           console.log(err);
@@ -132,16 +130,8 @@ export default defineComponent({
       firebase.auth().signInWithPopup(provider)
         .then(async resp => {
           setToken(resp);
-          const uid = firebase.auth().currentUser.uid;
-          database.ref(`users/${uid}`).once('value', snapshot => {
-            if (snapshot.exists()) {
-              router.push('/allword');
-            } else {
-              router.push('/device');
-            }
-          });
-        })
-        .catch(err => console.log(err));
+          router.push('/allword');
+        });
     }
 
     const googleLogin = () => {
