@@ -24,11 +24,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { trashOutline } from 'ionicons/icons';
-import { IonIcon, alertController } from '@ionic/vue';
+import { alertController } from '@ionic/vue';
 import { Leaf } from '@/types';
 
 export default defineComponent({

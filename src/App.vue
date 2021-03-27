@@ -1,4 +1,12 @@
 <template>
+  <teleport to="head">
+    <meta property="og:title" content="Liverary" />
+    <meta property="og:site_name" content="Liverary" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://elated-mayer-a890cd.netlify.app/" />
+    <meta property="og:image" content="https://elated-mayer-a890cd.netlify.app/assets/ogp.png">
+    <meta name="twitter:card" content="summary_large_image" />
+  </teleport>
   <ion-app>
     <div v-if="error">{{ error }}</div>
     <Suspense>
