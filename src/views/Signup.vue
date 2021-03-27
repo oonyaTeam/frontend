@@ -108,21 +108,22 @@ export default defineComponent({
       email : "",
       password: "",
     });
-    
-    const signup = () => {
-      firebase.auth().createUserWithEmailAndPassword(state.email, state.password)
-        .then(() => {
-          router.push('/allword');
-        })
-        .catch(err => {
-          console.log(err);
-        })
-    };
 
     const setToken = (resp) => {
       resp.user.getIdToken()
         .then((idToken) => {
           setJwt(idToken);
+        })
+    };
+    
+    const signup = () => {
+      firebase.auth().createUserWithEmailAndPassword(state.email, state.password)
+        .then((resp) => {
+          setToken(resp);
+          router.push('/allword');
+        })
+        .catch(err => {
+          console.log(err);
         })
     };
 
